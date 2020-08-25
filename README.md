@@ -7,7 +7,8 @@ This is a tutorial for Metagenome-Atlas at ECCB. [Metagenome-Atlas](https://meta
 :interrobang: If you have any question or errors write an [GitHub issues](https://github.com/metagenome-atlas/Tutorial/issues) or try to contact us via the conference platform chat.
 
 
-## Tutorial part 1: Analyze the output of Atlas
+## Tutorial part 1: What can you get out of Atlas?
+*Analyze the output of Atlas*
 
 Usually before starting to install a program I want to make sure that it gives the output I want.
 Therefore, we start analyzing the output of Metagenome-Atlas.
@@ -74,7 +75,8 @@ Click on the `Differential_abundance.ipynb` and start the differential analysis.
 If something doesn't work, [let us know](https://github.com/metagenome-atlas/Tutorial/issues). You can always have a look at the [notebook](scripts/Differential_abundance.ipynb) to see what would be the output.
 
 
-# Tutorial part 2: Install and run metagenome Atlas
+## Tutorial part 2: Let's get serious!
+*Install and run metagenome Atlas*
 
 In the second part of the tutorial you will install metagenome-atlas on your system and test it with a small dataset.
 As real metagenomic assembly can take more than 250GB ram and multiple processors, you would ideally do this directly on a high-performance system, e.g. the cluster of your university. You can install [minconda](https://docs.conda.io/en/latest/miniconda.html) in your home directory if it is not installed on your system.
