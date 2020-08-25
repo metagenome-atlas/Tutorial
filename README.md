@@ -40,7 +40,7 @@ Metagenome-Atlas produces a lot of other outputs from the QC and assembly steps.
 
 ### Run script for differential abundance analysis
 
-We perepared a jupyter [notebook](scripts/Differencial abundance based on genomes.ipynb) with the code for differencial analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. To analyze the data we will install some python packages.  
+We perepared a jupyter [notebook](scripts/Differencial_abundance.ipynb) with the code for differencial analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. To analyze the data we will install some python packages.  
 
 
 #### Setup
@@ -70,7 +70,7 @@ jupyter lab
 
 Click on the `Differencial abundance based on genomes.ipynb` and start the differencial analysis. 
 
-If something doesn't work, [let us know](https://github.com/metagenome-atlas/Tutorial/issues). You can always have a look at the [notebook](scripts/Differencial abundance based on genomes.ipynb) to see what would be the output.
+If something doesn't work, [let us know](https://github.com/metagenome-atlas/Tutorial/issues). You can always have a look at the [notebook](scripts/Differencial_abundance.ipynb) to see what would be the output.
 
 
 # Tutorial part 2: Install and run metagenome Atlas
