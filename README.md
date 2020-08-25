@@ -4,7 +4,7 @@
 This is a tutorial for Metagenome-Atlas at ECCB. [Metagenome-Atlas](https://metagenome-atlas.github.io/) is a easy-to-use pipeline for analyzing metagenomic data. It handles all steps from QC, Assembly, Binning, to Annotation.
 
 
-:information_source: If you have any question or errors write an [Github issues](https://github.com/metagenome-atlas/Tutorial/issues) or try to contact us via the conference platfrom chat.
+:interrobang: If you have any question or errors write an [Github issues](https://github.com/metagenome-atlas/Tutorial/issues) or try to contact us via the conference platfrom chat.
 
 
 ## Tutorial part 1: Analyze the output of Atlas
@@ -14,7 +14,7 @@ Therefore we start analyzing the output of Metagenome-Atlas.
 In part 2 of the Tutorial you learn how to run metagenome atlas on some test data or on your own.
 
 ### Example output of Metagenome Atlas
-A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run. Open the Example output <a href="Example" target="_blank">Example</a>. The folder `Results` contains the most interesting output of Atlas which is summarised in this [report](http://htmlpreview.github.io/?https://github.com/metagenome-atlas/Tutorial/blob/master/Example/Results/Summary.html). 
+A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run the [`Example`](Example) folder.  The subdirectory `Results` contains the most interesting output of Atlas which is summarised in this [report](http://htmlpreview.github.io/?https://github.com/metagenome-atlas/Tutorial/blob/master/Example/Results/Summary.html). 
 
 Here are some questions that guide you trought the Atlas output files:
 
