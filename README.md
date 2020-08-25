@@ -14,7 +14,7 @@ Therefore we start analyzing the output of Metagenome-Atlas.
 In part 2 of the Tutorial you learn how to run metagenome atlas on some test data or on your own.
 
 ### Example output of Metagenome Atlas
-A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run. Open the Example output <a href="Example" target="_blank">"Example"</a>._ The folder `Results` contains the most interesting output of Atlas which is summarised in this [report] (http://htmlpreview.github.io/?https://github.com/metagenome-atlas/Tutorial/blob/master/Example/Results/Summary.html). 
+A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run. Open the Example output <a href="Example" target="_blank">"Example"</a>._ The folder `Results` contains the most interesting output of Atlas which is summarised in this [report](http://htmlpreview.github.io/?https://github.com/metagenome-atlas/Tutorial/blob/master/Example/Results/Summary.html). 
 
 Here are some questions that guide you trought the Atlas output files:
 
@@ -33,7 +33,9 @@ Here are some questions that guide you trought the Atlas output files:
 * Functional annotation is based on the output of EggNOG mapper of all the genes. Using the link  between the genes and the genomes we can calculate which function is present in which genome (`genomes/gene2genome.tsv.gz`). And finally the relative abundance of functions (`Results/annotations`).
 
 
-Metagenome-Atlas produces a lot of other outputs from the QC and assembly steps. They are summarised reports such as this ones: [QC_report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) [assembly report](https://metagenome-atlas.readthedocs.io/en/latest/_static/assembly_report.html).
+Metagenome-Atlas produces a lot of other outputs from the QC and assembly steps. They are summarised reports such as this ones: 
+- [QC_report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) 
+- [assembly report](https://metagenome-atlas.readthedocs.io/en/latest/_static/assembly_report.html).
 
 
 ### Run script for differential abundance analysis
