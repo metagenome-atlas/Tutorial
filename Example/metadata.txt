@@ -1,0 +1,16 @@
+	Age	Air_temperature	Diet	Food_name	Country	Provider	Sex	Strain	Body_weight
+ERR675518	17.0	30.0	chow	D12450B	Norway	Taconic in Denmark	male	C57/BL6	25.62
+ERR675519	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	30.15
+ERR675520	17.0	30.0	chow	D12450B	Norway	Taconic in Denmark	male	C57/BL6	26.61
+ERR675521	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	28.29
+ERR675522	17.0	30.0	chow	D12450B	Norway	Taconic in Denmark	male	C57/BL6	26.49
+ERR675523	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	31.42
+ERR675524	17.0	30.0	chow	D12450B	Norway	Taconic in Denmark	male	C57/BL6	27.7
+ERR675525	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	29.54
+ERR675526	17.0	30.0	chow	D12450B	Norway	Taconic in Denmark	male	C57/BL6	27.48
+ERR675527	17.0	30.0	chow	D12450B	Norway	Taconic in Denmark	male	C57/BL6	28.16
+ERR675528	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	30.08
+ERR675529	17.0	30.0	chow	D12450B	Norway	Taconic in Denmark	male	C57/BL6	27.44
+ERR675530	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	34.15
+ERR675531	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	30.61
+ERR675532	17.0	30.0	HF	D12492	Norway	Taconic in Denmark	male	C57/BL6	30.84
