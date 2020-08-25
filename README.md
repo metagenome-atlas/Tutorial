@@ -14,7 +14,7 @@ Therefore we start analyzing the output of Metagenome-Atlas.
 In part 2 of the Tutorial you learn how to run metagenome atlas on some test data or on your own.
 
 ### Example output of Metagenome Atlas
-A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run. Open the Example output <a href="Example" target="_blank">"Example"</a>._ The folder `Results` contains the most interesting output of Atlas which is summarised in this [report](http://htmlpreview.github.io/?https://github.com/metagenome-atlas/Tutorial/blob/master/Example/Results/Summary.html). 
+A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run. Open the Example output <a href="Example" target="_blank">Example</a>. The folder `Results` contains the most interesting output of Atlas which is summarised in this [report](http://htmlpreview.github.io/?https://github.com/metagenome-atlas/Tutorial/blob/master/Example/Results/Summary.html). 
 
 Here are some questions that guide you trought the Atlas output files:
 
