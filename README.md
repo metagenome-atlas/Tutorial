@@ -4,7 +4,7 @@
 This is a tutorial for Metagenome-Atlas at ECCB. [Metagenome-Atlas](https://metagenome-atlas.github.io/) is a easy-to-use pipeline for analyzing metagenomic data. It handles all steps from QC, Assembly, Binning, to Annotation.
 
 
-:information_source: If you have any question or errors write an Github issue or try to contact us via the conference platfrom chat.
+:information_source: If you have any question or errors write an [Github issues](https://github.com/metagenome-atlas/Tutorial/issues) or try to contact us via the conference platfrom chat.
 
 
 ## Tutorial part 1: Analyze the output of Atlas
@@ -70,7 +70,7 @@ jupyter lab
 
 Click on the `Differencial abundance based on genomes.ipynb` and start the differencial analysis. 
 
-If something doesn't work, let us know. You can always have a look at the [notebook](scripts/Differencial abundance based on genomes.ipynb) to see what would be the output.
+If something doesn't work, [let us know](https://github.com/metagenome-atlas/Tutorial/issues). You can always have a look at the [notebook](scripts/Differencial abundance based on genomes.ipynb) to see what would be the output.
 
 
 # Tutorial part 2: Install and run metagenome Atlas
