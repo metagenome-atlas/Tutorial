@@ -7,10 +7,12 @@ This is a tutorial for Metagenome-Atlas at ECCB. [Metagenome-Atlas](https://meta
 :interrobang: If you have any question or errors write an [GitHub issues](https://github.com/metagenome-atlas/Tutorial/issues) or try to contact us via the conference platform chat.
 
 
-![heatmap](images/heatmap.png)
+
 
 ## Tutorial part 1: What can you get out of Atlas?
 *Analyze the output of Atlas*
+
+![checkmquality](images/quality.png)![heatmap](images/heatmap.jpg)
 
 Usually before starting to install a program I want to make sure that it gives the output I want.
 Therefore, we start analyzing the output of Metagenome-Atlas.
