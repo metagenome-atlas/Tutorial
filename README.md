@@ -12,7 +12,7 @@ This is a tutorial for Metagenome-Atlas at ECCB. [Metagenome-Atlas](https://meta
 ## Tutorial part 1: What can you get out of Atlas?
 *Analyze the output of Atlas*
 
-![checkmquality](images/quality.png)![heatmap](images/heatmap.jpg)
+![checkmquality](images/quality.svg)
 
 Usually before starting to install a program I want to make sure that it gives the output I want.
 Therefore, we start analyzing the output of Metagenome-Atlas.
