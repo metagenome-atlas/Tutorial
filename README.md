@@ -48,6 +48,8 @@ Metagenome-Atlas produces a lot of other outputs from the QC and assembly steps.
 
 We prepared a jupyter [notebook](scripts/Differential_abundance.ipynb) with the code for differential analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. To analyze the data, we will install some python packages.  
 
+![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
+
 
 #### Setup
 
