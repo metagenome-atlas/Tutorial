@@ -4,7 +4,10 @@
 This is a tutorial for Metagenome-Atlas at ECCB. [Metagenome-Atlas](https://metagenome-atlas.github.io/) is an easy-to-use pipeline for analyzing metagenomic data. It handles all steps from QC, Assembly, Binning, to Annotation.
 
 
-:interrobang: If you have any question or errors write an [GitHub issues](https://github.com/metagenome-atlas/Tutorial/issues) or try to contact us via the conference platform chat.
+:interrobang: If you have any question or errors [write us][chat].
+
+
+Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
 
 
 
@@ -78,7 +81,11 @@ jupyter lab
 
 Click on the `Differential_abundance.ipynb` and start the differential analysis.
 
-If something doesn't work, [let us know](https://github.com/metagenome-atlas/Tutorial/issues). You can always have a look at the [notebook](scripts/Differential_abundance.ipynb) to see what would be the output.
+If something doesn't work, [let us know][chat]. You can always have a look at the [notebook](scripts/Differential_abundance.ipynb) to see what would be the output.
+
+
+[chat]: https://chat.mmseqs.com/channel/eccb_tutorial_2020
+[//]: # (https://github.com/metagenome-atlas/Tutorial/issues)
 
 
 ## Tutorial part 2: Let's get serious!
