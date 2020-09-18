@@ -31,6 +31,7 @@ library(pheatmap)
 library(microbiome)
 library(ape)
 library(vegan)
+library(useful)
 library(kableExtra)
 ```
 
@@ -72,7 +73,7 @@ ggplotly(plt)
 
 ```{r read_counts}
 Counts <- read_tsv("Example/Results/counts/raw_counts_genomes.tsv")
-kable(head(Counts))
+kable(topleft(Counts, c = 10))
 ```
 
 ### Mapping rate
@@ -105,7 +106,7 @@ data <- Counts %>%
 data <- transform(data, "clr")
 ```
 
-```{r heatmap}
+```{r heatmap, fig.height = 7}
 pheatmap(data, cluster_rows = T, cluster_cols = T,
          labels_row = Tax$Labels)
 ```
