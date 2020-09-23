@@ -2,6 +2,6 @@
 
 set -e
 
-conda activate atlas_tutorial_py
+source activate atlas_tutorial_py
 
 jupyter lab
