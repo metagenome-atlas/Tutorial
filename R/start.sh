@@ -2,6 +2,6 @@
 
 set -e
 
-conda activate atlas_tutorial_r
+source activate atlas_tutorial_r
 
 rstudio
