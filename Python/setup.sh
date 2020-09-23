@@ -17,4 +17,4 @@ fi
 
 
 
-mamba env create -n analyze -f condaenv.yml
+mamba env create -n atlas_tutorial_py -f condaenv.yml
