@@ -13,8 +13,7 @@ dependencies:
   - scikit-bio>=0.5.5
   - scikit-learn>=0.21.3
   - ete3
-# R dependencies
-  - bioconductor-ggtree=2.2.1
+  - bioconductor-ggtree=2.2.1 # R dependencies
   - bioconductor-microbiome=1.10.0
   - r-ape=5.4_1
   - r-broom=0.7.0
