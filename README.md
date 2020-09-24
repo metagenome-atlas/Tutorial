@@ -1,7 +1,6 @@
-# Metagenome-Atlas Tutorial for ECCB
+# Metagenome-Atlas Tutorial 
 
-
-This is a tutorial for Metagenome-Atlas at ECCB. [Metagenome-Atlas](https://metagenome-atlas.github.io/) is an easy-to-use pipeline for analyzing metagenomic data. It handles all steps from QC, Assembly, Binning, to Annotation.
+This is a tutorial for Metagenome-Atlas. [Metagenome-Atlas](https://metagenome-atlas.github.io/) is an easy-to-use pipeline for analyzing metagenomic data. It handles all steps from QC, Assembly, Binning, to Annotation.
 
 
 :interrobang: If you have any question or errors [write us][chat].
@@ -49,43 +48,18 @@ Metagenome-Atlas produces a lot of other outputs from the QC and assembly steps.
 
 ### Run script for differential abundance analysis
 
-We prepared a jupyter [notebook](scripts/Differential_abundance.ipynb) with the code for differential analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. To analyze the data, we will install some python packages.  
+We prepared an interactive jupyter notebook with the code for differential analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. To analyze the data, we will install some python packages.  
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
+Click on the badge below: 
 
-#### Setup
-
-The part of the tutorial works on linux and macOS and maybe on Windows.  You need to install the [conda package manager](https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#setup). Download this repo with git or download it as [zip archive](https://github.com/metagenome-atlas/Tutorial/archive/master.zip) and extract it.
-
-```
-git clone https://github.com/metagenome-atlas/Tutorial.git
-cd Tutorial
-```
-
-The script use various python package for analyzing and plotting. Set them up by running
-
-```
-cd scripts
-./setup.sh
-```
-
-This creates a conda-environment in order not to interfere with other software on your computer.
-Activate the environment by running, then start jupyter:
-
-```
-conda activate analyze
-jupyter lab
-```
-
-
-Click on the `Differential_abundance.ipynb` and start the differential analysis.
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?filepath=scripts)
 
 If something doesn't work, [let us know][chat]. You can always have a look at the [notebook](scripts/Differential_abundance.ipynb) to see what would be the output.
 
 
-[chat]: https://chat.mmseqs.com/channel/eccb_tutorial_2020
-[//]: # (https://github.com/metagenome-atlas/Tutorial/issues)
+[chat]: https://github.com/metagenome-atlas/Tutorial/issues
 
 
 ## Tutorial part 2: Let's get serious!
