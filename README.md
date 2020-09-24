@@ -1,4 +1,12 @@
-# Metagenome-Atlas Tutorial 
+
+## Start Binder 
+
+
+[Jupyter](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/tr_rmd?filepath=Python?urlpath=lab)
+[Rstudio](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/tr_rmd?filepath=R?urlpath=rstudio)
+
+
+# Metagenome-Atlas Tutorial
 
 This is a tutorial for Metagenome-Atlas. [Metagenome-Atlas](https://metagenome-atlas.github.io/) is an easy-to-use pipeline for analyzing metagenomic data. It handles all steps from QC, Assembly, Binning, to Annotation.
 
@@ -52,7 +60,7 @@ We prepared an interactive jupyter notebook with the code for differential analy
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
-Click on the badge below: 
+Click on the badge below:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?filepath=scripts)
 
