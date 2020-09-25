@@ -1,0 +1,49 @@
+java -Djava.library.path=/home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/jni/ -ea -Xmx27G -Xms27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ jgi.BBMerge -Xmx27G threads=12 in1=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz in2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz outmerged=ERR675519/assembly/reads/QC.errorcorr.merged_me.fastq.gz outu=ERR675519/assembly/reads/QC.errorcorr.merged_R1.fastq.gz outu2=ERR675519/assembly/reads/QC.errorcorr.merged_R2.fastq.gz ecct iterations=5 k=62 extend2=40
+Executing jgi.BBMerge [-Xmx27G, threads=12, in1=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, outmerged=ERR675519/assembly/reads/QC.errorcorr.merged_me.fastq.gz, outu=ERR675519/assembly/reads/QC.errorcorr.merged_R1.fastq.gz, outu2=ERR675519/assembly/reads/QC.errorcorr.merged_R2.fastq.gz, ecct, iterations=5, k=62, extend2=40]
+Version 37.78 [-Xmx27G, threads=12, in1=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, outmerged=ERR675519/assembly/reads/QC.errorcorr.merged_me.fastq.gz, outu=ERR675519/assembly/reads/QC.errorcorr.merged_R1.fastq.gz, outu2=ERR675519/assembly/reads/QC.errorcorr.merged_R2.fastq.gz, ecct, iterations=5, k=62, extend2=40]
+
+Set threads to 12
+Executing assemble.Tadpole2 [in=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, branchlower=3, branchmult1=20.0, branchmult2=3.0, mincountseed=3, mincountextend=2, minprob=0.5, k=62, prealloc=false, prefilter=0, ecctail=false, eccpincer=false, eccreassemble=true]
+Version 37.78 [in=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, branchlower=3, branchmult1=20.0, branchmult2=3.0, mincountseed=3, mincountextend=2, minprob=0.5, k=62, prealloc=false, prefilter=0, ecctail=false, eccpincer=false, eccreassemble=true]
+
+Using 12 threads.
+Executing ukmer.KmerTableSetU [in=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, branchlower=3, branchmult1=20.0, branchmult2=3.0, mincountseed=3, mincountextend=2, minprob=0.5, k=62, prealloc=false, prefilter=0, ecctail=false, eccpincer=false, eccreassemble=true]
+
+Initial:
+Ways=31, initialSize=128000, prefilter=f, prealloc=f
+Memory: max=28991m, free=28978m, used=13m
+
+Estimated kmer capacity: 	540221466
+After table allocation:
+Memory: max=28991m, free=28895m, used=96m
+
+After loading:
+Memory: max=28991m, free=16170m, used=12821m
+
+Input:                      	44740006 reads 		3696294004 bases.
+Unique Kmers:               	244530969
+Load Time:                  	107.768 seconds.
+
+Writing mergable reads merged.
+Started output threads.
+Total time: 647.246 seconds.
+
+Pairs:               	22370003
+Joined:              	12202789   	54.550%
+Ambiguous:           	10167192   	45.450%
+No Solution:         	22       	0.000%
+Too Short:           	0       	0.000%
+Fully Extended:      	21922557   	49.082%
+Partly Extended:     	10890615   	24.383%
+Not Extended:        	11851810   	26.535%
+
+Avg Insert:          	322.8
+Standard Deviation:  	17.8
+Mode:                	324
+
+Insert range:        	35 - 542
+90th percentile:     	338
+75th percentile:     	331
+50th percentile:     	324
+25th percentile:     	317
+10th percentile:     	310

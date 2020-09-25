@@ -1,0 +1,2 @@
+MetaBAT 2 (v2.12.1) using minContig 1500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, and maxEdges 500. 
+40 bins (77615072 bases in total) formed.

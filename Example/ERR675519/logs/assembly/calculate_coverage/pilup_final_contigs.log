@@ -1,0 +1,18 @@
+java -ea -Xmx27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ jgi.CoveragePileup ref=ERR675519/ERR675519_contigs.fasta in=ERR675519/sequence_alignment/ERR675519.sam threads=12 -Xmx27G covstats=ERR675519/assembly/contig_stats/postfilter_coverage_stats.txt hist=ERR675519/assembly/contig_stats/postfilter_coverage_histogram.txt basecov=ERR675519/assembly/contig_stats/postfilter_base_coverage.txt.gz concise=t secondary=f bincov=ERR675519/assembly/contig_stats/postfilter_coverage_binned.txt
+Executing jgi.CoveragePileup [ref=ERR675519/ERR675519_contigs.fasta, in=ERR675519/sequence_alignment/ERR675519.sam, threads=12, -Xmx27G, covstats=ERR675519/assembly/contig_stats/postfilter_coverage_stats.txt, hist=ERR675519/assembly/contig_stats/postfilter_coverage_histogram.txt, basecov=ERR675519/assembly/contig_stats/postfilter_base_coverage.txt.gz, concise=t, secondary=f, bincov=ERR675519/assembly/contig_stats/postfilter_coverage_binned.txt]
+
+Set threads to 12
+Reads:                               	33775767
+Mapped reads:                        	33522206
+Mapped bases:                        	2773387695
+Ref scaffolds:                       	15050
+Ref bases:                           	91389848
+
+Percent mapped:                      	99.249
+Percent proper pairs:                	99.249
+Average coverage:                    	30.347
+Standard deviation:                    	48.084
+Percent scaffolds with any coverage: 	100.00
+Percent of reference bases covered:  	99.47
+
+Time: 	43.048 seconds.

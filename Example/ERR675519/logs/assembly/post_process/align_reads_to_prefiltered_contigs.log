@@ -1,0 +1,143 @@
+java -Djava.library.path=/home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/jni/ -ea -Xmx27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ align2.BBWrap build=1 overwrite=true fastareadlen=500 nodisk=t ref=ERR675519/assembly/ERR675519_prefilter_contigs.fasta in1=ERR675519/sequence_quality_control/ERR675519_QC_R1.fastq.gz,ERR675519/sequence_quality_control/ERR675519_QC_se.fastq.gz in2=ERR675519/sequence_quality_control/ERR675519_QC_R2.fastq.gz,null trimreaddescriptions=t out=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam threads=12 pairlen=1000 pairedonly=t minid=0.76 mdtag=t xstag=fs nmtag=t sam=1.3 local=t ambiguous=all secondary=t saa=f append=t machineout=t maxsites=10 -Xmx27G
+Executing align2.BBWrap [build=1, overwrite=true, fastareadlen=500, nodisk=t, ref=ERR675519/assembly/ERR675519_prefilter_contigs.fasta, in1=ERR675519/sequence_quality_control/ERR675519_QC_R1.fastq.gz,ERR675519/sequence_quality_control/ERR675519_QC_se.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_QC_R2.fastq.gz,null, trimreaddescriptions=t, out=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam, threads=12, pairlen=1000, pairedonly=t, minid=0.76, mdtag=t, xstag=fs, nmtag=t, sam=1.3, local=t, ambiguous=all, secondary=t, saa=f, append=t, machineout=t, maxsites=10, -Xmx27G]
+
+Executing align2.BBMap [build=1, overwrite=true, fastareadlen=500, nodisk=t, trimreaddescriptions=t, threads=12, pairlen=1000, pairedonly=t, minid=0.76, mdtag=t, xstag=fs, nmtag=t, sam=1.3, local=t, ambiguous=all, secondary=t, saa=f, append=t, machineout=t, maxsites=10, ref=ERR675519/assembly/ERR675519_prefilter_contigs.fasta, in=ERR675519/sequence_quality_control/ERR675519_QC_R1.fastq.gz, out=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam, in2=ERR675519/sequence_quality_control/ERR675519_QC_R2.fastq.gz]
+Version 37.78 [build=1, overwrite=true, fastareadlen=500, nodisk=t, trimreaddescriptions=t, threads=12, pairlen=1000, pairedonly=t, minid=0.76, mdtag=t, xstag=fs, nmtag=t, sam=1.3, local=t, ambiguous=all, secondary=t, saa=f, append=t, machineout=t, maxsites=10, ref=ERR675519/assembly/ERR675519_prefilter_contigs.fasta, in=ERR675519/sequence_quality_control/ERR675519_QC_R1.fastq.gz, out=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam, in2=ERR675519/sequence_quality_control/ERR675519_QC_R2.fastq.gz]
+
+Set threads to 12
+Retaining all best sites for ambiguous mappings.
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.559
+Executing dna.FastaToChromArrays2 [ERR675519/assembly/ERR675519_prefilter_contigs.fasta, 1, writeinthread=false, genscaffoldinfo=true, retain, waitforwriting=false, gz=true, maxlen=536670912, writechroms=false, minscaf=1, midpad=300, startpad=8000, stoppad=8000, nodisk=true]
+
+Set genScaffoldInfo=true
+Set genome to 1
+
+Loaded Reference:	0.094 seconds.
+Loading index for chunk 1-1, build 1
+Indexing threads started for block 0-1
+Indexing threads finished for block 0-1
+Generated Index:	14.120 seconds.
+Analyzed Index:   	3.161 seconds.
+Started output stream:	0.286 seconds.
+Cleared Memory:    	0.122 seconds.
+Processing reads in paired-ended mode.
+Started read stream.
+Started 12 mapping threads.
+Detecting finished threads: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+
+   ------------------   Results   ------------------   
+
+Genome=1
+Key_Length=13
+Max_Indel=16000
+Minimum_Score_Ratio=0.55888
+Mapping_Mode=normal
+Reads_Used=44740006
+Bases_Used=3696310439
+Reads/sec=89567.87
+kBases/sec=7399.88
+
+R1_Mapped_Percent=78.9175%
+R1_Unambiguous_Percent=78.7254%
+R1_Mapped_Reads=17653853
+R1_Unambiguous_Reads=17610866
+
+Mated_Pairs=78.9175%
+Bad_Pairs=0.000%
+R1_Rescued=0.888%
+Avg_Insert_Size=324.65
+
+R1_Perfect_Best_Site=68.1992%
+R1_Semiperfect_Site=68.4217%
+R1_Ambiguous_Mapping=0.1922%
+R1_Low_Quality_Discards=0.0000%
+
+R1_Match_Rate=99.1568%
+R1_Error_Rate=0.6802%
+R1_Sub_Rate=0.5507%
+R1_Del_Rate=0.1262%
+R1_Ins_Rate=0.0033%
+R1_N_Rate=0.1630%
+R1_Match_Count=1454466618
+R1_Error_Count=9977766
+R1_Sub_Count=8077297
+R1_Del_Count=1851719
+R1_Ins_Count=48750
+R1_N_Count=2390847
+
+R2_Mapped_Percent=78.9175%
+R2_Unambiguous_Percent=78.7239%
+R2_Mapped_Reads=17653853
+R2_Unambiguous_Reads=17610544
+
+R2_Rescued=0.936%
+
+R2_Perfect_Best_Site=65.7189%
+R2_Semiperfect_Site=65.9376%
+R2_Ambiguous_Mapping=0.1936%
+R2_Low_Quality_Discards=0.0000%
+
+R2_Match_Rate=99.0863%
+R2_Error_Rate=0.7374%
+R2_Sub_Rate=0.6139%
+R2_Del_Rate=0.1200%
+R2_Ins_Rate=0.0034%
+R2_N_Rate=0.1764%
+R2_Match_Count=1444682946
+R2_Error_Count=10750822
+R2_Sub_Count=8950838
+R2_Del_Count=1750142
+R2_Ins_Count=49842
+R2_N_Count=2571231
+
+Total time:     	519.155 seconds.
+Executing align2.BBMap [build=1, overwrite=true, fastareadlen=500, nodisk=t, trimreaddescriptions=t, threads=12, pairlen=1000, pairedonly=t, minid=0.76, mdtag=t, xstag=fs, nmtag=t, sam=1.3, local=t, ambiguous=all, secondary=t, saa=f, append=t, machineout=t, maxsites=10, indexloaded=t, in=ERR675519/sequence_quality_control/ERR675519_QC_se.fastq.gz, out=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam, in2=]
+Version 37.78 [build=1, overwrite=true, fastareadlen=500, nodisk=t, trimreaddescriptions=t, threads=12, pairlen=1000, pairedonly=t, minid=0.76, mdtag=t, xstag=fs, nmtag=t, sam=1.3, local=t, ambiguous=all, secondary=t, saa=f, append=t, machineout=t, maxsites=10, indexloaded=t, in=ERR675519/sequence_quality_control/ERR675519_QC_se.fastq.gz, out=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam, in2=]
+
+Set threads to 12
+Retaining all best sites for ambiguous mappings.
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.559
+Started output stream:	0.015 seconds.
+Cleared Memory:    	0.117 seconds.
+Processing reads in single-ended mode.
+Started read stream.
+Started 12 mapping threads.
+Detecting finished threads: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+
+   ------------------   Results   ------------------   
+
+Genome=1
+Key_Length=13
+Max_Indel=16000
+Minimum_Score_Ratio=0.55888
+Mapping_Mode=normal
+Reads_Used=1593279
+Bases_Used=128112862
+Reads/sec=86323.70
+kBases/sec=6941.14
+
+R1_Mapped_Percent=77.6526%
+R1_Unambiguous_Percent=76.5066%
+R1_Mapped_Reads=1237223
+R1_Unambiguous_Reads=1218964
+
+
+R1_Perfect_Best_Site=55.8381%
+R1_Semiperfect_Site=56.0764%
+R1_Ambiguous_Mapping=1.1460%
+R1_Low_Quality_Discards=0.0000%
+
+R1_Match_Rate=98.3381%
+R1_Error_Rate=1.3895%
+R1_Sub_Rate=1.0609%
+R1_Del_Rate=0.3239%
+R1_Ins_Rate=0.0048%
+R1_N_Rate=0.2724%
+R1_Match_Count=98359936
+R1_Error_Count=1389846
+R1_Sub_Count=1061137
+R1_Del_Count=323926
+R1_Ins_Count=4783
+R1_N_Count=272429
+
+Total time:     	18.593 seconds.

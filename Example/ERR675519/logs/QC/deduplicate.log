@@ -1,0 +1,167 @@
+java -ea -Xmx27G -Xms27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ clump.Clumpify in1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz in2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz out1=ERR675519/sequence_quality_control/ERR675519_deduplicated_R1.fastq.gz out2=ERR675519/sequence_quality_control/ERR675519_deduplicated_R2.fastq.gz overwrite=true dedupe=t dupesubs=2 optical=f threads=12 -Xmx27G
+Executing clump.Clumpify [in1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz, out1=ERR675519/sequence_quality_control/ERR675519_deduplicated_R1.fastq.gz, out2=ERR675519/sequence_quality_control/ERR675519_deduplicated_R2.fastq.gz, overwrite=true, dedupe=t, dupesubs=2, optical=f, threads=12, -Xmx27G]
+Version 37.78 [in1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz, out1=ERR675519/sequence_quality_control/ERR675519_deduplicated_R1.fastq.gz, out2=ERR675519/sequence_quality_control/ERR675519_deduplicated_R2.fastq.gz, overwrite=true, dedupe=t, dupesubs=2, optical=f, threads=12, -Xmx27G]
+
+Read Estimate:          75484870
+Memory Estimate:        33500 MB
+Memory Available:       22632 MB
+Set groups to 17
+Executing clump.KmerSplit [in1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz, out=ERR675519_deduplicated_R1_clumpify_p1_temp%_3e3143e548781c.fastq.gz, out2=, groups=17, ecco=false, addname=f, shortname=f, unpair=false, repair=f, namesort=f, ow=true, dedupe=t, threads=12]
+
+Set threads to 12
+Reset INTERLEAVED to false because paired input files were specified.
+Set INTERLEAVED to false
+Input is being processed as paired
+Writing interleaved.
+Made a comparator with k=31, seed=1, border=1, hashes=4
+Time:                         	33.116 seconds.
+Reads Processed:      48619k 	1468.16k reads/sec
+Bases Processed:       3958m 	119.52m bases/sec
+Executing clump.KmerSort3 [in1=ERR675519_deduplicated_R1_clumpify_p1_temp%_3e3143e548781c.fastq.gz, in2=, out=ERR675519/sequence_quality_control/ERR675519_deduplicated_R1.fastq.gz, out2=ERR675519/sequence_quality_control/ERR675519_deduplicated_R2.fastq.gz, groups=17, ecco=f, addname=false, shortname=f, unpair=f, repair=false, namesort=false, ow=true, dedupe=t, threads=12]
+
+Set threads to 12
+Making comparator.
+Made a comparator with k=31, seed=1, border=1, hashes=4
+Making 2 fetch threads.
+Starting threads.
+Fetching reads.
+Fetched 1431365 reads: 	4.043 seconds.
+Making clumps.
+Clump time: 	1.026 seconds.
+Deduping.
+Dedupe time: 	0.524 seconds.
+Writing.
+Fetching reads.
+Fetched 1435746 reads: 	0.000 seconds.
+Making clumps.
+Clump time: 	0.353 seconds.
+Deduping.
+Dedupe time: 	0.484 seconds.
+Writing.
+Fetching reads.
+Fetched 1434563 reads: 	5.336 seconds.
+Making clumps.
+Clump time: 	0.634 seconds.
+Deduping.
+Dedupe time: 	0.179 seconds.
+Writing.
+Fetching reads.
+Fetched 1435041 reads: 	1.226 seconds.
+Making clumps.
+Clump time: 	0.897 seconds.
+Deduping.
+Dedupe time: 	0.180 seconds.
+Writing.
+Fetching reads.
+Fetched 1437164 reads: 	5.284 seconds.
+Making clumps.
+Clump time: 	1.599 seconds.
+Deduping.
+Dedupe time: 	0.192 seconds.
+Writing.
+Fetching reads.
+Fetched 1433103 reads: 	0.418 seconds.
+Making clumps.
+Clump time: 	0.562 seconds.
+Deduping.
+Dedupe time: 	0.172 seconds.
+Writing.
+Fetching reads.
+Fetched 1444896 reads: 	5.033 seconds.
+Making clumps.
+Clump time: 	0.705 seconds.
+Deduping.
+Dedupe time: 	0.158 seconds.
+Writing.
+Fetching reads.
+Fetched 1420764 reads: 	0.510 seconds.
+Making clumps.
+Clump time: 	0.405 seconds.
+Deduping.
+Dedupe time: 	0.609 seconds.
+Writing.
+Fetching reads.
+Fetched 1427081 reads: 	4.736 seconds.
+Making clumps.
+Clump time: 	0.459 seconds.
+Deduping.
+Dedupe time: 	0.442 seconds.
+Writing.
+Fetching reads.
+Fetched 1420028 reads: 	2.044 seconds.
+Making clumps.
+Clump time: 	1.058 seconds.
+Deduping.
+Dedupe time: 	0.180 seconds.
+Writing.
+Fetching reads.
+Fetched 1434122 reads: 	4.635 seconds.
+Making clumps.
+Clump time: 	2.072 seconds.
+Deduping.
+Dedupe time: 	0.188 seconds.
+Writing.
+Fetching reads.
+Fetched 1442267 reads: 	1.901 seconds.
+Making clumps.
+Clump time: 	1.061 seconds.
+Deduping.
+Dedupe time: 	0.206 seconds.
+Writing.
+Fetching reads.
+Fetched 1418306 reads: 	3.931 seconds.
+Making clumps.
+Clump time: 	0.658 seconds.
+Deduping.
+Dedupe time: 	0.186 seconds.
+Writing.
+Fetching reads.
+Fetched 1424300 reads: 	3.064 seconds.
+Making clumps.
+Clump time: 	0.588 seconds.
+Deduping.
+Dedupe time: 	0.174 seconds.
+Writing.
+Fetching reads.
+Fetched 1431698 reads: 	3.671 seconds.
+Making clumps.
+Clump time: 	0.504 seconds.
+Deduping.
+Dedupe time: 	0.177 seconds.
+Writing.
+Fetching reads.
+No more reads to fetch.
+Adding poison.
+Fetched 1414253 reads: 	2.772 seconds.
+Making clumps.
+Clump time: 	0.611 seconds.
+Deduping.
+Dedupe time: 	0.186 seconds.
+Writing.
+Fetching reads.
+A fetch thread finished.
+Encountered poison; count=1
+No more reads to fetch.
+Adding poison.
+Fetched 1424873 reads: 	1.612 seconds.
+Making clumps.
+Clump time: 	0.487 seconds.
+Deduping.
+Dedupe time: 	0.179 seconds.
+Writing.
+Closing fetch threads.
+A fetch thread finished.
+Closed fetch threads.
+Waiting for writing to complete.
+Write time: 	7.800 seconds.
+Done!
+Time:                         	84.375 seconds.
+Reads Processed:        48619k 	576.23k reads/sec
+Bases Processed:         3958m 	46.91m bases/sec
+
+Reads In:             48619140
+Clumps Formed:         7773838
+Duplicates Found:       446624
+Reads Out:          1976378388
+Bases Out:          1992133384
+Total time: 	117.997 seconds.

@@ -1,0 +1,8 @@
+which: no usearch in (/home/kiesers/scratch/Atlas/databases/conda_envs/0e77224d/bin:/home/kiesers/scratch/miniconda3/condabin:/home/kiesers/Programs/interproscan-5.31-70.0:/usr/lib64/qt-3.3/bin:/opt/cluster/admin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/c3-4:/opt/ibutils/bin:/home/kiesers/bin:::::)
+/home/kiesers/scratch/Atlas/databases/conda_envs/0e77224d/bin/DAS_Tool: line 241: usearch: command not found
+Running DAS Tool using 6 threads.
+identifying single copy genes using diamond version 0.9.22
+evaluating bin-sets
+starting bin selection from 64 bins 
+|||||||||||||||||||||||||||||||||||||||||||||||
+bin selection complete: 47 bins above score threshold selected. 
