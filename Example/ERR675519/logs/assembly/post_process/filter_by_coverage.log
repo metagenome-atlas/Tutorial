@@ -1,0 +1,10 @@
+java -ea -Xmx27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ jgi.FilterByCoverage in=ERR675519/assembly/ERR675519_prefilter_contigs.fasta cov=ERR675519/assembly/contig_stats/prefilter_coverage_stats.txt out=ERR675519/assembly/ERR675519_final_contigs.fasta outd=ERR675519/assembly/ERR675519_discarded_contigs.fasta minc=1 minp=20 minr=0 minl=1500 trim=0 -Xmx27G
+Executing jgi.FilterByCoverage [in=ERR675519/assembly/ERR675519_prefilter_contigs.fasta, cov=ERR675519/assembly/contig_stats/prefilter_coverage_stats.txt, out=ERR675519/assembly/ERR675519_final_contigs.fasta, outd=ERR675519/assembly/ERR675519_discarded_contigs.fasta, minc=1, minp=20, minr=0, minl=1500, trim=0, -Xmx27G]
+
+Time:               2.614 seconds.
+Reads In:           48863 	18.69k reads/sec
+Bases In:           116461975 	44.54m bases/sec
+Reads Out:          15050
+Bases Out:          91389848
+Reads Filtered:     33813
+Bases Filtered:     25072127

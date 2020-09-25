@@ -1,0 +1,4 @@
+Executing jgi.MakeLengthHistogram [in=ERR675519/sequence_quality_control/ERR675519_QC_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_QC_R2.fastq.gz, out=ERR675519/sequence_quality_control/read_stats/QC_read_length_hist.txt]
+
+Processed 44740006 reads.
+Time: 	21.059 seconds.

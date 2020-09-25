@@ -1,0 +1,28 @@
+java -Djava.library.path=/home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/jni/ -ea -Xmx27G -Xms27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ jgi.BBDukF in1=ERR675519/sequence_quality_control/ERR675519_deduplicated_R1.fastq.gz in2=ERR675519/sequence_quality_control/ERR675519_deduplicated_R2.fastq.gz ref=/home/kiesers/scratch/Atlas/databases/adapters.fa interleaved=f out=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz out2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz outs=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz stats=ERR675519/logs/ERR675519_quality_filtering_stats.txt overwrite=true qout=33 trd=t hdist=1 k=27 ktrim=r mink=8 trimq=10 qtrim=rl threads=12 minlength=51 maxns=-1 minbasefrequency=0.05 ecco=t prealloc=t -Xmx27G
+Executing jgi.BBDukF [in1=ERR675519/sequence_quality_control/ERR675519_deduplicated_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_deduplicated_R2.fastq.gz, ref=/home/kiesers/scratch/Atlas/databases/adapters.fa, interleaved=f, out=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz, out2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz, outs=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz, stats=ERR675519/logs/ERR675519_quality_filtering_stats.txt, overwrite=true, qout=33, trd=t, hdist=1, k=27, ktrim=r, mink=8, trimq=10, qtrim=rl, threads=12, minlength=51, maxns=-1, minbasefrequency=0.05, ecco=t, prealloc=t, -Xmx27G]
+Version 37.78 [in1=ERR675519/sequence_quality_control/ERR675519_deduplicated_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_deduplicated_R2.fastq.gz, ref=/home/kiesers/scratch/Atlas/databases/adapters.fa, interleaved=f, out=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz, out2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz, outs=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz, stats=ERR675519/logs/ERR675519_quality_filtering_stats.txt, overwrite=true, qout=33, trd=t, hdist=1, k=27, ktrim=r, mink=8, trimq=10, qtrim=rl, threads=12, minlength=51, maxns=-1, minbasefrequency=0.05, ecco=t, prealloc=t, -Xmx27G]
+
+Set INTERLEAVED to false
+Set threads to 12
+Initial size set to 267892806
+maskMiddle was disabled because useShortKmers=true
+Initial:
+Memory: max=28991m, free=5497m, used=23494m
+
+Added 290007 kmers; time: 	0.211 seconds.
+Memory: max=28991m, free=5459m, used=23532m
+
+Input is being processed as paired
+Started output streams:	0.278 seconds.
+Processing time:   		69.073 seconds.
+
+Input:                  	48172516 reads 		3920339256 bases.
+QTrimmed:               	237226 reads (0.49%) 	952248 bases (0.02%)
+KTrimmed:               	943006 reads (1.96%) 	10224172 bases (0.26%)
+Low quality discards:   	3290782 reads (6.83%) 	204589885 bases (5.22%)
+Total Removed:          	3334622 reads (6.92%) 	215796049 bases (5.50%)
+Result:                 	44837894 reads (93.08%) 	3704543207 bases (94.50%)
+
+Time:   			69.671 seconds.
+Reads Processed:      48172k 	691.42k reads/sec
+Bases Processed:       3920m 	56.27m bases/sec

@@ -1,0 +1,18 @@
+java -ea -Xmx27G -cp /home/kiesers/scratch/miniconda3/envs/atlas/opt/bbmap-37.78/current/ jgi.ReformatReads in1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz in2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz bhist=ERR675519/sequence_quality_control/read_stats/raw/pe/base_hist.txt qhist=ERR675519/sequence_quality_control/read_stats/raw/pe/quality_by_pos.txt lhist=ERR675519/sequence_quality_control/read_stats/raw/pe/readlength.txt gchist=ERR675519/sequence_quality_control/read_stats/raw/pe/gc_hist.txt gcbins=auto bqhist=ERR675519/sequence_quality_control/read_stats/raw/pe/boxplot_quality.txt threads=12 overwrite=true -Xmx27G
+Executing jgi.ReformatReads [in1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz, bhist=ERR675519/sequence_quality_control/read_stats/raw/pe/base_hist.txt, qhist=ERR675519/sequence_quality_control/read_stats/raw/pe/quality_by_pos.txt, lhist=ERR675519/sequence_quality_control/read_stats/raw/pe/readlength.txt, gchist=ERR675519/sequence_quality_control/read_stats/raw/pe/gc_hist.txt, gcbins=auto, bqhist=ERR675519/sequence_quality_control/read_stats/raw/pe/boxplot_quality.txt, threads=12, overwrite=true, -Xmx27G]
+
+Set base content histogram output to ERR675519/sequence_quality_control/read_stats/raw/pe/base_hist.txt
+Set quality histogram output to ERR675519/sequence_quality_control/read_stats/raw/pe/quality_by_pos.txt
+Set length histogram output to ERR675519/sequence_quality_control/read_stats/raw/pe/readlength.txt
+Set GC histogram output to ERR675519/sequence_quality_control/read_stats/raw/pe/gc_hist.txt
+Set bquality histogram output to ERR675519/sequence_quality_control/read_stats/raw/pe/boxplot_quality.txt
+Set threads to 12
+No output stream specified.  To write to stdout, please specify 'out=stdout.fq' or similar.
+Set INTERLEAVED to false
+Input is being processed as paired
+Input:                  	48619140 reads          	3958073690 bases
+Output:                 	48619140 reads (100.00%) 	3958073690 bases (100.00%)
+
+Time:                         	163.380 seconds.
+Reads Processed:      48619k 	297.58k reads/sec
+Bases Processed:       3958m 	24.23m bases/sec

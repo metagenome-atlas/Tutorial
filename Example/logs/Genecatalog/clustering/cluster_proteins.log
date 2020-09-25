@@ -1,0 +1,317 @@
+Program call:
+Genecatalog/all_genes/predicted_genes.faa Genecatalog/all_genes/predicted_genes/inputdb 
+
+MMseqs Version:      	3.be8f6
+Max. sequence length 	32000
+Split Seq. by len    	true
+Offset of numeric ids	0
+Verbosity            	3
+
+...................................................................................................	1 Mio. sequences processed
+.......................Time for merging files: 0 h 0 m 0 s
+Time for merging files: 0 h 0 m 1 s
+Program call:
+-c 0.9 --min-seq-id 0.95 --threads 8 Genecatalog/all_genes/predicted_genes/inputdb Genecatalog/clustering/mmseqs/clusterdb /tmp/mmseqs 
+
+MMseqs Version:                                                           	3.be8f6
+Cluster mode                                                              	0
+Verbosity                                                                 	3
+Max depth connected component                                             	1000
+Similarity type                                                           	2
+Threads                                                                   	8
+Sub Matrix                                                                	blosum62.out
+Add backtrace                                                             	false
+Alignment mode                                                            	2
+E-value threshold                                                         	0.001
+Seq. Id Threshold                                                         	0.95
+Coverage threshold                                                        	0.9
+Coverage Mode                                                             	0
+Max. sequence length                                                      	32000
+Max. results per query                                                    	300
+Compositional bias                                                        	1
+Realign hit                                                               	false
+Max Reject                                                                	2147483647
+Max Accept                                                                	2147483647
+Include identical Seq. Id.                                                	false
+No preload                                                                	false
+Early exit                                                                	false
+Pseudo count a                                                            	1
+Pseudo count b                                                            	1.5
+Alphabet size                                                             	21
+Kmer per sequence                                                         	20
+Mask Residues                                                             	0
+K-mer size                                                                	0
+Shift hash                                                                	5
+Split Memory Limit                                                        	0
+Include only extendable                                                   	false
+Rescore mode                                                              	0
+Remove hits by seq.id. and coverage                                       	false
+In substitution scoring mode, performs global alignment along the diagonal	false
+Remove Temporary Files                                                    	false
+Sets the MPI runner                                                       	
+
+Set cluster mode SET COVER.
+Program call:
+Genecatalog/all_genes/predicted_genes/inputdb /tmp/mmseqs/5153111598820933717/pref --sub-mat blosum62.out --alph-size 13 --min-seq-id 0.95 --kmer-per-seq 20 --mask 0 --cov-mode 0 -k 0 -c 0.9 --max-seq-len 32000 --hash-shift 5 --split-memory-limit 0 --threads 8 -v 3 
+
+MMseqs Version:        	3.be8f6
+Sub Matrix             	blosum62.out
+Alphabet size          	13
+Seq. Id Threshold      	0.95
+Kmer per sequence      	20
+Mask Residues          	0
+Coverage Mode          	0
+K-mer size             	14
+Coverage threshold     	0.9
+Max. sequence length   	32000
+Shift hash             	5
+Split Memory Limit     	0
+Include only extendable	false
+Threads                	8
+Verbosity              	3
+
+Database type: Aminoacid
+V -> I
+M -> L
+Q -> E
+T -> S
+R -> K
+Y -> F
+S -> A
+N -> D
+Reduced amino acid alphabet:
+A C D E F G H I K L P W X 
+
+Needed memory (395284160 byte) of total memory (486856149811 byte)
+Process file into 1 parts
+Generate k-mers list 0
+...................................................................................................	1 Mio. sequences processed
+.......................
+Time for fill: 0 h 0 m 3s
+Done.
+Sort kmer ... Done.
+Time for sort: 0 h 0 m 1s
+Sort by rep. sequence ... Done
+Time for sort: 0 h 0 m 1s
+Time for fill: 0 h 0 m 0s
+Time for merging files: 0 h 0 m 1 s
+Time for processing: 0 h 0 m 6s
+Rescore diagonals.
+Program call:
+Genecatalog/all_genes/predicted_genes/inputdb Genecatalog/all_genes/predicted_genes/inputdb /tmp/mmseqs/5153111598820933717/pref /tmp/mmseqs/5153111598820933717/pref_rescore1 --rescore-mode 0 --sub-mat blosum62.out -c 0.9 -e 0.001 --cov-mode 0 --min-seq-id 0.95 --threads 8 -v 3 
+
+MMseqs Version:                                                           	3.be8f6
+Rescore mode                                                              	0
+Sub Matrix                                                                	blosum62.out
+Remove hits by seq.id. and coverage                                       	false
+In substitution scoring mode, performs global alignment along the diagonal	false
+Coverage threshold                                                        	0.9
+E-value threshold                                                         	0.001
+Coverage Mode                                                             	0
+Seq. Id Threshold                                                         	0.95
+Include identical Seq. Id.                                                	false
+Threads                                                                   	8
+Verbosity                                                                 	3
+
+Query  file: Genecatalog/all_genes/predicted_genes/inputdb
+Target  file: Genecatalog/all_genes/predicted_genes/inputdb
+Prefilter database: /tmp/mmseqs/5153111598820933717/pref
+Result database: /tmp/mmseqs/5153111598820933717/pref_rescore1
+...................................................................................................	1 Mio. sequences processed
+.......................Done.
+Time for merging files: 0 h 0 m 0 s
+Time for diagonal calculation: 0 h 0 m 1s
+Program call:
+Genecatalog/all_genes/predicted_genes/inputdb /tmp/mmseqs/5153111598820933717/pref_rescore1 /tmp/mmseqs/5153111598820933717/pre_clust --cluster-mode 0 -v 3 --max-iterations 1000 --similarity-type 2 --threads 8 
+
+MMseqs Version:              	3.be8f6
+Cluster mode                 	0
+Verbosity                    	3
+Max depth connected component	1000
+Similarity type              	2
+Threads                      	8
+
+Init...
+Opening sequence database...
+Opening alignment database...
+done.
+Clustering mode: Set Cover
+...................................................................................................	1 Mio. sequences processed
+.......................
+Sort entries.
+
+Find missing connections.
+
+Found 827249 new connections.
+
+Reconstruct initial order.
+...................................................................................................	1 Mio. sequences processed
+.......................
+Add missing connections.
+...................................................................................................	1 Mio. sequences processed
+.......................
+Time for Read in: 0 m 0s
+
+Writing results...
+...done.
+Time for clustering: 0 m 1s
+Time for merging files: 0 h 0 m 0 s
+Total time: 0 m 1s
+
+Size of the sequence database: 1235263
+Size of the alignment database: 1235263
+Number of clusters: 455771
+Program call:
+/tmp/mmseqs/5153111598820933717/order_redundancy Genecatalog/all_genes/predicted_genes/inputdb /tmp/mmseqs/5153111598820933717/input_step_redundancy 
+
+MMseqs Version:	3.be8f6
+Verbosity	3
+
+Start writing to file /tmp/mmseqs/5153111598820933717/input_step_redundancy
+Time for merging files: 0 h 0 m 0 s
+Program call:
+/tmp/mmseqs/5153111598820933717/order_redundancy /tmp/mmseqs/5153111598820933717/pref /tmp/mmseqs/5153111598820933717/pref_filter1 
+
+MMseqs Version:	3.be8f6
+Verbosity	3
+
+Start writing to file /tmp/mmseqs/5153111598820933717/pref_filter1
+Time for merging files: 0 h 0 m 1 s
+Program call:
+/tmp/mmseqs/5153111598820933717/pref_filter1 /tmp/mmseqs/5153111598820933717/pref_filter2 --filter-file /tmp/mmseqs/5153111598820933717/order_redundancy 
+
+MMseqs Version:               	3.be8f6
+Filter column                 	1
+Column to take                	-1
+Filter regex                  	^.*$
+Positive filter               	true
+Filter file                   	/tmp/mmseqs/5153111598820933717/order_redundancy
+Beats first                   	false
+Mapping file                  	
+Threads                       	8
+Verbosity                     	3
+trim the results to one column	false
+Extract n lines               	0
+Numerical comparison operator 	
+Numerical comparison value    	0
+Sort entries                  	0
+Include identical Seq. Id.    	false
+join to DB                    	
+Swap fields of search results 	
+Replace transitively          	
+
+Filtering with a filter files.
+.............................................Time for merging files: 0 h 0 m 0 s
+Rescore diagonals.
+Program call:
+/tmp/mmseqs/5153111598820933717/input_step_redundancy /tmp/mmseqs/5153111598820933717/input_step_redundancy /tmp/mmseqs/5153111598820933717/pref_filter2 /tmp/mmseqs/5153111598820933717/pref_rescore2 --rescore-mode 1 --sub-mat blosum62.out --filter-hits -c 0.9 -e 0.001 --cov-mode 0 --min-seq-id 0.95 --threads 8 -v 3 
+
+MMseqs Version:                                                           	3.be8f6
+Rescore mode                                                              	1
+Sub Matrix                                                                	blosum62.out
+Remove hits by seq.id. and coverage                                       	true
+In substitution scoring mode, performs global alignment along the diagonal	false
+Coverage threshold                                                        	0.9
+E-value threshold                                                         	0.001
+Coverage Mode                                                             	0
+Seq. Id Threshold                                                         	0.95
+Include identical Seq. Id.                                                	false
+Threads                                                                   	8
+Verbosity                                                                 	3
+
+Query  file: /tmp/mmseqs/5153111598820933717/input_step_redundancy
+Target  file: /tmp/mmseqs/5153111598820933717/input_step_redundancy
+Prefilter database: /tmp/mmseqs/5153111598820933717/pref_filter2
+Result database: /tmp/mmseqs/5153111598820933717/pref_rescore2
+.............................................Done.
+Time for merging files: 0 h 0 m 0 s
+Time for diagonal calculation: 0 h 0 m 1s
+Program call:
+/tmp/mmseqs/5153111598820933717/input_step_redundancy /tmp/mmseqs/5153111598820933717/input_step_redundancy /tmp/mmseqs/5153111598820933717/pref_rescore2 /tmp/mmseqs/5153111598820933717/aln --sub-mat blosum62.out --alignment-mode 2 -e 0.001 --min-seq-id 0.95 -c 0.9 --cov-mode 0 --max-seq-len 32000 --max-seqs 300 --comp-bias-corr 1 --max-rejected 2147483647 --max-accept 2147483647 --pca 1 --pcb 1.5 --threads 8 -v 3 
+
+MMseqs Version:           	3.be8f6
+Sub Matrix                	blosum62.out
+Add backtrace             	false
+Alignment mode            	2
+E-value threshold         	0.001
+Seq. Id Threshold         	0.95
+Coverage threshold        	0.9
+Coverage Mode             	0
+Max. sequence length      	32000
+Max. results per query    	300
+Compositional bias        	1
+Realign hit               	false
+Max Reject                	2147483647
+Max Accept                	2147483647
+Include identical Seq. Id.	false
+No preload                	false
+Early exit                	false
+Pseudo count a            	1
+Pseudo count b            	1.5
+Threads                   	8
+Verbosity                 	3
+
+Init data structures...
+Compute score and coverage.
+Using 8 threads.
+Query database type: Aminoacid
+Target database type: Aminoacid
+Calculation of Smith-Waterman alignments.
+.............................................Time for merging files: 0 h 0 m 0 s
+
+All sequences processed.
+
+486312 alignments calculated.
+457519 sequence pairs passed the thresholds (0.940793 of overall calculated).
+1.00384 hits per query sequence.
+Time for alignments calculation: 0 h 0 m 4s
+Program call:
+/tmp/mmseqs/5153111598820933717/input_step_redundancy /tmp/mmseqs/5153111598820933717/aln /tmp/mmseqs/5153111598820933717/clust --cluster-mode 0 -v 3 --max-iterations 1000 --similarity-type 2 --threads 8 
+
+MMseqs Version:              	3.be8f6
+Cluster mode                 	0
+Verbosity                    	3
+Max depth connected component	1000
+Similarity type              	2
+Threads                      	8
+
+Init...
+Opening sequence database...
+Opening alignment database...
+done.
+Clustering mode: Set Cover
+.............................................
+Sort entries.
+
+Find missing connections.
+
+Found 1748 new connections.
+
+Reconstruct initial order.
+.............................................
+Add missing connections.
+.............................................
+Time for Read in: 0 m 0s
+
+Writing results...
+...done.
+Time for clustering: 0 m 0s
+Time for merging files: 0 h 0 m 0 s
+Total time: 0 m 0s
+
+Size of the sequence database: 455771
+Size of the alignment database: 455771
+Number of clusters: 454115
+Program call:
+Genecatalog/all_genes/predicted_genes/inputdb /tmp/mmseqs/5153111598820933717/clu /tmp/mmseqs/5153111598820933717/pre_clust /tmp/mmseqs/5153111598820933717/clust 
+
+MMseqs Version:	3.be8f6
+Threads    	8
+Merge by DB	false
+
+List amount 1235263
+Clustering step 1...
+Clustering step 2...
+Writing the results...
+Time for merging files: 0 h 0 m 0 s
+...done.

@@ -1,0 +1,90 @@
+***************************************************
+    ..:: dRep dereplicate Step 1. Filter ::..
+***************************************************
+    
+Will filter the genome list
+Calculating genome info of genomes
+100.00% of genomes passed length filtering
+***************************************************
+    ..:: dRep dereplicate Step 2. Cluster ::..
+***************************************************
+    
+Clustering Step 1. Parse Arguments
+Clustering Step 2. Perform MASH (primary) clustering
+2a. Run pair-wise MASH clustering
+2b. Cluster pair-wise MASH clustering
+62 primary clusters made
+Step 3. Perform secondary clustering
+Running 65 ANImf comparisons- should take ~ 4.1 min
+Step 4. Return output
+***************************************************
+    ..:: dRep dereplicate Step 3. Choose ::..
+***************************************************
+    
+Loading work directory
+***************************************************
+    ..:: dRep dereplicate Step 4. Bonus ::..
+***************************************************
+    
+Loading work directory
+***************************************************
+    ..:: dRep dereplicate Step 5. Evaluate ::..
+***************************************************
+    
+will provide warnings about clusters
+0 warnings generated: saved to /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpvzxnxb77/genomes/Dereplication/log/warnings.txt
+will produce Widb (winner information db)
+Winner database saved to /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpvzxnxb77/genomes/Dereplicationdata_tables/Widb.csv
+***************************************************
+    ..:: dRep dereplicate Step 6. Analyze ::..
+***************************************************
+    
+making plots 1, 2, 3, 4, 5, 6
+Plotting primary dendrogram
+Plotting secondary dendrograms
+Plotting MDS plot
+Plotting scatterplots
+Plotting bin scorring plot
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The examples.directory rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2. In the future, examples will be found relative to the 'datapath' directory.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The savefig.frameon rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The text.latex.unicode rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.fileo rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.level rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+Plotting winning genomes plot...
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The examples.directory rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2. In the future, examples will be found relative to the 'datapath' directory.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The savefig.frameon rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The text.latex.unicode rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.fileo rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.level rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+    ..:: dRep dereplicate finished ::..
+
+Dereplicated genomes................. /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpvzxnxb77/genomes/Dereplication/dereplicated_genomes/
+Dereplicated genomes information..... /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpvzxnxb77/genomes/Dereplication/data_tables/Widb.csv
+Figures.............................. /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpvzxnxb77/genomes/Dereplication/figures/
+Warnings............................. /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpvzxnxb77/genomes/Dereplication/log/warnings.txt
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    
