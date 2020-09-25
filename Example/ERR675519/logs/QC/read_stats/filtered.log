@@ -1,0 +1,35 @@
+java -ea -Xmx27G -cp /home/kiesers/scratch/miniconda3/envs/atlas/opt/bbmap-37.78/current/ jgi.ReformatReads in1=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz in2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz bhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/base_hist.txt qhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/quality_by_pos.txt lhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/readlength.txt gchist=ERR675519/sequence_quality_control/read_stats/filtered/pe/gc_hist.txt gcbins=auto bqhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/boxplot_quality.txt threads=12 overwrite=true -Xmx27G
+Executing jgi.ReformatReads [in1=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz, bhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/base_hist.txt, qhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/quality_by_pos.txt, lhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/readlength.txt, gchist=ERR675519/sequence_quality_control/read_stats/filtered/pe/gc_hist.txt, gcbins=auto, bqhist=ERR675519/sequence_quality_control/read_stats/filtered/pe/boxplot_quality.txt, threads=12, overwrite=true, -Xmx27G]
+
+Set base content histogram output to ERR675519/sequence_quality_control/read_stats/filtered/pe/base_hist.txt
+Set quality histogram output to ERR675519/sequence_quality_control/read_stats/filtered/pe/quality_by_pos.txt
+Set length histogram output to ERR675519/sequence_quality_control/read_stats/filtered/pe/readlength.txt
+Set GC histogram output to ERR675519/sequence_quality_control/read_stats/filtered/pe/gc_hist.txt
+Set bquality histogram output to ERR675519/sequence_quality_control/read_stats/filtered/pe/boxplot_quality.txt
+Set threads to 12
+No output stream specified.  To write to stdout, please specify 'out=stdout.fq' or similar.
+Set INTERLEAVED to false
+Input is being processed as paired
+Input:                  	44837894 reads          	3704543207 bases
+Output:                 	44837894 reads (100.00%) 	3704543207 bases (100.00%)
+
+Time:                         	93.260 seconds.
+Reads Processed:      44837k 	480.78k reads/sec
+Bases Processed:       3704m 	39.72m bases/sec
+java -ea -Xmx27G -cp /home/kiesers/scratch/miniconda3/envs/atlas/opt/bbmap-37.78/current/ jgi.ReformatReads in=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz bhist=ERR675519/sequence_quality_control/read_stats/filtered/se/base_hist.txt qhist=ERR675519/sequence_quality_control/read_stats/filtered/se/quality_by_pos.txt lhist=ERR675519/sequence_quality_control/read_stats/filtered/se/readlength.txt gchist=ERR675519/sequence_quality_control/read_stats/filtered/se/gc_hist.txt gcbins=auto bqhist=ERR675519/sequence_quality_control/read_stats/filtered/se/boxplot_quality.txt threads=12 overwrite=true -Xmx27G
+Executing jgi.ReformatReads [in=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz, bhist=ERR675519/sequence_quality_control/read_stats/filtered/se/base_hist.txt, qhist=ERR675519/sequence_quality_control/read_stats/filtered/se/quality_by_pos.txt, lhist=ERR675519/sequence_quality_control/read_stats/filtered/se/readlength.txt, gchist=ERR675519/sequence_quality_control/read_stats/filtered/se/gc_hist.txt, gcbins=auto, bqhist=ERR675519/sequence_quality_control/read_stats/filtered/se/boxplot_quality.txt, threads=12, overwrite=true, -Xmx27G]
+
+Set base content histogram output to ERR675519/sequence_quality_control/read_stats/filtered/se/base_hist.txt
+Set quality histogram output to ERR675519/sequence_quality_control/read_stats/filtered/se/quality_by_pos.txt
+Set length histogram output to ERR675519/sequence_quality_control/read_stats/filtered/se/readlength.txt
+Set GC histogram output to ERR675519/sequence_quality_control/read_stats/filtered/se/gc_hist.txt
+Set bquality histogram output to ERR675519/sequence_quality_control/read_stats/filtered/se/boxplot_quality.txt
+Set threads to 12
+No output stream specified.  To write to stdout, please specify 'out=stdout.fq' or similar.
+Input is being processed as unpaired
+Input:                  	1595184 reads          	128271312 bases
+Output:                 	1595184 reads (100.00%) 	128271312 bases (100.00%)
+
+Time:                         	4.434 seconds.
+Reads Processed:       1595k 	359.80k reads/sec
+Bases Processed:        128m 	28.93m bases/sec

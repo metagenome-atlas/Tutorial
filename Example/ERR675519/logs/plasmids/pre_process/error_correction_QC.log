@@ -1,0 +1,52 @@
+java -ea -Xmx59G -Xms59G -cp /home/kiesers/s/Atlas/databases/conda_envs/64e1ad5a/opt/bbmap-38.79-0/current/ assemble.Tadpole -Xmx59G prealloc=1 in1=ERR675519/plasmids/reads/QC_R1.fastq.gz,ERR675519/plasmids/reads/QC_se.fastq.gz in2=ERR675519/plasmids/reads/QC_R2.fastq.gz out1=ERR675519/plasmids/reads/QC.errorcorr_R1.fastq.gz,ERR675519/plasmids/reads/QC.errorcorr_se.fastq.gz out2=ERR675519/plasmids/reads/QC.errorcorr_R2.fastq.gz mode=correct threads=8 ecc=t ecco=t
+Executing assemble.Tadpole1 [-Xmx59G, prealloc=1, in1=ERR675519/plasmids/reads/QC_R1.fastq.gz,ERR675519/plasmids/reads/QC_se.fastq.gz, in2=ERR675519/plasmids/reads/QC_R2.fastq.gz, out1=ERR675519/plasmids/reads/QC.errorcorr_R1.fastq.gz,ERR675519/plasmids/reads/QC.errorcorr_se.fastq.gz, out2=ERR675519/plasmids/reads/QC.errorcorr_R2.fastq.gz, mode=correct, threads=8, ecc=t, ecco=t]
+Version 38.79
+
+Using 8 threads.
+Executing kmer.KmerTableSet [-Xmx59G, prealloc=1, in1=ERR675519/plasmids/reads/QC_R1.fastq.gz,ERR675519/plasmids/reads/QC_se.fastq.gz, in2=ERR675519/plasmids/reads/QC_R2.fastq.gz, out1=ERR675519/plasmids/reads/QC.errorcorr_R1.fastq.gz,ERR675519/plasmids/reads/QC.errorcorr_se.fastq.gz, out2=ERR675519/plasmids/reads/QC.errorcorr_R2.fastq.gz, mode=correct, threads=8, ecc=t, ecco=t]
+
+Set threads to 8
+Initial size set to 132460924
+Initial:
+Ways=31, initialSize=132460924, prefilter=f, prealloc=1.0
+Memory: max=63350m, total=63350m, free=63333m, used=17m
+
+Initialization Time:      	0.173 seconds.
+
+Loading kmers.
+
+Estimated kmer capacity: 	3783944956
+15.667 seconds.
+After table allocation:
+Memory: max=63350m, total=63350m, free=14451m, used=48899m
+
+After loading:
+Memory: max=63350m, total=63350m, free=11467m, used=51883m
+
+Input:                      	46333285 reads 		3824423301 bases.
+Unique Kmers:               	426828964
+Load Time:                  	154.902 seconds.
+
+Reads Processed:      46333k 	299.11k reads/sec
+Bases Processed:       3824m 	24.69m bases/sec
+
+Extending/error-correcting/discarding.
+
+
+After extending reads:
+Memory: max=63350m, total=63350m, free=9736m, used=53614m
+
+Input:                      	46333285 reads 		3824423301 bases.
+Output:                     	46333285 reads 		3824423301 bases.
+Errors detected:            	5659675
+Errors corrected:           	4310367 	(4310254 reassemble, 113 overlap)
+Reads merged:               	30109   	(0.13%)
+Reads with errors detected: 	3795895 	(8.19%)
+Reads fully corrected:      	3495013 	(92.07% of detected)
+Reads partly corrected:     	42587   	(1.12% of detected)
+Rollbacks:                  	44669   	(1.18% of detected)
+Extend/error-correct time:  	114.756 seconds.
+
+Total Time:               	269.932 seconds.
+Reads Processed:      46333k 	171.65k reads/sec
+Bases Processed:       3824m 	14.17m bases/sec

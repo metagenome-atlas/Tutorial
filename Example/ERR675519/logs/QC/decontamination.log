@@ -1,0 +1,150 @@
+java -Djava.library.path=/home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/jni/ -ea -Xmx27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ align2.BBSplitter ow=t fastareadlen=500 minhits=1 minratio=0.56 maxindel=20 qtrim=rl untrim=t trimq=6 in1=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz in2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz outu1=ERR675519/sequence_quality_control/ERR675519_clean_R1.fastq.gz outu2=ERR675519/sequence_quality_control/ERR675519_clean_R2.fastq.gz basename=ERR675519/sequence_quality_control/contaminants/%_R#.fastq.gz maxindel=20 minratio=0.65 minhits=1 ambiguous=best refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt threads=12 k=13 local=t -Xmx27G
+Executing align2.BBSplitter [ow=t, fastareadlen=500, minhits=1, minratio=0.56, maxindel=20, qtrim=rl, untrim=t, trimq=6, in1=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz, outu1=ERR675519/sequence_quality_control/ERR675519_clean_R1.fastq.gz, outu2=ERR675519/sequence_quality_control/ERR675519_clean_R2.fastq.gz, basename=ERR675519/sequence_quality_control/contaminants/%_R#.fastq.gz, maxindel=20, minratio=0.65, minhits=1, ambiguous=best, refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt, threads=12, k=13, local=t, -Xmx27G]
+
+Merged reference file ref/genome/1/merged_ref_5214674631845.fa.gz already exists; skipping merge.
+Ref merge time:     	0.609 seconds.
+Executing align2.BBMap [ow=t, fastareadlen=500, minhits=1, minratio=0.56, maxindel=20, qtrim=rl, untrim=t, trimq=6, in1=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz, outu1=ERR675519/sequence_quality_control/ERR675519_clean_R1.fastq.gz, outu2=ERR675519/sequence_quality_control/ERR675519_clean_R2.fastq.gz, maxindel=20, minratio=0.65, minhits=1, ambiguous=best, refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt, threads=12, k=13, local=t, ref=ref/genome/1/merged_ref_5214674631845.fa.gz, out_PhiX=ERR675519/sequence_quality_control/contaminants/PhiX_R#.fastq.gz, out_mouse=ERR675519/sequence_quality_control/contaminants/mouse_R#.fastq.gz]
+Version 37.78 [ow=t, fastareadlen=500, minhits=1, minratio=0.56, maxindel=20, qtrim=rl, untrim=t, trimq=6, in1=ERR675519/sequence_quality_control/ERR675519_filtered_R1.fastq.gz, in2=ERR675519/sequence_quality_control/ERR675519_filtered_R2.fastq.gz, outu1=ERR675519/sequence_quality_control/ERR675519_clean_R1.fastq.gz, outu2=ERR675519/sequence_quality_control/ERR675519_clean_R2.fastq.gz, maxindel=20, minratio=0.65, minhits=1, ambiguous=best, refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt, threads=12, k=13, local=t, ref=ref/genome/1/merged_ref_5214674631845.fa.gz, out_PhiX=ERR675519/sequence_quality_control/contaminants/PhiX_R#.fastq.gz, out_mouse=ERR675519/sequence_quality_control/contaminants/mouse_R#.fastq.gz]
+
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.560
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.650
+Reference set statistics will be written to ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt
+Set threads to 12
+Retaining first best site only for ambiguous mappings.
+NOTE:	Ignoring reference file because it already appears to have been processed.
+NOTE:	If you wish to regenerate the index, please manually delete ref/genome/1/summary.txt
+Set genome to 1
+
+Loaded Reference:	14.842 seconds.
+Loading index for chunk 1-7, build 1
+Generated Index:	653.863 seconds.
+Analyzed Index:   	11.218 seconds.
+Started output stream:	1.612 seconds.
+Creating ref-set statistics table:    	0.031 seconds.
+Cleared Memory:    	0.164 seconds.
+Processing reads in paired-ended mode.
+Started read stream.
+Started 12 mapping threads.
+Detecting finished threads: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+
+   ------------------   Results   ------------------   
+
+Genome:                	1
+Key Length:            	13
+Max Indel:             	20
+Minimum Score Ratio:  	0.65
+Mapping Mode:         	normal
+Reads Used:           	44837894	(3704543207 bases)
+
+Mapping:          	4950.173 seconds.
+Reads/sec:       	9057.84
+kBases/sec:      	748.37
+
+
+Pairing data:   	pct pairs	num pairs 	pct bases	   num bases
+
+mated pairs:     	  0.1492% 	    33456 	  0.1521% 	     5632886
+bad pairs:       	  0.0393% 	     8801 	  0.0401% 	     1485572
+insert size avg: 	  1068.46
+
+
+Read 1 data:      	pct reads	num reads 	pct bases	   num bases
+
+mapped:          	  0.2033% 	    45580 	  0.2066% 	     3838799
+unambiguous:     	  0.0766% 	    17168 	  0.0777% 	     1443736
+ambiguous:       	  0.1267% 	    28412 	  0.1289% 	     2395063
+low-Q discards:  	  0.0000% 	        0 	  0.0000% 	           0
+
+perfect best site:	  0.0827% 	    18538 	  0.0840% 	     1560207
+semiperfect site:	  0.0839% 	    18805 	  0.0852% 	     1582509
+rescued:         	  0.0086% 	     1923
+
+Match Rate:      	      NA 	       NA 	 94.4772% 	     3652192
+Error Rate:      	 57.7205% 	    26309 	  4.5090% 	      174303
+Sub Rate:        	 56.6016% 	    25799 	  3.6991% 	      142997
+Del Rate:        	 20.6845% 	     9428 	  0.6956% 	       26889
+Ins Rate:        	  5.4344% 	     2477 	  0.1143% 	        4417
+N Rate:          	 15.6362% 	     7127 	  1.0139% 	       39193
+
+
+Read 2 data:      	pct reads	num reads 	pct bases	   num bases
+
+mapped:          	  0.2035% 	    45621 	  0.2076% 	     3833478
+unambiguous:     	  0.0771% 	    17275 	  0.0785% 	     1448680
+ambiguous:       	  0.1264% 	    28346 	  0.1291% 	     2384798
+low-Q discards:  	  0.0000% 	        0 	  0.0000% 	           0
+
+perfect best site:	  0.0820% 	    18382 	  0.0837% 	     1545028
+semiperfect site:	  0.0833% 	    18666 	  0.0850% 	     1568823
+rescued:         	  0.0111% 	     2491
+
+Match Rate:      	      NA 	       NA 	 94.4526% 	     3646229
+Error Rate:      	 58.1355% 	    26522 	  4.5237% 	      174633
+Sub Rate:        	 57.1140% 	    26056 	  3.7224% 	      143700
+Del Rate:        	 20.3393% 	     9279 	  0.6968% 	       26900
+Ins Rate:        	  5.2279% 	     2385 	  0.1045% 	        4033
+N Rate:          	 16.0146% 	     7306 	  1.0236% 	       39516
+
+Total time:     	5632.421 seconds.
+java -Djava.library.path=/home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/jni/ -ea -Xmx27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ align2.BBSplitter ow=t fastareadlen=500 minhits=1 minratio=0.56 maxindel=20 qtrim=rl untrim=t trimq=6 in=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz outu=ERR675519/sequence_quality_control/ERR675519_clean_se.fastq.gz basename=ERR675519/sequence_quality_control/contaminants/%_se.fastq.gz maxindel=20 minratio=0.65 minhits=1 ambiguous=best refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt append interleaved=f threads=12 k=13 local=t -Xmx27G
+Executing align2.BBSplitter [ow=t, fastareadlen=500, minhits=1, minratio=0.56, maxindel=20, qtrim=rl, untrim=t, trimq=6, in=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz, outu=ERR675519/sequence_quality_control/ERR675519_clean_se.fastq.gz, basename=ERR675519/sequence_quality_control/contaminants/%_se.fastq.gz, maxindel=20, minratio=0.65, minhits=1, ambiguous=best, refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt, append, interleaved=f, threads=12, k=13, local=t, -Xmx27G]
+
+Merged reference file ref/genome/1/merged_ref_5214674631845.fa.gz already exists; skipping merge.
+Ref merge time:     	0.450 seconds.
+Executing align2.BBMap [ow=t, fastareadlen=500, minhits=1, minratio=0.56, maxindel=20, qtrim=rl, untrim=t, trimq=6, in=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz, outu=ERR675519/sequence_quality_control/ERR675519_clean_se.fastq.gz, maxindel=20, minratio=0.65, minhits=1, ambiguous=best, refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt, append, interleaved=f, threads=12, k=13, local=t, ref=ref/genome/1/merged_ref_5214674631845.fa.gz, out_PhiX=ERR675519/sequence_quality_control/contaminants/PhiX_se.fastq.gz, out_mouse=ERR675519/sequence_quality_control/contaminants/mouse_se.fastq.gz]
+Version 37.78 [ow=t, fastareadlen=500, minhits=1, minratio=0.56, maxindel=20, qtrim=rl, untrim=t, trimq=6, in=ERR675519/sequence_quality_control/ERR675519_filtered_se.fastq.gz, outu=ERR675519/sequence_quality_control/ERR675519_clean_se.fastq.gz, maxindel=20, minratio=0.65, minhits=1, ambiguous=best, refstats=ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt, append, interleaved=f, threads=12, k=13, local=t, ref=ref/genome/1/merged_ref_5214674631845.fa.gz, out_PhiX=ERR675519/sequence_quality_control/contaminants/PhiX_se.fastq.gz, out_mouse=ERR675519/sequence_quality_control/contaminants/mouse_se.fastq.gz]
+
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.560
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.650
+Reference set statistics will be written to ERR675519/sequence_quality_control/ERR675519_decontamination_reference_stats.txt
+Set INTERLEAVED to false
+Set threads to 12
+Retaining first best site only for ambiguous mappings.
+NOTE:	Ignoring reference file because it already appears to have been processed.
+NOTE:	If you wish to regenerate the index, please manually delete ref/genome/1/summary.txt
+Set genome to 1
+
+Loaded Reference:	13.664 seconds.
+Loading index for chunk 1-7, build 1
+Generated Index:	491.934 seconds.
+Analyzed Index:   	11.173 seconds.
+Started output stream:	0.661 seconds.
+Creating ref-set statistics table:    	0.026 seconds.
+Cleared Memory:    	0.162 seconds.
+Processing reads in single-ended mode.
+Started read stream.
+Started 12 mapping threads.
+Detecting finished threads: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+
+   ------------------   Results   ------------------   
+
+Genome:                	1
+Key Length:            	13
+Max Indel:             	20
+Minimum Score Ratio:  	0.65
+Mapping Mode:         	normal
+Reads Used:           	1595184	(128270992 bases)
+
+Mapping:          	170.660 seconds.
+Reads/sec:       	9347.14
+kBases/sec:      	751.62
+
+
+Read 1 data:      	pct reads	num reads 	pct bases	   num bases
+
+mapped:          	  0.1194% 	     1905 	  0.1235% 	      158450
+unambiguous:     	  0.0438% 	      698 	  0.0451% 	       57855
+ambiguous:       	  0.0757% 	     1207 	  0.0784% 	      100595
+low-Q discards:  	  0.0000% 	        0 	  0.0000% 	           0
+
+perfect best site:	  0.0678% 	     1081 	  0.0707% 	       90720
+semiperfect site:	  0.0696% 	     1111 	  0.0727% 	       93210
+
+Match Rate:      	      NA 	       NA 	 96.0613% 	      152918
+Error Rate:      	  0.5500% 	      764 	  2.5611% 	        4077
+Sub Rate:        	  0.5313% 	      738 	  1.8959% 	        3018
+Del Rate:        	  0.1173% 	      163 	  0.4636% 	         738
+Ins Rate:        	  0.0741% 	      103 	  0.2016% 	         321
+N Rate:          	  0.1900% 	      264 	  1.3776% 	        2193
+
+Total time:     	688.957 seconds.

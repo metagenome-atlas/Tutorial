@@ -1,0 +1,101 @@
+***************************************************
+    ..:: dRep dereplicate Step 1. Filter ::..
+***************************************************
+    
+Will filter the genome list
+Calculating genome info of genomes
+100.00% of genomes passed length filtering
+47.99% of genomes passed checkM filtering
+***************************************************
+    ..:: dRep dereplicate Step 2. Cluster ::..
+***************************************************
+    
+Clustering Step 1. Parse Arguments
+Clustering Step 2. Perform MASH (primary) clustering
+2a. Run pair-wise MASH clustering
+2b. Cluster pair-wise MASH clustering
+63 primary clusters made
+Step 3. Perform secondary clustering
+3. Nevermind! Skipping secondary clustering
+Step 4. Return output
+***************************************************
+    ..:: dRep dereplicate Step 3. Choose ::..
+***************************************************
+    
+Loading work directory
+***************************************************
+    ..:: dRep dereplicate Step 4. Bonus ::..
+***************************************************
+    
+Loading work directory
+***************************************************
+    ..:: dRep dereplicate Step 5. Evaluate ::..
+***************************************************
+    
+will provide warnings about clusters
+Ndb is blank (was run with --SkipSecondary) - will skip cluster evaluation
+0 warnings generated: saved to /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpn7owrpl8/genomes/pre_dereplication/log/warnings.txt
+will produce Widb (winner information db)
+Winner database saved to /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpn7owrpl8/genomes/pre_dereplicationdata_tables/Widb.csv
+***************************************************
+    ..:: dRep dereplicate Step 6. Analyze ::..
+***************************************************
+    
+making plots 1, 2, 3, 4, 5, 6
+Plotting primary dendrogram
+Plotting secondary dendrograms
+Failed to make plot #2: 
+Plotting MDS plot
+Failed to make plot #3: 
+Plotting scatterplots
+Failed to make plot #4: No common columns to perform merge on. Merge options: left_on=None, right_on=None, left_index=False, right_index=False
+Plotting bin scorring plot
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The examples.directory rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2. In the future, examples will be found relative to the 'datapath' directory.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The savefig.frameon rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The text.latex.unicode rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.fileo rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.level rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+Plotting winning genomes plot...
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The examples.directory rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2. In the future, examples will be found relative to the 'datapath' directory.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The savefig.frameon rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The text.latex.unicode rcparam was deprecated in Matplotlib 3.0 and will be removed in 3.2.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.fileo rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/9b6c13f7/lib/python3.6/_collections_abc.py:841: MatplotlibDeprecationWarning: 
+The verbose.level rcparam was deprecated in Matplotlib 3.1 and will be removed in 3.3.
+  self[key] = other[key]
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+    ..:: dRep dereplicate finished ::..
+
+Dereplicated genomes................. /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpn7owrpl8/genomes/pre_dereplication/dereplicated_genomes/
+Dereplicated genomes information..... /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpn7owrpl8/genomes/pre_dereplication/data_tables/Widb.csv
+Figures.............................. /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpn7owrpl8/genomes/pre_dereplication/figures/
+Warnings............................. /srv/beegfs/scratch/users/k/kiesers/Demo/Example/.snakemake/shadow/tmpn7owrpl8/genomes/pre_dereplication/log/warnings.txt
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    
+Could not find cluster secondary_linkage_cluster_1 - could it be a singleton?
+The clusters I have are: ['primary_linkage']
+Quitting
+Could not find cluster secondary_linkage_cluster_1 - could it be a singleton?
+The clusters I have are: ['primary_linkage']
+Quitting

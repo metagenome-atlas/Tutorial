@@ -1,0 +1,49 @@
+java -ea -Xmx59G -Xms59G -Djava.library.path=/home/kiesers/s/Atlas/databases/conda_envs/64e1ad5a/opt/bbmap-38.79-0/jni/ -cp /home/kiesers/s/Atlas/databases/conda_envs/64e1ad5a/opt/bbmap-38.79-0/current/ jgi.BBMerge -Xmx59G threads=8 in1=ERR675519/plasmids/reads/QC.errorcorr_R1.fastq.gz in2=ERR675519/plasmids/reads/QC.errorcorr_R2.fastq.gz outmerged=ERR675519/plasmids/reads/QC.errorcorr.merged_me.fastq.gz outu=ERR675519/plasmids/reads/QC.errorcorr.merged_R1.fastq.gz outu2=ERR675519/plasmids/reads/QC.errorcorr.merged_R2.fastq.gz ecct iterations=1 k=62 extend2=50
+Executing jgi.BBMerge [-Xmx59G, threads=8, in1=ERR675519/plasmids/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/plasmids/reads/QC.errorcorr_R2.fastq.gz, outmerged=ERR675519/plasmids/reads/QC.errorcorr.merged_me.fastq.gz, outu=ERR675519/plasmids/reads/QC.errorcorr.merged_R1.fastq.gz, outu2=ERR675519/plasmids/reads/QC.errorcorr.merged_R2.fastq.gz, ecct, iterations=1, k=62, extend2=50]
+Version 38.79
+
+Set threads to 8
+Executing assemble.Tadpole2 [in=ERR675519/plasmids/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/plasmids/reads/QC.errorcorr_R2.fastq.gz, branchlower=3, branchmult1=20.0, branchmult2=3.0, mincountseed=3, mincountextend=2, minprob=0.5, k=62, prealloc=false, prefilter=0, ecctail=false, eccpincer=false, eccreassemble=true]
+Version 38.79
+
+Using 8 threads.
+Executing ukmer.KmerTableSetU [in=ERR675519/plasmids/reads/QC.errorcorr_R1.fastq.gz, in2=ERR675519/plasmids/reads/QC.errorcorr_R2.fastq.gz, branchlower=3, branchmult1=20.0, branchmult2=3.0, mincountseed=3, mincountextend=2, minprob=0.5, k=62, prealloc=false, prefilter=0, ecctail=false, eccpincer=false, eccreassemble=true]
+
+Initial:
+Ways=31, initialSize=128000, prefilter=f, prealloc=f
+Memory: max=63350m, total=63350m, free=63333m, used=17m
+
+Estimated kmer capacity: 	1471197799
+After table allocation:
+Memory: max=63350m, total=63350m, free=63249m, used=101m
+
+After loading:
+Memory: max=63350m, total=63350m, free=53924m, used=9426m
+
+Input:                      	44740006 reads 		3696294282 bases.
+Unique Kmers:               	244531131
+Load Time:                  	62.701 seconds.
+
+Writing mergable reads merged.
+Started output threads.
+Total time: 472.072 seconds.
+
+Pairs:               	22370003
+Joined:              	78906   	0.353%
+Ambiguous:           	22291084   	99.647%
+No Solution:         	13       	0.000%
+Too Short:           	0       	0.000%
+Fully Extended:      	25683056   	57.500%
+Partly Extended:     	7131196   	15.965%
+Not Extended:        	11852320   	26.535%
+
+Avg Insert:          	165.8
+Standard Deviation:  	58.7
+Mode:                	254
+
+Insert range:        	35 - 261
+90th percentile:     	246
+75th percentile:     	219
+50th percentile:     	164
+25th percentile:     	116
+10th percentile:     	85

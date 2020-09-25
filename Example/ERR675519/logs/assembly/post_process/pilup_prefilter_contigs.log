@@ -1,0 +1,18 @@
+java -ea -Xmx27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ jgi.CoveragePileup ref=ERR675519/assembly/ERR675519_prefilter_contigs.fasta in=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam threads=12 -Xmx27G covstats=ERR675519/assembly/contig_stats/prefilter_coverage_stats.txt concise=t secondary=t
+Executing jgi.CoveragePileup [ref=ERR675519/assembly/ERR675519_prefilter_contigs.fasta, in=ERR675519/sequence_alignment/alignment_to_prefilter_contigs.sam, threads=12, -Xmx27G, covstats=ERR675519/assembly/contig_stats/prefilter_coverage_stats.txt, concise=t, secondary=t]
+
+Set threads to 12
+Reads:                               	46746225
+Mapped reads:                        	36957869
+Mapped bases:                        	3054684667
+Ref scaffolds:                       	48863
+Ref bases:                           	116461975
+
+Percent mapped:                      	79.061
+Percent proper pairs:                	75.591
+Average coverage:                    	26.229
+Standard deviation:                    	45.735
+Percent scaffolds with any coverage: 	96.44
+Percent of reference bases covered:  	98.90
+
+Time: 	28.154 seconds.

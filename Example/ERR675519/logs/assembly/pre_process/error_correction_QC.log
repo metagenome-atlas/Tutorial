@@ -1,0 +1,51 @@
+java -ea -Xmx27G -Xms27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ assemble.Tadpole -Xmx27G prealloc=1 in1=ERR675519/assembly/reads/QC_R1.fastq.gz,ERR675519/assembly/reads/QC_se.fastq.gz in2=ERR675519/assembly/reads/QC_R2.fastq.gz out1=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz,ERR675519/assembly/reads/QC.errorcorr_se.fastq.gz out2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz mode=correct threads=12 ecc=t ecco=t
+Executing assemble.Tadpole1 [-Xmx27G, prealloc=1, in1=ERR675519/assembly/reads/QC_R1.fastq.gz,ERR675519/assembly/reads/QC_se.fastq.gz, in2=ERR675519/assembly/reads/QC_R2.fastq.gz, out1=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz,ERR675519/assembly/reads/QC.errorcorr_se.fastq.gz, out2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, mode=correct, threads=12, ecc=t, ecco=t]
+Version 37.78 [-Xmx27G, prealloc=1, in1=ERR675519/assembly/reads/QC_R1.fastq.gz,ERR675519/assembly/reads/QC_se.fastq.gz, in2=ERR675519/assembly/reads/QC_R2.fastq.gz, out1=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz,ERR675519/assembly/reads/QC.errorcorr_se.fastq.gz, out2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, mode=correct, threads=12, ecc=t, ecco=t]
+
+Using 12 threads.
+Executing kmer.KmerTableSet [-Xmx27G, prealloc=1, in1=ERR675519/assembly/reads/QC_R1.fastq.gz,ERR675519/assembly/reads/QC_se.fastq.gz, in2=ERR675519/assembly/reads/QC_R2.fastq.gz, out1=ERR675519/assembly/reads/QC.errorcorr_R1.fastq.gz,ERR675519/assembly/reads/QC.errorcorr_se.fastq.gz, out2=ERR675519/assembly/reads/QC.errorcorr_R2.fastq.gz, mode=correct, threads=12, ecc=t, ecco=t]
+
+Set threads to 12
+Initial size set to 60508676
+Initial:
+Ways=31, initialSize=60508676, prefilter=f, prealloc=1.0
+Memory: max=28991m, free=28982m, used=9m
+
+Initialization Time:      	0.138 seconds.
+
+Loading kmers.
+
+Estimated kmer capacity: 	1688192083
+After table allocation:
+Memory: max=28991m, free=5317m, used=23674m
+
+After loading:
+Memory: max=28991m, free=3593m, used=25398m
+
+Input:                      	46333285 reads 		3824423301 bases.
+Unique Kmers:               	426828365
+Load Time:                  	57.486 seconds.
+
+Reads Processed:      46333k 	806.00k reads/sec
+Bases Processed:       3824m 	66.53m bases/sec
+
+Extending/error-correcting/discarding.
+
+
+After extending reads:
+Memory: max=28991m, free=3472m, used=25519m
+
+Input:                      	46333285 reads 		3824423301 bases.
+Output:                     	46333285 reads 		3824423301 bases.
+Errors detected:            	5659501
+Errors corrected:           	4310234 	(4310234 reassemble)
+Reads with errors detected: 	3795875 	(8.19%)
+Reads fully corrected:      	3494998 	(92.07% of detected)
+Reads partly corrected:     	42585 	(1.12% of detected)
+Rollbacks:                  	44669 	(1.18% of detected)
+Extend/error-correct time:  	89.073 seconds.
+
+Total Time:               	146.816 seconds.
+
+Reads Processed:      46333k 	315.59k reads/sec
+Bases Processed:       3824m 	26.05m bases/sec

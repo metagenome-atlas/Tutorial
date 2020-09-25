@@ -1,0 +1,127 @@
+java -Djava.library.path=/srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/2d9f21ed/opt/bbmap-37.99/jni/ -ea -Xmx51G -cp /srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/2d9f21ed/opt/bbmap-37.99/current/ align2.BBWrap build=1 overwrite=true fastareadlen=500 build=3 in1=ERR675531/sequence_quality_control/ERR675531_QC_R1.fastq.gz,ERR675531/sequence_quality_control/ERR675531_QC_se.fastq.gz in2=ERR675531/sequence_quality_control/ERR675531_QC_R2.fastq.gz,null trimreaddescriptions=t outm=genomes/alignments/ERR675531.sam outu1=genomes/alignments/unmapped/ERR675531_R1.fastq.gz,genomes/alignments/unmapped/ERR675531_se.fastq.gz outu2=genomes/alignments/unmapped/ERR675531_R2.fastq.gz threads=8 pairlen=1000 pairedonly=t minid=0.9 mdtag=t xstag=fs nmtag=t sam=1.3 ambiguous=best secondary=t saa=f maxsites=10 -Xmx51G
+Executing align2.BBWrap [build=1, overwrite=true, fastareadlen=500, build=3, in1=ERR675531/sequence_quality_control/ERR675531_QC_R1.fastq.gz,ERR675531/sequence_quality_control/ERR675531_QC_se.fastq.gz, in2=ERR675531/sequence_quality_control/ERR675531_QC_R2.fastq.gz,null, trimreaddescriptions=t, outm=genomes/alignments/ERR675531.sam, outu1=genomes/alignments/unmapped/ERR675531_R1.fastq.gz,genomes/alignments/unmapped/ERR675531_se.fastq.gz, outu2=genomes/alignments/unmapped/ERR675531_R2.fastq.gz, threads=8, pairlen=1000, pairedonly=t, minid=0.9, mdtag=t, xstag=fs, nmtag=t, sam=1.3, ambiguous=best, secondary=t, saa=f, maxsites=10, -Xmx51G]
+
+Executing align2.BBMap [build=1, overwrite=true, fastareadlen=500, build=3, trimreaddescriptions=t, threads=8, pairlen=1000, pairedonly=t, minid=0.9, mdtag=t, xstag=fs, nmtag=t, sam=1.3, ambiguous=best, secondary=t, saa=f, maxsites=10, in=ERR675531/sequence_quality_control/ERR675531_QC_R1.fastq.gz, outu=genomes/alignments/unmapped/ERR675531_R1.fastq.gz, outm=genomes/alignments/ERR675531.sam, in2=ERR675531/sequence_quality_control/ERR675531_QC_R2.fastq.gz, outu2=genomes/alignments/unmapped/ERR675531_R2.fastq.gz]
+Version 37.99 [build=1, overwrite=true, fastareadlen=500, build=3, trimreaddescriptions=t, threads=8, pairlen=1000, pairedonly=t, minid=0.9, mdtag=t, xstag=fs, nmtag=t, sam=1.3, ambiguous=best, secondary=t, saa=f, maxsites=10, in=ERR675531/sequence_quality_control/ERR675531_QC_R1.fastq.gz, outu=genomes/alignments/unmapped/ERR675531_R1.fastq.gz, outm=genomes/alignments/ERR675531.sam, in2=ERR675531/sequence_quality_control/ERR675531_QC_R2.fastq.gz, outu2=genomes/alignments/unmapped/ERR675531_R2.fastq.gz]
+
+Set threads to 8
+Retaining first best site only for ambiguous mappings.
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.816
+Set genome to 3
+
+Loaded Reference:	1.832 seconds.
+Loading index for chunk 1-1, build 3
+Generated Index:	15.836 seconds.
+Analyzed Index:   	4.615 seconds.
+Started output stream:	0.475 seconds.
+Started output stream:	0.010 seconds.
+Cleared Memory:    	0.124 seconds.
+Processing reads in paired-ended mode.
+Started read stream.
+Started 8 mapping threads.
+Detecting finished threads: 0, 1, 2, 3, 4, 5, 6, 7
+
+   ------------------   Results   ------------------   
+
+Genome:                	3
+Key Length:            	13
+Max Indel:             	16000
+Minimum Score Ratio:  	0.8162
+Mapping Mode:         	normal
+Reads Used:           	39081696	(3207523957 bases)
+
+Mapping:          	748.191 seconds.
+Reads/sec:       	52234.95
+kBases/sec:      	4287.04
+
+
+Pairing data:   	pct pairs	num pairs 	pct bases	   num bases
+
+mated pairs:     	 59.5177% 	 11630270 	 59.9088% 	  1921588946
+bad pairs:       	  0.0000% 	        0 	  0.0000% 	           0
+insert size avg: 	  319.82
+
+
+Read 1 data:      	pct reads	num reads 	pct bases	   num bases
+
+mapped:          	 59.5177% 	 11630270 	 59.6438% 	   960794473
+unambiguous:     	 58.5049% 	 11432350 	 58.6245% 	   944374092
+ambiguous:       	  1.0129% 	   197920 	  1.0193% 	    16420381
+low-Q discards:  	  0.0000% 	        0 	  0.0000% 	           0
+
+perfect best site:	 52.5511% 	 10268937 	 52.8058% 	   850641386
+semiperfect site:	 52.6126% 	 10280950 	 52.8672% 	   851631125
+rescued:         	  0.1786% 	    34909
+
+Match Rate:      	      NA 	       NA 	 99.5635% 	   957860214
+Error Rate:      	 11.1381% 	  1351021 	  0.4240% 	     4078829
+Sub Rate:        	 11.0841% 	  1344472 	  0.2911% 	     2800382
+Del Rate:        	  0.0942% 	    11424 	  0.1315% 	     1264746
+Ins Rate:        	  0.0576% 	     6981 	  0.0014% 	       13701
+N Rate:          	  0.1134% 	    13759 	  0.0125% 	      120176
+
+
+Read 2 data:      	pct reads	num reads 	pct bases	   num bases
+
+mapped:          	 59.5177% 	 11630270 	 59.6725% 	   952753377
+unambiguous:     	 58.5036% 	 11432093 	 58.6498% 	   936423890
+ambiguous:       	  1.0142% 	   198177 	  1.0227% 	    16329487
+low-Q discards:  	  0.0000% 	        0 	  0.0000% 	           0
+
+perfect best site:	 50.3201% 	  9832984 	 50.7726% 	   810654719
+semiperfect site:	 50.3796% 	  9844605 	 50.8323% 	   811606901
+rescued:         	  0.1830% 	    35760
+
+Match Rate:      	      NA 	       NA 	 99.4809% 	   949099426
+Error Rate:      	 14.7598% 	  1788361 	  0.5069% 	     4835823
+Sub Rate:        	 14.6956% 	  1780577 	  0.3692% 	     3521997
+Del Rate:        	  0.1079% 	    13071 	  0.1361% 	     1298698
+Ins Rate:        	  0.0675% 	     8178 	  0.0016% 	       15128
+N Rate:          	  0.1031% 	    12496 	  0.0122% 	      116826
+
+Total time:     	771.381 seconds.
+Executing align2.BBMap [build=1, overwrite=true, fastareadlen=500, build=3, trimreaddescriptions=t, threads=8, pairlen=1000, pairedonly=t, minid=0.9, mdtag=t, xstag=fs, nmtag=t, sam=1.3, ambiguous=best, secondary=t, saa=f, maxsites=10, indexloaded=t, in=ERR675531/sequence_quality_control/ERR675531_QC_se.fastq.gz, outu=genomes/alignments/unmapped/ERR675531_se.fastq.gz, in2=]
+Version 37.99 [build=1, overwrite=true, fastareadlen=500, build=3, trimreaddescriptions=t, threads=8, pairlen=1000, pairedonly=t, minid=0.9, mdtag=t, xstag=fs, nmtag=t, sam=1.3, ambiguous=best, secondary=t, saa=f, maxsites=10, indexloaded=t, in=ERR675531/sequence_quality_control/ERR675531_QC_se.fastq.gz, outu=genomes/alignments/unmapped/ERR675531_se.fastq.gz, in2=]
+
+Set threads to 8
+Retaining first best site only for ambiguous mappings.
+Set MINIMUM_ALIGNMENT_SCORE_RATIO to 0.816
+Started output stream:	0.058 seconds.
+Cleared Memory:    	0.117 seconds.
+Processing reads in single-ended mode.
+Started read stream.
+Started 8 mapping threads.
+Detecting finished threads: 0, 1, 2, 3, 4, 5, 6, 7
+
+   ------------------   Results   ------------------   
+
+Genome:                	3
+Key Length:            	13
+Max Indel:             	16000
+Minimum Score Ratio:  	0.8162
+Mapping Mode:         	normal
+Reads Used:           	1748025	(138942089 bases)
+
+Mapping:          	39.012 seconds.
+Reads/sec:       	44807.85
+kBases/sec:      	3561.56
+
+
+Read 1 data:      	pct reads	num reads 	pct bases	   num bases
+
+mapped:          	 54.2932% 	   949059 	 54.5857% 	    75842497
+unambiguous:     	 52.8451% 	   923746 	 53.1488% 	    73846104
+ambiguous:       	  1.4481% 	    25313 	  1.4369% 	     1996393
+low-Q discards:  	  0.0000% 	        0 	  0.0000% 	           0
+
+perfect best site:	 40.6730% 	   710975 	 41.2806% 	    57356084
+semiperfect site:	 40.7279% 	   711934 	 41.3360% 	    57433142
+
+Match Rate:      	      NA 	       NA 	 99.3066% 	    75383865
+Error Rate:      	 19.1463% 	   237114 	  0.6805% 	      516602
+Sub Rate:        	 19.1028% 	   236575 	  0.5900% 	      447899
+Del Rate:        	  0.0820% 	     1016 	  0.0892% 	       67696
+Ins Rate:        	  0.0542% 	      671 	  0.0013% 	        1007
+N Rate:          	  0.1329% 	     1646 	  0.0128% 	        9726
+
+Total time:     	39.196 seconds.

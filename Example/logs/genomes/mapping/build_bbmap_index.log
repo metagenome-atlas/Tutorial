@@ -1,0 +1,22 @@
+java -Djava.library.path=/home/kiesers/scratch/miniconda3/envs/atlas/opt/bbmap-37.78/jni/ -ea -Xmx51G -cp /home/kiesers/scratch/miniconda3/envs/atlas/opt/bbmap-37.78/current/ align2.BBMap build=1 overwrite=true fastareadlen=500 build=3 -Xmx51G ref=genomes/all_contigs.fasta threads=8 local=f
+Executing align2.BBMap [build=1, overwrite=true, fastareadlen=500, build=3, -Xmx51G, ref=genomes/all_contigs.fasta, threads=8, local=f]
+Version 37.78 [build=1, overwrite=true, fastareadlen=500, build=3, -Xmx51G, ref=genomes/all_contigs.fasta, threads=8, local=f]
+
+Set threads to 8
+No output file.
+Writing reference.
+Executing dna.FastaToChromArrays2 [genomes/all_contigs.fasta, 3, writeinthread=false, genscaffoldinfo=true, retain, waitforwriting=false, gz=true, maxlen=536670912, writechroms=true, minscaf=1, midpad=300, startpad=8000, stoppad=8000, nodisk=false]
+
+Set genScaffoldInfo=true
+Writing chunk 1
+Set genome to 3
+
+Loaded Reference:	0.100 seconds.
+Loading index for chunk 1-1, build 3
+No index available; generating from reference genome: /srv/beegfs/scratch/users/k/kiesers/Demo/Example/ref/index/3/chr1_index_k13_c3_b3.block
+Indexing threads started for block 0-1
+Indexing threads finished for block 0-1
+Generated Index:	16.369 seconds.
+No reads to process; quitting.
+
+Total time:     	19.583 seconds.

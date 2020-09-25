@@ -1,0 +1,355 @@
+MaxBin 2.2.4
+Input contig: ERR675519/ERR675519_contigs.fasta
+Located abundance file [ERR675519/binning/coverage/ERR675519_coverage.txt]
+out header: ERR675519/binning/maxbin/intermediate_files/ERR675519
+Min contig length: 1000
+Thread: 6
+Probability threshold: 0.9
+Max iteration: 50
+Searching against 107 marker genes to find starting seed contigs for [ERR675519/ERR675519_contigs.fasta]...
+Running FragGeneScan....
+Running HMMER hmmsearch....
+Done data collection. Running MaxBin...
+Command: /home/kiesers/scratch/Atlas/databases/conda_envs/1ff26f97/opt/MaxBin-2.2.4/src/MaxBin -fasta ERR675519/binning/maxbin/intermediate_files/ERR675519.contig.tmp  -abund ERR675519/binning/maxbin/intermediate_files/ERR675519.contig.tmp.abund1 -seed ERR675519/binning/maxbin/intermediate_files/ERR675519.seed -out ERR675519/binning/maxbin/intermediate_files/ERR675519 -min_contig_length 1000 -max_run 50 -prob_threshold 0.9 -thread 6
+Minimum contig length set to 1000.
+Reading seed list...
+Looking for seeds in sequences.
+	ERR675519_10 [33.334300]
+	ERR675519_11 [13.146400]
+	ERR675519_18 [39.201800]
+	ERR675519_34 [166.875900]
+	ERR675519_245 [19.924700]
+	ERR675519_248 [42.716700]
+	ERR675519_258 [46.314200]
+	ERR675519_420 [37.783600]
+	ERR675519_824 [69.869800]
+	ERR675519_920 [8.480000]
+	ERR675519_1119 [11.002400]
+	ERR675519_1147 [125.174400]
+	ERR675519_2122 [6.043500]
+	ERR675519_2451 [10.330700]
+	ERR675519_2748 [9.628100]
+	ERR675519_2851 [10.002100]
+	ERR675519_3045 [32.328000]
+	ERR675519_3365 [8.201600]
+	ERR675519_3559 [6.853800]
+	ERR675519_3761 [37.789700]
+	ERR675519_5673 [12.888200]
+	ERR675519_6485 [9.731300]
+	ERR675519_10508 [4.796600]
+	ERR675519_11517 [7.326800]
+	ERR675519_14639 [4.981800]
+Get 25 seeds.
+
+Start EM process.
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+Iteration 6
+Iteration 7
+Iteration 8
+Iteration 9
+Iteration 10
+Iteration 11
+Iteration 12
+Iteration 13
+Iteration 14
+Iteration 15
+Iteration 16
+Iteration 17
+Iteration 18
+Iteration 19
+Iteration 20
+Iteration 21
+Iteration 22
+Iteration 23
+Iteration 24
+Iteration 25
+Iteration 26
+Iteration 27
+Iteration 28
+Iteration 29
+Iteration 30
+Iteration 31
+Iteration 32
+Iteration 33
+Iteration 34
+Iteration 35
+Iteration 36
+Iteration 37
+Iteration 38
+Iteration 39
+Iteration 40
+Iteration 41
+Iteration 42
+Iteration 43
+Iteration 44
+Iteration 45
+Iteration 46
+Iteration 47
+Iteration 48
+Iteration 49
+Iteration 50
+
+EM finishes successfully.
+
+Classifying sequences based on the EM result.
+Minimum probability for binning: 0.90
+Ignoring 0 bins without any sequences.
+Number of unclassified sequences: 4202 (27.92%)
+Elapsed time:  0 days 00:05:12
+Done data collection. Running MaxBin...
+Command: /home/kiesers/scratch/Atlas/databases/conda_envs/1ff26f97/opt/MaxBin-2.2.4/src/MaxBin -fasta ERR675519/binning/maxbin/intermediate_files/ERR675519.0016.fasta  -abund ERR675519/binning/maxbin/intermediate_files/ERR675519.contig.tmp.abund1 -seed ERR675519/binning/maxbin/intermediate_files/ERR675519.0016.out.seed -out ERR675519/binning/maxbin/intermediate_files/ERR675519.0016.out -min_contig_length 1000 -max_run 50 -prob_threshold 0.9 -thread 6
+Minimum contig length set to 1000.
+Reading seed list...
+Looking for seeds in sequences.
+	ERR675519_4008 [11.683300]
+	ERR675519_13868 [11.852200]
+Get 2 seeds.
+
+Start EM process.
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+Iteration 6
+Iteration 7
+Iteration 8
+Iteration 9
+Iteration 10
+Iteration 11
+Iteration 12
+
+EM finishes successfully.
+
+Classifying sequences based on the EM result.
+Minimum probability for binning: 0.90
+Ignoring 0 bins without any sequences.
+Number of unclassified sequences: 46 (4.55%)
+Elapsed time:  0 days 00:00:01
+Done data collection. Running MaxBin...
+Command: /home/kiesers/scratch/Atlas/databases/conda_envs/1ff26f97/opt/MaxBin-2.2.4/src/MaxBin -fasta ERR675519/binning/maxbin/intermediate_files/ERR675519.0025.fasta  -abund ERR675519/binning/maxbin/intermediate_files/ERR675519.contig.tmp.abund1 -seed ERR675519/binning/maxbin/intermediate_files/ERR675519.0025.out.seed -out ERR675519/binning/maxbin/intermediate_files/ERR675519.0025.out -min_contig_length 1000 -max_run 50 -prob_threshold 0.9 -thread 6
+Minimum contig length set to 1000.
+Reading seed list...
+Looking for seeds in sequences.
+	ERR675519_809 [17.069500]
+	ERR675519_983 [10.935500]
+Get 2 seeds.
+
+Start EM process.
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+Iteration 6
+Iteration 7
+Iteration 8
+Iteration 9
+Iteration 10
+Iteration 11
+Iteration 12
+
+EM finishes successfully.
+
+Classifying sequences based on the EM result.
+Minimum probability for binning: 0.90
+Ignoring 0 bins without any sequences.
+Number of unclassified sequences: 32 (3.08%)
+Elapsed time:  0 days 00:00:01
+Minimum contig length set to 1000.
+Reading seed list...
+Looking for seeds in sequences.
+	ERR675519_10 [33.334300]
+	ERR675519_11 [13.146400]
+	ERR675519_18 [39.201800]
+	ERR675519_34 [166.875900]
+	ERR675519_245 [19.924700]
+	ERR675519_248 [42.716700]
+	ERR675519_258 [46.314200]
+	ERR675519_420 [37.783600]
+	ERR675519_824 [69.869800]
+	ERR675519_920 [8.480000]
+	ERR675519_1119 [11.002400]
+	ERR675519_1147 [125.174400]
+	ERR675519_2122 [6.043500]
+	ERR675519_2451 [10.330700]
+	ERR675519_2748 [9.628100]
+	ERR675519_2851 [10.002100]
+	ERR675519_3045 [32.328000]
+	ERR675519_3365 [8.201600]
+	ERR675519_3559 [6.853800]
+	ERR675519_3761 [37.789700]
+	ERR675519_5673 [12.888200]
+	ERR675519_6485 [9.731300]
+	ERR675519_10508 [4.796600]
+	ERR675519_11517 [7.326800]
+	ERR675519_14639 [4.981800]
+Get 25 seeds.
+
+Start EM process.
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+Iteration 6
+Iteration 7
+Iteration 8
+Iteration 9
+Iteration 10
+Iteration 11
+Iteration 12
+Iteration 13
+Iteration 14
+Iteration 15
+Iteration 16
+Iteration 17
+Iteration 18
+Iteration 19
+Iteration 20
+Iteration 21
+Iteration 22
+Iteration 23
+Iteration 24
+Iteration 25
+Iteration 26
+Iteration 27
+Iteration 28
+Iteration 29
+Iteration 30
+Iteration 31
+Iteration 32
+Iteration 33
+Iteration 34
+Iteration 35
+Iteration 36
+Iteration 37
+Iteration 38
+Iteration 39
+Iteration 40
+Iteration 41
+Iteration 42
+Iteration 43
+Iteration 44
+Iteration 45
+Iteration 46
+Iteration 47
+Iteration 48
+Iteration 49
+Iteration 50
+
+EM finishes successfully.
+
+Classifying sequences based on the EM result.
+Minimum probability for binning: 0.90
+Ignoring 0 bins without any sequences.
+Number of unclassified sequences: 4202 (27.92%)
+Elapsed time:  0 days 00:05:12
+
+Minimum contig length set to 1000.
+Reading seed list...
+Looking for seeds in sequences.
+	ERR675519_4008 [11.683300]
+	ERR675519_13868 [11.852200]
+Get 2 seeds.
+
+Start EM process.
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+Iteration 6
+Iteration 7
+Iteration 8
+Iteration 9
+Iteration 10
+Iteration 11
+Iteration 12
+
+EM finishes successfully.
+
+Classifying sequences based on the EM result.
+Minimum probability for binning: 0.90
+Ignoring 0 bins without any sequences.
+Number of unclassified sequences: 46 (4.55%)
+Elapsed time:  0 days 00:00:01
+
+Minimum contig length set to 1000.
+Reading seed list...
+Looking for seeds in sequences.
+	ERR675519_809 [17.069500]
+	ERR675519_983 [10.935500]
+Get 2 seeds.
+
+Start EM process.
+Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4
+Iteration 5
+Iteration 6
+Iteration 7
+Iteration 8
+Iteration 9
+Iteration 10
+Iteration 11
+Iteration 12
+
+EM finishes successfully.
+
+Classifying sequences based on the EM result.
+Minimum probability for binning: 0.90
+Ignoring 0 bins without any sequences.
+Number of unclassified sequences: 32 (3.08%)
+Elapsed time:  0 days 00:00:01
+
+ERR675519.001.marker.fasta
+ERR675519.002.marker.fasta
+ERR675519.003.marker.fasta
+ERR675519.004.marker.fasta
+ERR675519.005.marker.fasta
+ERR675519.006.marker.fasta
+ERR675519.007.marker.fasta
+ERR675519.008.marker.fasta
+ERR675519.009.marker.fasta
+ERR675519.010.marker.fasta
+ERR675519.011.marker.fasta
+ERR675519.012.marker.fasta
+ERR675519.013.marker.fasta
+ERR675519.014.marker.fasta
+ERR675519.015.marker.fasta
+ERR675519.016.marker.fasta
+ERR675519.017.marker.fasta
+ERR675519.018.marker.fasta
+ERR675519.019.marker.fasta
+ERR675519.020.marker.fasta
+ERR675519.021.marker.fasta
+ERR675519.022.marker.fasta
+ERR675519.023.marker.fasta
+ERR675519.024.marker.fasta
+ERR675519.025.marker.fasta
+ERR675519.026.marker.fasta
+Deleting intermediate files.
+
+
+========== Job finished ==========
+Yielded 26 bins for contig (scaffold) file ERR675519/ERR675519_contigs.fasta
+
+Here are the output files for this run.
+Please refer to the README file for further details.
+
+Summary file: ERR675519/binning/maxbin/intermediate_files/ERR675519.summary
+Marker counts: ERR675519/binning/maxbin/intermediate_files/ERR675519.marker
+Marker genes for each bin: ERR675519/binning/maxbin/intermediate_files/ERR675519.marker_of_each_gene.tar.gz
+Bin files: ERR675519/binning/maxbin/intermediate_files/ERR675519.001.fasta - ERR675519/binning/maxbin/intermediate_files/ERR675519.026.fasta
+Unbinned sequences: ERR675519/binning/maxbin/intermediate_files/ERR675519.noclass
+
+
+========== Elapsed Time ==========
+0 hours 6 minutes and 58 seconds.
+

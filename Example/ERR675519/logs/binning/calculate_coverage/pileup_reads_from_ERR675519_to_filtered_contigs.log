@@ -1,0 +1,18 @@
+java -ea -Xmx38G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ jgi.CoveragePileup ref=ERR675519/ERR675519_contigs.fasta in=ERR675519/sequence_alignment/binning_ERR675519.sam threads=6 -Xmx38G covstats=ERR675519/binning/coverage/ERR675519_coverage_stats.txt secondary=f
+Executing jgi.CoveragePileup [ref=ERR675519/ERR675519_contigs.fasta, in=ERR675519/sequence_alignment/binning_ERR675519.sam, threads=6, -Xmx38G, covstats=ERR675519/binning/coverage/ERR675519_coverage_stats.txt, secondary=f]
+
+Set threads to 6
+Reads:                               	33775767
+Mapped reads:                        	33522206
+Mapped bases:                        	2773387695
+Ref scaffolds:                       	15050
+Ref bases:                           	91389848
+
+Percent mapped:                      	99.249
+Percent proper pairs:                	99.249
+Average coverage:                    	30.347
+Standard deviation:                    	48.084
+Percent scaffolds with any coverage: 	100.00
+Percent of reference bases covered:  	99.47
+
+Time: 	35.146 seconds.

@@ -1,0 +1,13 @@
+java -ea -Xmx27G -cp /home/kiesers/scratch/Atlas/databases/conda_envs/d4d9c52d/opt/bbmap-37.78/current/ jgi.ReformatReads in1=/home/kiesers/scratch/MouseGut/Data/ERR675519_R1.fastq.gz in2=/home/kiesers/scratch/MouseGut/Data/ERR675519_R2.fastq.gz interleaved=f out1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz out2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz iupacToN=t touppercase=t qout=33 overwrite=true verifypaired=t addslash=t trimreaddescription=t threads=12 -Xmx27G
+Executing jgi.ReformatReads [in1=/home/kiesers/scratch/MouseGut/Data/ERR675519_R1.fastq.gz, in2=/home/kiesers/scratch/MouseGut/Data/ERR675519_R2.fastq.gz, interleaved=f, out1=ERR675519/sequence_quality_control/ERR675519_raw_R1.fastq.gz, out2=ERR675519/sequence_quality_control/ERR675519_raw_R2.fastq.gz, iupacToN=t, touppercase=t, qout=33, overwrite=true, verifypaired=t, addslash=t, trimreaddescription=t, threads=12, -Xmx27G]
+
+Set INTERLEAVED to false
+Set threads to 12
+Input is being processed as paired
+Input:                  	48619140 reads          	3958073690 bases
+Output:                 	48619140 reads (100.00%) 	3958073690 bases (100.00%)
+
+Time:                         	71.602 seconds.
+Reads Processed:      48619k 	679.02k reads/sec
+Bases Processed:       3958m 	55.28m bases/sec
+Names appear to be correctly paired.
