@@ -1,0 +1,4 @@
+#name	%unambiguousReads	unambiguousMB	%ambiguousReads	ambiguousMB	unambiguousReads	ambiguousReads
+mouse	0.21832	8.23277	0.00000	0.00000	97888	0
+#name	%unambiguousReads	unambiguousMB	%ambiguousReads	ambiguousMB	unambiguousReads	ambiguousReads
+mouse	0.11942	0.15845	0.00000	0.00000	1905	0
