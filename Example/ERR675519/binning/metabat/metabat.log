@@ -1,0 +1,11 @@
+Output depth matrix to ERR675519/binning/metabat/metabat_depth.txt
+Output matrix to ERR675519/binning/metabat/metabat_depth.txt
+Opening 2 bams
+Consolidating headers
+Processing bam files
+Thread 0 finished: ERR675518.bam with 17654934 reads and 17211975 readsWellMapped
+Thread 1 finished: ERR675519.bam with 33775767 reads and 31688967 readsWellMapped
+Creating depth matrix file: ERR675519/binning/metabat/metabat_depth.txt
+Closing most bam files
+Closing last bam file
+Finished

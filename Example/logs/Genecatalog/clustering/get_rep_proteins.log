@@ -1,0 +1,34 @@
+Program call:
+Genecatalog/all_genes/predicted_genes/inputdb Genecatalog/all_genes/predicted_genes/inputdb Genecatalog/clustering/mmseqs/clusterdb Genecatalog/orf2gene_oldnames.tsv 
+
+MMseqs Version:                  	3.be8f6
+first sequence as respresentative	false
+
+Query file is Genecatalog/all_genes/predicted_genes/inputdb
+Data file is Genecatalog/clustering/mmseqs/clusterdb
+Start writing file to Genecatalog/orf2gene_oldnames.tsv
+Done.
+Program call:
+Genecatalog/all_genes/predicted_genes/inputdb Genecatalog/clustering/mmseqs/clusterdb Genecatalog/protein_catalog/db 
+
+MMseqs Version:	3.be8f6
+Threads  	16
+Verbosity	3
+
+Start computing representative sequences.
+.............................................Time for merging files: 0 h 0 m 1 s
+
+Done.
+Time for processing: 0 h 0 m 1s
+Program call:
+Genecatalog/all_genes/predicted_genes/inputdb Genecatalog/all_genes/predicted_genes/inputdb Genecatalog/protein_catalog/db Genecatalog/representatives_of_clusters.fasta 
+
+MMseqs Version: 	3.be8f6
+Use fasta header	false
+Verbosity       	3
+
+Query file is Genecatalog/all_genes/predicted_genes/inputdb
+Target file is Genecatalog/all_genes/predicted_genes/inputdb
+Data file is Genecatalog/protein_catalog/db
+Start writing file to Genecatalog/representatives_of_clusters.fasta
+Done.

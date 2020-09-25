@@ -1,0 +1,18 @@
+java -ea -Xmx51G -cp /srv/beegfs/scratch/users/k/kiesers/Atlas/databases/conda_envs/2d9f21ed/opt/bbmap-37.99/current/ jgi.CoveragePileup in=genomes/alignments/ERR675525.sam threads=8 -Xmx51G covstats=genomes/alignments/ERR675525_coverage.txt hist=genomes/alignments/ERR675525_coverage_histogram.txt basecov=genomes/alignments/ERR675525_base_coverage.txt.gz concise=t bincov=genomes/alignments/ERR675525_coverage_binned.txt
+Executing jgi.CoveragePileup [in=genomes/alignments/ERR675525.sam, threads=8, -Xmx51G, covstats=genomes/alignments/ERR675525_coverage.txt, hist=genomes/alignments/ERR675525_coverage_histogram.txt, basecov=genomes/alignments/ERR675525_base_coverage.txt.gz, concise=t, bincov=genomes/alignments/ERR675525_coverage_binned.txt]
+
+Set threads to 8
+Reads:                               	19565406
+Mapped reads:                        	19565406
+Mapped bases:                        	1600400355
+Ref scaffolds:                       	16815
+Ref bases:                           	180646070
+
+Percent mapped:                      	100.000
+Percent proper pairs:                	99.295
+Average coverage:                    	8.859
+Standard deviation:                    	19.292
+Percent scaffolds with any coverage: 	88.49
+Percent of reference bases covered:  	67.53
+
+Time: 	29.830 seconds.
