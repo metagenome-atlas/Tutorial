@@ -106,7 +106,7 @@ data <- Counts %>%
 data <- transform(data, "clr")
 ```
 
-```{r heatmap, fig.height = 7}
+```{r heatmap, fig.height = 14, fig.width=10}
 pheatmap(data, cluster_rows = T, cluster_cols = T,
          labels_row = Tax$Labels)
 ```
@@ -134,7 +134,7 @@ For the relative abundance we take the coverage over the genome not the raw coun
 D <- read_tsv("Example/Results/counts/median_coverage_genomes.tsv") %>%
   column_to_rownames(var = "X1") %>%
   as.data.frame()
-kable(head(D))
+kable(topleft(D, c= 10))
 ```
 
 ```{r relative_abund}
@@ -191,11 +191,11 @@ CAZy_annotations_genome <- read_tsv('Example/Results/annotations/CAZy.tsv')
 CAZy_presence <- CAZy_annotations_genome %>%
   column_to_rownames("MAG")
 CAZy_presence[CAZy_presence > 0] <- 1
-kable(head(CAZy_presence))
+kable(topleft(CAZy_presence, c=10))
 
 
 CAZy_rel_ab <- as.matrix(rel_ab) %*% as.matrix(CAZy_presence)
-kable(head(CAZy_rel_ab))
+kable(topleft(CAZy_rel_ab, c=10 ))
 pheatmap(CAZy_rel_ab)
 ```
 
@@ -206,10 +206,10 @@ Kegg_annotations_genome <- read_tsv('Example/Results/annotations/KO.tsv')
 Kegg_presence <- Kegg_annotations_genome %>%
   column_to_rownames("MAG")
 Kegg_presence[Kegg_presence > 0] <- 1
-kable(head(Kegg_presence))
+kable(topleft(Kegg_presence, c=10 ))
 
 
 Kegg_rel_ab <- as.matrix(rel_ab) %*% as.matrix(Kegg_presence)
-kable(head(Kegg_rel_ab))
+kable(topleft(Kegg_rel_ab, c=10 ))
 pheatmap(Kegg_rel_ab)
 ```
