@@ -4,15 +4,15 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE, 
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE,
                       warning = FALSE, cache = FALSE, include = TRUE)
 knitr::opts_knit$set(root.dir = "..") # set root dir one level above where Rmd is saved
 ```
 
 Atlas output files are stored in the `Example` folder in the GitHub repository `metagenome-atlas/Tutorial`.
 
-If you don't already have a copy of the GitHub repository locally, you can run the following command from a Terminal. 
-Note that RStudio includes a `Terminal` tab next to the `Console` tab. 
+If you don't already have a copy of the GitHub repository locally, you can run the following command from a Terminal.
+Note that RStudio includes a `Terminal` tab next to the `Console` tab.
 In the default configuration of RStudio, this panel is located in the bottom left hand corner.
 
 ```{r, eval = F}
@@ -78,8 +78,8 @@ kable(topleft(Counts, c = 10))
 
 ### Mapping rate
 
-```{r mapping_rate}
-mapping_rate <- read_tsv("Example/Results/mapping_rate.tsv", 
+```{r mapping_rate, fig.width=2, fig.height=4}
+mapping_rate <- read_tsv("Example/Results/mapping_rate.tsv",
                          col_names = c("Sample", "Mapping_rate"), skip = 1)  %>%
   mutate(tmp = "samples")
 
@@ -91,7 +91,7 @@ ggplot(mapping_rate, aes(x = tmp, y = Mapping_rate)) +
 
 ### Stats based on raw counts
 
-There are good reasons to use rawcounts and use centric log ratios, see more in 
+There are good reasons to use rawcounts and use centric log ratios, see more in
 
 Gloor, Gregory B., Jean M. Macklaim, Vera Pawlowsky-Glahn, and Juan J. Egozcue. 2017. “Microbiome Datasets Are Compositional: And This Is Not Optional.” Frontiers in Microbiology 8 (November). Frontiers: 2224. doi:10.3389/fmicb.2017.02224.
 
@@ -148,7 +148,7 @@ counts_per_genome <- data.frame(sums = colSums(rel_ab)) %>%
   rownames_to_column(var = "Sample") %>%
   left_join(Tax, by = c("Sample" = "user_genome")) %>%
   arrange(desc(sums))
-  
+
 
 ggplot(counts_per_genome %>%
          top_n(sums, n = 10), aes(x = reorder(Labels, sums), y = sums)) +
@@ -174,7 +174,7 @@ grouped_data <- rel_ab %>%
 
 ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
   geom_col() +
-  theme_minimal() + 
+  theme_minimal() +
   theme(axis.text.x = element_text(angle = 90))
 ```
 
