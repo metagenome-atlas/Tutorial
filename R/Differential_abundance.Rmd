@@ -20,6 +20,7 @@ library(pheatmap)
 library(plotly)
 library(microbiome)
 library(knitr)
+library(ALDEX2)
 ```
 
 # How does high fat diet impact the microbiome of mice?
@@ -99,6 +100,9 @@ In order to analyze the microbiome at the species or genome level we use composi
 
 For this we load the rawcounts and use centric log ratios (clr) after imputing values for the zeros.
 
+
+
+
 ```{r}
 #load raw counts
 
@@ -133,6 +137,19 @@ ggplot(pca_data, aes(x = PC1, y = PC2, color = Diet)) +
 As the counts are normalized in centered log ratio the log FC becomes the difference.
 
 We use the welch test to assess differential abundance in the two groups. This is a simple version of aldex2. See Gloor et al for more information.
+
+```{aldex2}
+
+x <- aldex.clr(reads= t(Counts), conds= metadata$Diet,mc.samples=16, denom="all", verbose=F)
+
+d.eff <- aldex.effect(x)
+d.tt <- aldex.ttest(x)
+
+aldex_stats <- data.frame(d.eff,d.tt)
+
+
+```
+
 
 ```{r}
 # mean abundance per group
