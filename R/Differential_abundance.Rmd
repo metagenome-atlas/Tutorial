@@ -166,13 +166,11 @@ aldex_stats <- aldex_stats %>%
 
 #### heatmap of significant Genomes
 
-Correcting form multiple testing would be even better
-
-```{r heatmap, fig.height=8}
+```{r heatmap, fig.height=10, fig.width=10}
 # filter to MAG abundances that were significantly different
 sig_data <- data %>%
   as.data.frame() %>%
-  select(aldex_stats[aldex_stats$Pvalue_BH < 0.1, ]$Id) %>%
+  select(aldex_stats[aldex_stats$Pvalue < 0.1, ]$Id) %>%
   t()
 
 # make a dataframe to use to annotate the heatmap
@@ -191,7 +189,6 @@ pheatmap(sig_data, cluster_rows = T, cluster_cols = T, annotation_col = annot_df
 ```
 
 #### Volcano plot
-
 
 ```{r}
 ## non interactive plot
