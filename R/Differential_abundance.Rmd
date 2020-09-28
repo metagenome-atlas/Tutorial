@@ -20,7 +20,7 @@ library(pheatmap)
 library(plotly)
 library(microbiome)
 library(knitr)
-library(ALDEX2)
+library(ALDEx2)
 ```
 
 # How does high fat diet impact the microbiome of mice?
@@ -138,7 +138,7 @@ As the counts are normalized in centered log ratio the log FC becomes the differ
 
 We use the welch test to assess differential abundance in the two groups. This is a simple version of aldex2. See Gloor et al for more information.
 
-```{aldex2}
+```{r aldex2}
 
 x <- aldex.clr(reads= t(Counts), conds= metadata$Diet,mc.samples=16, denom="all", verbose=F)
 
@@ -147,50 +147,21 @@ d.tt <- aldex.ttest(x)
 
 aldex_stats <- data.frame(d.eff,d.tt)
 
-
-```
-
-
-```{r}
-# mean abundance per group
-Stats <- data %>%
-  as.data.frame() %>%
-  rownames_to_column(var = "Sample") %>%
-  pivot_longer(cols = -Sample, names_to = "Id", values_to = "clr") %>%
-  left_join(metadata, by = c("Sample" = "X1")) %>%
-  group_by(Diet, Id) %>%
-  summarize(mean_clr = mean(clr)) %>%
-  pivot_wider(id_cols = Id, names_from = Diet, values_from = mean_clr)
-
-# calculate logFC
-Stats <- Stats %>%
-  mutate(logFC = HF - chow)
-
-# format data for t test
-data_ttest <- data %>%
-  as.data.frame() %>%
-  rownames_to_column(var = "Sample") %>%
-  pivot_longer(cols = -Sample, names_to = "Id", values_to = "clr") %>%
-  left_join(metadata, by = c("Sample" = "X1"))
-
-# run t test
-data_ttest <- data_ttest %>%
-  group_by(Id, Diet) %>%
-  nest() %>%
-  spread(key = Diet, value = data) %>%
-  mutate(
-    t_test = map2(HF, chow, ~{t.test(.x$clr, .y$clr) %>% tidy()}),
-    HF = map(HF, nrow),
-    chow = map(chow, nrow)
-  ) %>%
-  unnest() %>%
-  select(Id, p.value) %>%
-  mutate(Pvalue = p.value) %>%
+# rename
+aldex_stats <- aldex_stats %>%
+  rename(
+    chow= rab.win.chow ,
+    HF= rab.win.HF,
+    logFC= diff.btw,
+    Effect = effect ,
+    Pvalue= we.ep ,
+    Pvalue_BH = we.eBH
+    ) %>%
+  rownames_to_column(var = 'Id') %>%
+  left_join(Tax, by= c("Id"= "user_genome")) %>%
   mutate(logP = -log10(Pvalue))
 
-Stats <- Stats %>%
-  left_join(data_ttest, by = "Id") %>%
-  left_join(Tax, by = c("Id" = "user_genome"))
+
 ```
 
 #### heatmap of significant Genomes
@@ -201,7 +172,7 @@ Correcting form multiple testing would be even better
 # filter to MAG abundances that were significantly different
 sig_data <- data %>%
   as.data.frame() %>%
-  select(Stats[Stats$Pvalue < 0.01, ]$Id) %>%
+  select(aldex_stats[aldex_stats$Pvalue_BH < 0.1, ]$Id) %>%
   t()
 
 # make a dataframe to use to annotate the heatmap
@@ -221,19 +192,21 @@ pheatmap(sig_data, cluster_rows = T, cluster_cols = T, annotation_col = annot_df
 
 #### Volcano plot
 
+
 ```{r}
 ## non interactive plot
-# ggplot(Stats, aes(x = logFC, y = logP, alpha = logP)) +
+# ggplot(aldex_stats, aes(x = logFC, y = logP, alpha = logP)) +
 #  geom_point(color = "#67000d") +
 #  theme_minimal()
 
-plt <- ggplot(Stats, aes(x = logFC, y = logP, alpha = logP,
+plt <- ggplot(aldex_stats, aes(x = logFC, y = logP, alpha = logP,
                          label = Labels, label2 = HF, label3 = chow)) +
   geom_point(color = "#67000d") +
   theme_minimal()
 
 ggplotly(plt, tooltip = c("label", "label2", "label3"))
 ```
+
 
 The uncultured species with the name 'UBA7173 sp001689485' is highly significantly increased in chow mice vs HF mice. It belongs to the Muribaculaceae family.
 
