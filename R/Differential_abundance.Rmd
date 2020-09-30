@@ -21,7 +21,6 @@ library(plotly)
 library(microbiome)
 library(knitr)
 library(ALDEx2)
-#library(RColorBrewer)
 
 ```
 
@@ -87,7 +86,6 @@ ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
         axis.text.y = element_blank(),
         axis.title.y = element_blank()) +
   facet_wrap(~Diet, scales = "free_x") +
-  #scale_fill_manual(values=rep(brewer.pal(5,"Paired"), times=5))
   scale_fill_manual(values = c("#771155", "#AA4488", "#CC99BB", "#114477", "#4477AA", "#77AADD", "#117777", "#44AAAA", "#77CCCC", "#117744", "#44AA77", "#88CCAA", "#777711", "#AAAA44", "#DDDD77", "#774411", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788"))
 ```
 
