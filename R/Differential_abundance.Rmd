@@ -36,9 +36,9 @@ kable(metadata)
 
 We confirm that the mice on high fat diet really put more weight on.
 
-```{r plot_metadata}
+```{r plot_metadata, fig.width=3, fig.height=4}
 ggplot(metadata, aes(x = Diet, y = Body_weight)) +
-  geom_point() +
+  geom_jitter(width = 0.1) +
   theme_minimal()
 ```
 
