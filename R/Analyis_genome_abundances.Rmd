@@ -33,6 +33,7 @@ library(ape)
 library(vegan)
 library(useful)
 library(kableExtra)
+#library(RColorBrewer)
 ```
 
 # Metagenome assembled genomes
@@ -175,7 +176,10 @@ grouped_data <- rel_ab %>%
 ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
   geom_col() +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90))
+  theme(axis.text.x = element_text(angle = 90)) +
+  #scale_fill_manual(values=rep(brewer.pal(5,"Paired"), times=5))
+  scale_fill_manual(values = c("#771155", "#AA4488", "#CC99BB", "#114477", "#4477AA", "#77AADD", "#117777", "#44AAAA", "#77CCCC", "#117744", "#44AA77", "#88CCAA", "#777711", "#AAAA44", "#DDDD77", "#774411", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788"))
+
 ```
 
 ## Functional annotation
@@ -196,7 +200,7 @@ kable(topleft(CAZy_presence, c=10))
 
 CAZy_rel_ab <- as.matrix(rel_ab) %*% as.matrix(CAZy_presence)
 kable(topleft(CAZy_rel_ab, c=10 ))
-pheatmap(CAZy_rel_ab)
+pheatmap(CAZy_rel_ab, show_colnames = F)
 ```
 
 ### KEGG orthologs
@@ -211,5 +215,5 @@ kable(topleft(Kegg_presence, c=10 ))
 
 Kegg_rel_ab <- as.matrix(rel_ab) %*% as.matrix(Kegg_presence)
 kable(topleft(Kegg_rel_ab, c=10 ))
-pheatmap(Kegg_rel_ab)
+pheatmap(Kegg_rel_ab, show_colnames = F)
 ```
