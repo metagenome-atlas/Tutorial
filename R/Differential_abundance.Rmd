@@ -170,16 +170,15 @@ aldex_stats <- aldex_stats %>%
 
 ```{r heatmap, fig.height=10, fig.width=10}
 # filter to MAG abundances that were significantly different
-sig_data <- data %>%
+sig_data <- data[, aldex_stats[aldex_stats$Pvalue < 0.1, ]$Id] %>%
   as.data.frame() %>%
-  select(aldex_stats[aldex_stats$Pvalue < 0.1, ]$Id) %>%
   t()
 
 # make a dataframe to use to annotate the heatmap
 annot_df <- data.frame(Sample = colnames(sig_data)) %>%
   left_join(metadata, by = c("Sample" = "X1")) %>%
   column_to_rownames(var = "Sample") %>%
-  select(Diet)
+  dplyr::select(Diet)
 
 # sort labels by sig_data order
 heatmap_labels <- Tax %>%
