@@ -30,3 +30,4 @@ dependencies:
   - r-tidyr=1.1.2
   - r-vegan=2.5_6
   - r-kableextra=1.2.1
+  - bioconductor-aldex2=1.20.0

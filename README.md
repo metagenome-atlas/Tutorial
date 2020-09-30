@@ -1,9 +1,9 @@
 
-## Start Binder 
+## Start Binder
 
 
-[Jupyter](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/tr_rmd?urlpath=lab/tree/Python)
-[Rstudio](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/tr_rmd?urlpath=rstudio/tree/R)
+[Jupyter](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/aldex?urlpath=lab)
+[Rstudio](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/aldex?urlpath=rstudio)
 
 
 # Metagenome-Atlas Tutorial
