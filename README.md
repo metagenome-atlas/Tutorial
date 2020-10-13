@@ -1,9 +1,9 @@
 
-## Start Binder
 
 
-[Jupyter](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/tr_rmd?urlpath=lab)
-[Rstudio](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/tr_rmd?urlpath=rstudio)
+[Binder_Rstudio]: http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=rstudio
+[Binder_Jupyter]: http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=lab
+[chat]: https://github.com/metagenome-atlas/Tutorial/issues
 
 
 # Metagenome-Atlas Tutorial
@@ -14,7 +14,7 @@ This is a tutorial for Metagenome-Atlas. [Metagenome-Atlas](https://metagenome-a
 :interrobang: If you have any question or errors [write us][chat].
 
 
-Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
+:notes: Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
 
 
 
@@ -60,14 +60,12 @@ We prepared an interactive jupyter notebook with the code for differential analy
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
-Click on the badge below:
+Click on the links below:
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?filepath=scripts)
+[Rstudio][Binder_Rstudio]          [Jupyter][Binder_Jupyter]
 
 If something doesn't work, [let us know][chat]. You can always have a look at the [notebook](scripts/Differential_abundance.ipynb) to see what would be the output.
 
-
-[chat]: https://github.com/metagenome-atlas/Tutorial/issues
 
 
 ## Tutorial part 2: Let's get serious!
