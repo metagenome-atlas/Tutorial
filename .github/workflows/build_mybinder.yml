@@ -3,12 +3,16 @@ name: 'Trigger-Binder-build'
 on:
   push:
     branches:
-      - tr_rmd
+      - master
 
 jobs:
   trigger-binder-build:
     runs-on: [ubuntu-latest]
     steps:
-      - uses: s-weigand/trigger-mybinder-build@v1.0.3
+      - name: cache binder build on mybinder.org
+        uses: s-weigand/trigger-mybinder-build@v1.0.3
         with:
           target-repo: metagenome-atlas/Tutorial
+          NO_PUSH: true
+          MYBINDERORG_TAG: ${{ github.event.ref }}
+
