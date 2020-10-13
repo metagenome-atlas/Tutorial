@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Remove output from Jupyter notebooks
+jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace Python/Analyis_genome_abundances.ipynb
+jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace Python/Differential_abundance.ipynb
+jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace Python/Draw_Tree.ipynb
