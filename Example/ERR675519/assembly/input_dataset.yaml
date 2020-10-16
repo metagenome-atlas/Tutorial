@@ -1,0 +1,10 @@
+- "left reads":
+  - "/srv/beegfs/scratch/users/k/kiesers/Demo/Reassembly/ERR675519/assembly/reads/QC.errorcorr.merged_R1.fastq.gz"
+  "merged reads":
+  - "/srv/beegfs/scratch/users/k/kiesers/Demo/Reassembly/ERR675519/assembly/reads/QC.errorcorr.merged_me.fastq.gz"
+  "orientation": "fr"
+  "right reads":
+  - "/srv/beegfs/scratch/users/k/kiesers/Demo/Reassembly/ERR675519/assembly/reads/QC.errorcorr.merged_R2.fastq.gz"
+  "single reads":
+  - "/srv/beegfs/scratch/users/k/kiesers/Demo/Reassembly/ERR675519/assembly/reads/QC.errorcorr.merged_se.fastq.gz"
+  "type": "paired-end"
