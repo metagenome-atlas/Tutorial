@@ -64,8 +64,7 @@ Click on the links below:
 
 [Rstudio][Binder_Rstudio]          [Jupyter][Binder_Jupyter]
 
-If something doesn't work, [let us know][chat]. You can always have a look at the [notebook](scripts/Differential_abundance.ipynb) to see what would be the output.
-
+If something doesn't work, [let us know][chat]. 
 
 
 ## Tutorial part 2: Let's get serious!
