@@ -130,3 +130,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.html
+*.dcf
+images/heatmap.jpg
