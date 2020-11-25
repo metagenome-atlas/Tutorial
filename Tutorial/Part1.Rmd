@@ -1,0 +1,222 @@
+---
+title: "Atlas Tutorial Part I"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+```
+
+
+
+## Setup
+### Setup conda
+
+The only dependency for Metagenome atlas is the *conda package manager*. It can easily be installed with the miniconda package. To have acces to all up-to date bioinformatic packages you should add tell conda too look for them in the *conda-forge* and the *bioconda* channel in addition to the default. 
+
+
+```{bash eval=F}
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+```
+
+This two channels are comunity-driffen efforts to make many software packages installable as easy as possible. 
+
+Different programs need often different version of python/R or other packages. It can become a nightmare to install different tools with conflicting dependencies. Conda allows you to encapsulate each software into it's own *environemnt*. 
+
+--> Run the following command
+```{bash eval=F}
+conda create --yes -n atlasenv
+```
+--> activate the environment
+
+You should see a `(atlasenv)` at the beginnign of the bash line. 
+
+### Install atlas
+
+Now let's install Metagenome-atlas.
+
+```{r setupa, echo=FALSE}
+question("What is the command to isntall metagenome-atlas",
+  answer("conda install metagenome-atlas",correct = TRUE, message="mamba is a faster alternative to conda, but both work."),
+  answer("mamba install metagenome-atlas", correct = TRUE),
+  answer("snakemake install metagenome-atlas")
+)
+```
+
+--> Run the command to install metagenome-atlas. 
+
+Run `atlas --help` 
+Do you get a message, the atlas is installed correctly.
+
+```{r init, echo=FALSE}
+question("What is the subcomand that you will run to start a new project?",
+  answer("atlas download"),
+  answer("atlas init",correct = TRUE, message = "Run the command with the '--help' to see what attributes you need"),
+  answer("atlas run")
+
+)
+```
+
+## Initialisation
+### Start a new project 
+
+
+Run `atlas init --help` 
+
+In order to start a new Metagneome project you need the fastq files of a metagenome of your samples (You analyze all samples togehrer). We have provided you with two samples of test data in the folder `test_reads`. 
+
+The other parameter important in the init command is the `--db-dir` argument. This should point to a space where you can store the >100gb databases and software installed automatically by metagenome-atlas. Idally this is also a shared location with your collegues. For the Tutorial we will simply use the `databases` folder which already exists.
+
+Provide also a working directory (e.g. `workdir`) where all the work wil be done and the all the  output will be placed.
+
+
+--> Run the init command with the options described above. 
+
+
+```{r init2, echo=FALSE}
+question("What files did atlas create in the working directory?",
+  answer("test_reads"),
+  answer("databases",message="the database folder actually existed before"),
+  answer("config.yaml", correct = TRUE),
+  answer("atlas"),
+  answer("samples.tsv",correct = TRUE),
+  answer("Help, I don't know which comand I should run",message = "\nThe command would be: 'atlas init --working-dir workdir --db-dir databases test_reads'")
+)
+```
+
+### Configure
+
+
+Have a look at the `samples.tsv` with the integrated text editor or the nano comand. Check if the samples names are inferred correctly. Samples should be alphanumeric names and cam be dash delimited. The `BinGroup` parameter can be used to activate co-binning. All samples in the same BinGroup are used mapped against each other. However as it doesn't make sese to use this feature for less than three samples we don't use it and let the default. 
+
+Let's check the `config.yaml` file. It contains many parameters to configure the pipeline. They are explained in the comments or more in detail in the documentation. 
+
+
+```{r config, echo=FALSE}
+message="The 'assembly_memory' uses up to 250GB"
+question("With the default configuration. How much memory would be used maximally? ",
+  answer("250 MB", message="Memory units are in GB"),
+  answer(" 60 GB",message= message),
+  answer("250 GB", correct=T),
+  answer(" 60 MB",message= message)
+)
+```
+
+Let's add a host genome that should be removed during the decontamination step. 
+You should find a `human_genome.fasta` in your database folder. 
+First find out the absolute path to the human genome, then add it to the config file in the section `contaminant_references`.
+
+```
+contaminant_references:
+  PhiX: /path/to/databases/phiX174_virus.fa
+  human: /path/to/databases/human_genome.fasta
+```
+Don't just copy the snippet above you need to replace `/path/to/` with the correct absolute path. It's the same for both contaminant references. 
+Pay attention that there are two spaces at the begining of the line. Finally, save the file.
+
+## Run atlas
+
+### Dry Run
+
+Before Running the pipeline, which can take more than a day it is always recomended to do a dryrun. This simulates an execution and checks if there are any errors in the config file or elsewhere. 
+If you run metagenome-atlas on your cluster (or cloud) you should set up a cluster profile, as described in the documentation. For the demo I made a profile called `Demo`. We need to specify also the working directory to the run command.
+
+--> Run `atlas run --help` to see how to do a dryrun and how to specify the working dir and the profile.
+--> Call the run command with the profile, dryrun and the working dir parameter.
+
+**Important! always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.**
+
+In case you missed a parameter the use `CTR+C` to stop the run.
+
+The dryrun command takes a wile and then it show a list of all the steps that would be executed.
+
+```{r dry, echo=FALSE}
+question("How many steps would be executed by atlas?",
+  answer("4"),
+  answer("145", correct = TRUE),
+  answer("174")
+)
+```
+
+This command runs all the steps in the atlas pipeline for two saples. 
+
+
+
+## Quality control
+### Run QC
+
+To begin we want only run the quality control (qc). 
+
+--> Run the following command:
+
+```{bash eval=F}
+atlas run qc --profile Demo --working-dir workdir
+```
+See what happens.
+
+
+
+### Output of QC
+
+At the beginning atlas installs all the software it needs in conda environments. This can take quite some time but has to be done only once. You can easily run metagenome-atlas in a screen and come back some hours later. But wait -- stay here!  For the tutorial we have already installed all exept one conda environment so the 
+
+Oce the conda environments are installed atlas will start with the steps of the pipeline. On a cluster each step can be automatically submitted to the cluster. In this case you can run many jobs or steps in paralell. Even when you don't want to submit jobs to the cluster you can run metagenome-atlas on a server with high memory. In this case atlas can also run many jobs in paralell. The Demo profile limits the memory usage so that  one step is executed after the other. 
+
+
+Once the 
+
+--> Final rule what is the output
+
+<!-- sample2/sequence_quality_control/finished_QC, sample1/sequence_quality_control/finished_QC, stats/read_counts.tsv, stats/insert_stats.tsv, stats/read_length_stats.tsv, reports/QC_report.html 
+-->
+
+
+See a [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
+
+```{r qcreport, echo=FALSE}
+question("In the bigger run, are all samples of good quality? ",
+  answer("yes"),
+  answer("no", correct = TRUE)
+)
+```
+
+
+
+## Assembly
+
+--> Run the assembly workflow until the end.
+
+For your own project you don't need to run qc and assembly seperately. You can direcly run all steps with `atlas run all` from the begining. 
+
+
+```{r demoass, echo=FALSE}
+message="The Demo profile adapts the memory requirement to the system."
+question("How much memory are used for the assembly step?",
+  answer("250 GB",message=message),
+  answer("2 GB", correct = TRUE,message=message),
+  answer("60 GB",message=message)
+)
+```
+
+## Binning
+
+```{bash eval=F}
+atlas run binning --profile Demo
+```
+
+Unfortunately this step cannot be run until the end as the genome quality estimation needs more than 100GB. 
+
+## Extra
+```{bash eval=F}
+atlas run genecatalog --profile Demo
+```
+
+
+
+
