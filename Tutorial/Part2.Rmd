@@ -1,0 +1,159 @@
+---
+title: "Atlas Tutorial Part II"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+```
+
+## Setup
+
+For the second part of the tutorial we made online cumputing environemnts available. Click on either of the two links depending on which cimputer language you are more familiar. 
+
+[![Jupyter](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Jupyter_logo.svg/207px-Jupyter_logo.svg.png){width=200px}](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=lab)            [![Rstudio](https://rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-flat.svg){width=200px}](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=rstudio)
+
+The setup can take some minutes ...
+
+Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
+
+If there is an error in the building process, try to refresh the page. This will trigger a re-build. Sometimes I had to rebuild 2-3 times.
+
+## Output files
+
+Usually before starting to install a program I want to make sure that it gives the output I want. Therefore, we look at the output of Metagenome-Atlas. A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run.
+
+You should find a navigation plane in Rstudio/Jupyter lab. 
+
+<!-- https://github.com/metagenome-atlas/Tutorial/tree/master/Example *
+
+* Navigate to the `Example` folder
+
+I put only the result from one sample online named `ERR675519` . Can you find the assembly fasta?
+
+
+The main goal of atlas is to create metagenome-assembled genomes (MAGs). The genomes are in the folder genomes/genomes.
+
+```{r q1, echo=FALSE}
+question("How many are there?",
+  answer("14"),
+  answer("63", correct = TRUE),
+  answer("42"),
+  answer("26")
+)
+```
+
+
+## Use the output in R/Python 
+
+Now we want to analyze the taxonomy of these genomes. The taxonomy can be found in Example/Results/taxonomy.tsv. 
+
+To get a better grip on this table we will use R/Python to analyze the taxonomy. 
+
+The code is in the `R` or `Python` directory, depending of your choosen language.
+
+* Open the `Analyis_genome_abundances` .Rmd or .ipynb.
+
+* Run the first code chinks/cells wich open the taxonomy file programatically. 
+
+
+Try to answer the folowing questions. You will need to write your own code.
+
+
+<!--The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org 
+*
+
+```{r q2, echo=FALSE}
+message="Note the phylum Firmicutes was split into 12 sister phyla based on relative divergence."
+question("Which is the phylum with the most genomes?",
+  answer("Bacteroidetes (Named 'Bacteroidota' in GTDB to unify the naming of phyla)"),
+  answer("Firmicutes",message=message),
+  answer("Firmicutes_A", correct = TRUE, message=message),
+  answer("Verrucomicrobiota")
+)
+```
+
+
+
+```{r q3, echo=FALSE}
+question("How many species are new/unnamed?",
+  answer("3"),
+  answer("63"),
+  answer("41", correct = TRUE),
+  answer("27")
+)
+```
+
+
+## MAG quality
+
+MAGs are usually not complete or can contain some contamination. Atlas estimates the quality of genomes using checkM. 
+
+
+- Run the next cells to get the interactive figure. 
+
+
+```{r q4, echo=FALSE}
+question("Which is the species with the best quality? (Hint: You can zoom in in the interactive figure)",
+  answer("Ligilactobacillus murinus", message="Best quality is measured as high Completeness and low Contamination."),
+  answer("Limosilactobacillus reuteri", correct = TRUE),
+  answer("Oscillospiraceae MAG59", message="Best quality is measured as high Completeness and low Contamination."),
+  answer("An181 MAG05", message="Best quality is measured as high Completeness and low Contamination.")
+)
+```
+
+
+
+```{r lacto, echo=FALSE}
+message="The species was part of the  Lactobacillus genus before. But careful analysis showed that Lactobacillus consisted of different genera. doi:10.3390/microorganisms7050126"
+question("Does the name surprise you?",
+  answer("Yes, Should it not be 'Lactobacillus'?",correct = T, message=message),
+  answer("No not at al", message=message)
+  )
+```
+
+## Other Questions
+
+Go to the website: https://gtdb.ecogenomic.org 
+What can you find out about a unknow genome.
+
+How else can one asses the quality of a genome?
+
+N50
+Size 
+One contig.
+
+
+Which is the most abundant genome? 
+
+
+* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? If reads from the host (Mouse) would have been filtered out do you think the mapping rate would be higher?
+
+* The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high fat diet and got obese. Can you see the difference between the groups in the PCA?
+
+*  We use the median coverage over the genomes to calculate the relative abundance. What is the most abundant species in these metagenomes?
+
+* Functional annotation is based on the output of EggNOG mapper of all the genes. Using the link  between the genes and the genomes we can calculate which function is present in which genome (`genomes/gene2genome.tsv.gz`). Finally, the relative abundance of functions (`Results/annotations`).
+
+## Differencial abundance 
+
+![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
+
+We prepared  code for differential analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. Open the `Differential_abundance` .Rmd / .ipynb
+
+
+
+
+
+
+
+
+
+
+
+
+
