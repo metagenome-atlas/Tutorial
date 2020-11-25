@@ -134,3 +134,4 @@ dmypy.json
 *.html
 Tutorial/rsconnect
 images/heatmap.jpg
+.Rproj.user
