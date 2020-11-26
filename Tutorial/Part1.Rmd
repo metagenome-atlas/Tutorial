@@ -122,17 +122,18 @@ Pay attention that there are two spaces at the begining of the line. Finally, sa
 
 ## Run atlas
 
+![](https://github.com/metagenome-atlas/atlas/blob/2e9b3f42bb3e0e6d20fca0cf3684da0ffc206f75/resources/images/ATLAS_scheme.png)
+
+
 ### Dry Run
 
 Before Running the pipeline, which can take more than a day it is always recomended to do a dryrun. This simulates an execution and checks if there are any errors in the config file or elsewhere. 
-If you run metagenome-atlas on your cluster (or cloud) you should set up a cluster profile, as described in the documentation. For the demo I made a profile called `Demo`. We need to specify also the working directory to the run command.
 
---> Run `atlas run --help` to see how to do a dryrun and how to specify the working dir and the profile.
---> Call the run command with the profile, dryrun and the working dir parameter.
+--> Run `atlas run --help` to see how to do a dryrun and how to specify the working dir.
+--> Call the run command with the dryrun and the working dir parameter.
 
-**Important! always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.**
 
-In case you missed a parameter the use `CTR+C` to stop the run.
+**In case you missed the dryrun parameter the use `CTR+C` to stop the run.**
 
 The dryrun command takes a wile and then it show a list of all the steps that would be executed.
 
@@ -151,50 +152,104 @@ This command runs all the steps in the atlas pipeline for two saples.
 ## Quality control
 ### Run QC
 
-To begin we want only run the quality control (qc). 
+To understand better what atlas does we, begin to run only the quality control sub-workflow (qc). For your own project you don't need to run qc seperately. You can direcly run all steps with `atlas run all` from the begining. 
 
---> Run the following command:
+If you run metagenome-atlas on your cluster (or cloud) you should set up a cluster profile, as described in the documentation. For the demo I made a profile called `Demo`. **Important: always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.** As before, we need also to specify also the working directory to the run command.
+
+--> Run the following command (Note the `qc`):
 
 ```{bash eval=F}
 atlas run qc --profile Demo --working-dir workdir
 ```
-See what happens.
+ See what happens.
 
 
+### Automatic instalation of software
 
-### Output of QC
+You should see something like:
+```{bash, eval=FALSE}
+Creating conda environment /usr/local/envs/atlasenv/lib/python3.6/site-packages/atlas/rules/../envs/required_packages.yaml...
+Downloading and installing remote packages.
+```
 
 At the beginning atlas installs all the software it needs in conda environments. This can take quite some time but has to be done only once. You can easily run metagenome-atlas in a screen and come back some hours later. But wait -- stay here!  For the tutorial we have already installed all exept one conda environment so the 
 
 Oce the conda environments are installed atlas will start with the steps of the pipeline. On a cluster each step can be automatically submitted to the cluster. In this case you can run many jobs or steps in paralell. Even when you don't want to submit jobs to the cluster you can run metagenome-atlas on a server with high memory. In this case atlas can also run many jobs in paralell. The Demo profile limits the memory usage so that  one step is executed after the other. 
 
+### Output of QC
+Once the qc sub-workflow has finished, check what files are listed as input to the `qc` rule. 
 
-Once the 
+```{bash, eval=FALSE}
+[Wed Nov 25 11:13:45 2020]
+localrule qc:
+    input: sample2/sequence_quality_control/finished_QC, sample1/sequence_quality_control/finished_QC, stats/read_counts.tsv, stats/insert_stats.tsv, stats/read_length_stats.tsv, reports/QC_report.html
 
---> Final rule what is the output
+```
+This are the main output files of the QC wrokflow for all samples. 
 
-<!-- sample2/sequence_quality_control/finished_QC, sample1/sequence_quality_control/finished_QC, stats/read_counts.tsv, stats/insert_stats.tsv, stats/read_length_stats.tsv, reports/QC_report.html 
--->
+--> Try to open the `stats/read_counts.tsv` with the integrated text editor. Which sample has more reads?
 
-
-See a [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
+The `reports/QC_report.html` gives a graphical report on the most important numbers. 
+The dataset used for the Tutorial is a very small one, here you can see the ` [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
 
 ```{r qcreport, echo=FALSE}
+message= "Sample F26 has lost many reads during the quality filtering, maybe it would make sense to drop it altogether."
 question("In the bigger run, are all samples of good quality? ",
-  answer("yes"),
-  answer("no", correct = TRUE)
+  answer("yes", message = message),
+  answer("no", correct = TRUE,message = message())
 )
 ```
 
 
 
+There are also many files produced for each sample. Can you find the quality controlled reads (.fastq) for sample1 ?
+
+```{r qcfastq, echo=FALSE}
+message="We have paired-reads. The third file contains the reads that lost their mate during th equality control. They are seemlessly integrated in the pipeline."
+question("How many qc fastq files are there per sample?",
+  answer("1", message = message),
+  answer("2", message = message),
+  answer("3", correct = TRUE,message = message())
+)
+```
+
+
 ## Assembly
+### Stop and go
+
+As already mentioned, the assembly is  the most time and memory consuming step.
+You might wonder what happens if the sever crashes during the long execution of Atlas. 
+
+Run the dry run command for assembly.
+
+```{bash, eval=F}
+atlas run assembly --profile Demo --working-dir workdir --dryrun 
+```
+
+```{r dryass, echo=FALSE}
+question("How many steps would now be executed by atlas?",
+  answer("4"),
+  answer("174"),
+  answer("42", correct=TRUE , "The meaning of everithing.")
+)
+```
+–> run the command without the dryrun.
+
+Wait until one or two steps have finished then. –> press `CTR + C.`
+
+This simulates a system crash. The pipeline should stop and do some clean up.
+
+Now run again the dryrun command. How many steps would now be executed by atlas? 
+Do you see, that metagenome-atlas, can continue to run the pipeline form the where it stopped. There are even checkpoints during the assemlby from which it can continue.
+
+
+
+
+### Assembly output
 
 --> Run the assembly workflow until the end.
 
-For your own project you don't need to run qc and assembly seperately. You can direcly run all steps with `atlas run all` from the begining. 
-
-
+While the assembly runs can you amswer the folowing questions?
 ```{r demoass, echo=FALSE}
 message="The Demo profile adapts the memory requirement to the system."
 question("How much memory are used for the assembly step?",
@@ -204,17 +259,138 @@ question("How much memory are used for the assembly step?",
 )
 ```
 
-## Binning
 
-```{bash eval=F}
-atlas run binning --profile Demo
+Once the assembly sub-workflow is finished it will again produce an report `reports/assembly_report.html`. You can open [this one](https://metagenome-atlas.readthedocs.io/en/latest/_static/assembly_report.html) until your pipline has finished.
+
+The assembly report shows different statistics about the length and number of the contigs.  
+
+Download the extendend statistics at the bottom of the report, and open the text file with Excel or a text editor. 
+
+```{r sizeass, echo=FALSE}
+message="A quart of an E. coli genome! "
+question("What is the longest contig in any sample?",
+  answer("~ 1 Kbp",message=message),
+  answer("~ 1 Mbp", correct = TRUE,message=message),
+  answer("~ 1 Gbp",message=message)
+)
 ```
 
-Unfortunately this step cannot be run until the end as the genome quality estimation needs more than 100GB. 
+Info: there is also the option to use scaffolding with the spades assembler to combine contigs that can be linked by paired-read linkgs.
 
-## Extra
+
+Once the assembly workflow is finished try to find the contigs file for sample 2 (.fasta file). Open it. 
+
+
+```{r nsample, echo=FALSE}
+question("What is the name of the first contig? ",
+  answer("sample_0"),
+  answer("sample2_1"),
+  answer("sample2_0",correct = TRUE,message='In python we start to count from 0, it is also the longest contig in the file.')
+)
+```
+
+
+## Binning
+### Introduction
+Now comes the most interesting.
+
+Start by running
 ```{bash eval=F}
-atlas run genecatalog --profile Demo
+cd workdir
+atlas run binning --profile Demo --working-dir workdir
+```
+
+
+We try to reconstruct genomes from the metagenome.
+This is done by grouping together contigs which we think belong to the same genome. 
+This groups are called **bins**, and if we really think it is a genome then we call it **MAG for metagenome assembled genome**
+
+![Animation](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width=15cm}
+*Here is a short animation from the a class of Prof. Eren https://merenlab.org/momics/*
+
+
+By default we use the automatic binners metabat2 and maxbin2 and then a bin refining with DAS-Tool. 
+Both binner are based on the sequence composition and the coverage profile in one sample. To get the coverage profile we first need to aling the reads to the assembly. 
+
+### Bins
+
+Once the pipeline has finished, let's look at the output.
+
+Each binner produces a `cluster_attribution.tsv` which provides the link between contig and bin.
+Have a look at the one from sample 2 produced by both binners, by running:
+```{bash eval=F}
+head sample2/binning/*/cluster_attribution.tsv
+```
+
+```{r qbin1, echo=FALSE}
+question("In which bin is the longest contig of sample 2? ",
+    answer("sample2_metabat_1",correct=TRUE),
+    answer("sample2_metabat_2"),
+    answer("sample2_maxbin_1",correct=TRUE),
+    answer("sample2_maxbin_2"),
+    answer("No clue.", message="the longest contig as stated above is 'sample2_0'")
+)
+```
+
+Maxbin produces also a summary file. Have a look.
+
+```{bash eval=F}
+cat sample2/binning/maxbin/sample2.summary
+```
+
+```{r qbin3, echo=FALSE}
+question("What is the completeness of the worst bin? ",
+  answer("< 90%"),
+  answer("< 60%",correct=TRUE)
+)
+```
+
+### Bin refining
+
+The DAS Tool takes the predictions of both binners and tries to find a harmonisation with the best resultat, meaning the highest quality. For example: The bin `sample2_metabat_1` and `sample2_maxbin_1` contain both the longest contig `sample2_0` and many others. The DAS tool chooses the bether of the two.  For this the DAS Tool also estimates the quality of the bins.
+
+Have a look at the plot in: `sample2/binning/DASTool/sample2_DASTool_scores.pdf`
+
+It shows how DAS tool estimates the quality of both biners and its results. 
+
+```{r qbin3, echo=FALSE}
+question("Which binner produces the better results?",
+  answer("metabat",correct=TRUE, message = "This is something we see trougout, e.g. also in the publication of DAS Tool."),
+  answer("maxbin"),
+  answer("DAS tool",message="DAS Tool is actually not a binner, rather a bin refiner.")
+)
+```
+
+
+```{r qbin4, echo=FALSE}
+question("Do the quality estimates of maxbin and DAS Tool agree for the lower quality bins?",
+  answer("No",correct=TRUE, message = "The reason is they use different set of marker genes"),
+  answer("Yes", message = "No, the reason is they use different set of marker genes")
+)
+```
+
+### Quality assesment
+It is not easy to find a set of marker genes for each genome, especially if the genome belongs to unknonw species. And different sets yeald different results. Usually the final quality estimates is made with BUSCO or CheckM, which adapt the marker gene set to better estimat the quality. 
+
+Unfortunately this step cannot be run until the end as the genome quality estimation needs more than 100GB of RAM.
+
+But, you can look [here](binning report. ) at the final output of the binning report. 
+You can see that sample 1 and sample 2 produce bins or MAGs for the same species. 
+
+
+The *genomes* sub-workflow of Atlas combines the binning results from different samples and produces a non-redundant set of MAGs. The workflow also quantifies the genomes in all the samples and annotates them with a better taxonomy. 
+
+The final output would look like this.
+Obviously this is not very interesting for this small dataset but in part 2 of the Tutorial you will analyze the output of a more interesting project.
+
+### Finished
+
+You can no go Part 2 of the Tutorial. On the folowing pages are some extra excercise about the atlas genecatalog workflow.
+
+### Gene catalog
+
+```{bash eval=F}
+atlas run genecatalog --profile Demo --working-dir workdir
 ```
 
 
