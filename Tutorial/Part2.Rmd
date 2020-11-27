@@ -11,6 +11,7 @@ runtime: shiny_prerendered
 library(learnr)
 ```
 
+<!--
 ## Setup
 
 For the second part of the tutorial we made online cumputing environemnts available. Click on either of the two links depending on which cimputer language you are more familiar. 
@@ -23,20 +24,46 @@ Do you need some music to work. Have a look at this [spotify playlist](https://o
 
 If there is an error in the building process, try to refresh the page. This will trigger a re-build. Sometimes I had to rebuild 2-3 times.
 
+
 ## Output files
 
 Usually before starting to install a program I want to make sure that it gives the output I want. Therefore, we look at the output of Metagenome-Atlas. A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run.
 
 You should find a navigation plane in Rstudio/Jupyter lab. 
-
-<!-- https://github.com/metagenome-atlas/Tutorial/tree/master/Example *
-
-* Navigate to the `Example` folder
-
-I put only the result from one sample online named `ERR675519` . Can you find the assembly fasta?
+-->
 
 
-The main goal of atlas is to create metagenome-assembled genomes (MAGs). The genomes are in the folder genomes/genomes.
+<!-- https://github.com/metagenome-atlas/Tutorial/tree/master/Example * -->
+
+## Introduction
+
+
+A real metagenome-atlas run can take more than a day. Therefore we have prepared for you some output of a previous run. We are going to look at the main output files and then do some statistical analysis on the output.
+
+The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high fat diet and got obese.
+
+
+
+### Setup
+
+Execute the following command.
+
+```{bash, eval=FALSE}
+cd
+git clone https://github.com/metagenome-atlas/Tutorial.git
+cd Tutorial
+```
+
+
+Then, in the filebrowser of your jupyter lab / Rstudio  navigate to the `Tutorial` folder in. 
+The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there. 
+
+## Output files
+<!--
+I put only the result from one sample online, named `ERR675519`. 
+-->
+
+The main goal of atlas is to create metagenome-assembled genomes (MAGs). The final set of non-redundant genomes are in the folder `genomes/genomes`.
 
 ```{r q1, echo=FALSE}
 question("How many are there?",
@@ -50,7 +77,7 @@ question("How many are there?",
 
 ## Use the output in R/Python 
 
-Now we want to analyze the taxonomy of these genomes. The taxonomy can be found in Example/Results/taxonomy.tsv. 
+Now we want to analyze the taxonomy of these genomes. The taxonomy can be found in `Example/Results/taxonomy.tsv`. 
 
 To get a better grip on this table we will use R/Python to analyze the taxonomy. 
 
@@ -61,11 +88,11 @@ The code is in the `R` or `Python` directory, depending of your choosen language
 * Run the first code chinks/cells wich open the taxonomy file programatically. 
 
 
-Try to answer the folowing questions. You will need to write your own code.
+Try to answer the folowing 2 questions. You can use code or look at the file in the filebrowser. 
 
 
-<!--The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org 
-*
+The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org 
+
 
 ```{r q2, echo=FALSE}
 message="Note the phylum Firmicutes was split into 12 sister phyla based on relative divergence."
