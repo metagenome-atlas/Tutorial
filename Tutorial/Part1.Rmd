@@ -382,7 +382,7 @@ This is not very interesting for this small dataset but in part 2 of the Tutoria
 
 ### Finished
 
-You can no go Part 2 of the Tutorial. On the flowing pages are some extra exercises about the atlas gene-catalog workflow.
+You can no go [Part 2 of the Tutorial](https://metagenome-atlas.shinyapps.io/Part2). On the flowing pages are some extra exercises about the atlas gene-catalog workflow.
 
 ### Gene catalog
 
