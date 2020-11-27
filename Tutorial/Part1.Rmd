@@ -14,7 +14,10 @@ library(learnr)
 ## Setup
 ### Setup conda
 
-The only dependency for metagenome atlas is the *conda package manager*. It can easily be installed with the miniconda package. To have access to all up-to-date bioinformatic packages you should add tell conda too look for them in the *conda-forge* and the *bioconda* channel in addition to the default.
+The only dependency for metagenome atlas is the *conda package manager*. It can easily be installed with the miniconda package. 
+
+<!--
+To have access to all up-to-date bioinformatic packages you should add tell conda too look for them in the *conda-forge* and the *bioconda* channel in addition to the default.
 
 
 ```{bash eval=F}
@@ -24,16 +27,17 @@ conda config --add channels conda-forge
 ```
 
 These two channels are community-driven efforts to make many software packages installable as easy as possible.
+-->
 
-Different programs need often different versions of python/R or other packages. It can become a nightmare to install different tools with conflicting dependencies. Conda allows you to encapsulate each software into its own *environment*.
+Different programs need often different versions of python/R or other packages. It can become a nightmare to install different tools with conflicting dependencies. Conda allows you to encapsulate each software into its own *environment*. 
 
---> Run the following command
+--> Create a conda environment with to you name, then activate it
 ```{bash eval=F}
-conda create --yes -n atlasenv
+conda create --yes -n yourname
 ```
---> activate the environment
 
-You should see a `(atlasenv)` at the beginning of the bash line.
+
+You should see a `(yourname)` at the beginning of the bash line.
 
 ### Instal atlas
 
@@ -149,16 +153,22 @@ This command runs all the steps in the atlas pipeline for two staples.
 
 To understand better what atlas does we, begin to run only the quality control sub-workflow (QC). For your project, you don't need to run QC separately. You can directly run all steps with `atlas run all` from the beginning.
 
-If you run metagenome-atlas on your cluster (or cloud) you should set up a cluster profile, as described in the documentation. For the demo, I made a profile called `Demo`. **Important: always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.** As before, we need also to specify also the working directory to the run command.
+If you run metagenome-atlas on your cluster (or cloud) you should set up a cluster profile, as described in the documentation. For the demo, I made a profile called `Demo`. On a cluster, each step can be automatically submitted to the cluster. In this case, you can run many jobs or steps in parallel. Even when you don't want to submit jobs to the cluster you can run metagenome-atlas on a server with high memory. In this case, atlas can also run many jobs in parallel. The Demo profile limits the memory usage so that one step is executed after the other.
+
+
+**Important: always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.** 
+
+
+
 
 --> Run the following command (Note the `qc`):
 
 ```{bash eval=F}
 atlas run qc --profile Demo --working-dir workdir
 ```
- See what happens.
 
 
+<!--
 ### Automatic installation of software
 
 You should see something like:
@@ -167,9 +177,13 @@ Creating conda environment /usr/local/envs/atlasenv/lib/python3.6/site-packages/
 Downloading and installing remote packages.
 ```
 
+
 At the beginning, atlas installs all the software it needs in conda environments. This can take quite some time but has to be done only once. You can easily run metagenome-atlas in a screen and come back some hours later. But wait -- stay here!  For the tutorial, we have already installed all except one conda environment so the
 
-Once the conda environments are installed atlas will start with the steps of the pipeline. On a cluster, each step can be automatically submitted to the cluster. In this case, you can run many jobs or steps in parallel. Even when you don't want to submit jobs to the cluster you can run metagenome-atlas on a server with high memory. In this case, atlas can also run many jobs in parallel. The Demo profile limits the memory usage so that one step is executed after the other.
+Once the conda environments are installed atlas will start with the steps of the pipeline. 
+
+-->
+
 
 ### Output of QC
 Once the QC sub-workflow has finished, check what files are listed as input to the `qc` rule.
