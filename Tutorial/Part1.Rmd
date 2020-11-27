@@ -10,9 +10,14 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 ```
+## Intro
+
+In the first part of the tutorial you will learn how to install Atlas, init a new project and run it. Everithing is done in the command line. So **go to the terminal* in your jupyter or Rstudio interface, and make it bigger.
+
 
 ## Setup
 ### Setup conda
+
 
 The only dependency for metagenome atlas is the *conda package manager*. It can easily be installed with the miniconda package. 
 
@@ -314,7 +319,7 @@ We try to reconstruct genomes from the metagenome.
 This is done by grouping together contigs which we think belong to the same genome.
 These groups are called **bins**, and if we really think it is a genome then we call it **MAG for metagenome-assembled genome**
 
-![Animation](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width=15cm}
+![](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width=15cm}
 
 
 *Here is a short animation from the a class of Prof. Eren https://merenlab.org/momics/*
@@ -397,6 +402,10 @@ This is not very interesting for this small dataset but in part 2 of the Tutoria
 ## End
 
 You can no go [Part 2 of the Tutorial](https://metagenome-atlas.shinyapps.io/Part2). On the flowing pages are some extra exercises about the atlas gene-catalog workflow.
+
+
+
+
 
 ## Extra
 
