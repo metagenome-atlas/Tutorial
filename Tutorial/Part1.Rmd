@@ -11,8 +11,6 @@ runtime: shiny_prerendered
 library(learnr)
 ```
 
-
-
 ## Setup
 ### Setup conda
 
@@ -187,16 +185,16 @@ This are the main output files of the QC workflow for all samples.
 --> Try to open the `stats/read_counts.tsv` with the integrated text editor. Which sample has more reads?
 
 The `reports/QC_report.html` gives a graphical report on the most important numbers.
-The dataset used for the Tutorial is a very small one, here you can see the ` [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
+The dataset used for the Tutorial is a very small one, here you can see the [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
 
-```{r qcreport, echo=FALSE}
+
+```{r qcreport2, echo=FALSE}
 message= "Sample F26 has lost many reads during the quality filtering, maybe it would make sense to drop it altogether."
 question("In the bigger run, are all samples of good quality? ",
-  answer("yes", message = message),
-  answer("no", correct = TRUE,message = message())
+  answer("yes", message=message),
+  answer("no",message=message, correct = TRUE)
 )
 ```
-
 
 
 There are also many files produced for each sample. Can you find the quality-controlled reads (.fastq) for sample1?
@@ -206,7 +204,7 @@ message="We have paired-reads. The third file contains the reads that lost their
 question("How many qc fastq files are there per sample?",
   answer("1", message = message),
   answer("2", message = message),
-  answer("3", correct = TRUE, message = message())
+  answer("3",correct = TRUE, message = message)
 )
 ```
 
@@ -303,6 +301,8 @@ This is done by grouping together contigs which we think belong to the same geno
 These groups are called **bins**, and if we really think it is a genome then we call it **MAG for metagenome-assembled genome**
 
 ![Animation](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width=15cm}
+
+
 *Here is a short animation from the a class of Prof. Eren https://merenlab.org/momics/*
 
 
@@ -335,7 +335,7 @@ Maxbin produces also a summary file. Have a look.
 cat sample2/binning/maxbin/sample2.summary
 ```
 
-```{r qbin3, echo=FALSE}
+```{r qbin2, echo=FALSE}
 question("What is the completeness of the worst bin? ",
   answer("< 90%"),
   answer("< 60%",correct=TRUE)
