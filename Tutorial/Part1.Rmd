@@ -391,14 +391,34 @@ It is not easy to find a set of marker genes for each genome, especially if the 
 Unfortunately, this step cannot be run until the end as the genome quality estimation needs more than 100GB of RAM.
 
 But, you can look [here](https://rawcdn.githack.com/metagenome-atlas/Tutorial/31f89f0bdf476ab34b7e52ebd68ef14e20b9c677/media/bin_report_DASTool.html) at the final output of the binning report.
-You can see that sample 1 and sample 2 produce bins or MAGs for the same species.
 
+```{r qbin5, echo=FALSE}
+question("Was the low quality estimation of maxbin correct at the end? Assuming that the checkM quality estimation in the report is closest to the truth?",
+  answer("maxbin quality estimation was way to low",correct=TRUE, message = "The species in this dataset have very small genomes, this may cause the low quality estimation."),
+  answer("maxbin quality estimation was ok")
+)
+```
+
+
+
+
+```{r qbin6, echo=FALSE}
+question("How many different species are there in both samples? ",
+  answer("2"),
+  answer("3",correct=TRUE, message = ),
+  answer("5", message = "some genomes from sample 1 and 2 belong to the same species")
+)
+```
 
 The *genomes* sub-workflow of Atlas combines the binning results from different samples and produces a non-redundant set of MAGs. The workflow also quantifies the genomes in all the samples and annotates them with a better taxonomy.
 
+## End
+
+
+
 Because of the computational and time limits we won't run atlas until the end. It won't anyway not be very interesting for this small dataset.  Instead, you will analyze the output of a more interesting project in part 2 of the Tutorial.
 
-## End
+
 
 You can no go [Part 2 of the Tutorial](https://metagenome-atlas.shinyapps.io/Part2). On the flowing pages are some extra exercises about the atlas gene-catalog workflow.
 
