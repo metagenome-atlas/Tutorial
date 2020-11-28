@@ -390,14 +390,13 @@ It is not easy to find a set of marker genes for each genome, especially if the 
 
 Unfortunately, this step cannot be run until the end as the genome quality estimation needs more than 100GB of RAM.
 
-But, you can look [here](binning report. ) at the final output of the binning report.
+But, you can look [here](https://rawcdn.githack.com/metagenome-atlas/Tutorial/31f89f0bdf476ab34b7e52ebd68ef14e20b9c677/media/bin_report_DASTool.html) at the final output of the binning report.
 You can see that sample 1 and sample 2 produce bins or MAGs for the same species.
 
 
 The *genomes* sub-workflow of Atlas combines the binning results from different samples and produces a non-redundant set of MAGs. The workflow also quantifies the genomes in all the samples and annotates them with a better taxonomy.
 
-The final output would look like this.
-This is not very interesting for this small dataset but in part 2 of the Tutorial, you will analyze the output of a more interesting project.
+Because of the computational and time limits we won't run atlas until the end. It won't anyway not be very interesting for this small dataset.  Instead, you will analyze the output of a more interesting project in part 2 of the Tutorial.
 
 ## End
 
