@@ -5,7 +5,33 @@ import numpy as np
 
 import matplotlib.pylab as plt
 
+import warnings
+
 from matplotlib import gridspec
+
+def filter_taxa(data,topN=15,combine_as_other=True, based_on=np.mean):
+    '''  sample ID X bacteria_taxa
+    '''
+
+
+    if data.shape[0]> data.shape[1]:
+        warnings.warn("May be your data is not in the right orientation sample x feature")
+
+    if data.shape[1] <= topN:
+        return data
+
+        
+            
+    N=min(topN,data.shape[1]) -1 - int(combine_as_other)
+    filter_values=based_on(data)
+    criteria= (filter_values>=filter_values.sort_values(ascending=False).iloc[N])
+
+
+    refined=data.loc[:,criteria].copy()
+
+    if combine_as_other:
+        refined['Other']=data.loc[:,~criteria].sum(1)
+    return refined
 
 
 def count_sample_for_legend(variable, Grouping_Variable, order):
@@ -15,137 +41,6 @@ def count_sample_for_legend(variable, Grouping_Variable, order):
     variable_ =pd.Series(variable)
     count_samples= variable_.groupby(Grouping_Variable).count().loc[order]
     return ['{}\nn={}'.format(*label) for label in count_samples.iteritems()]
-
-
-def Bubbleplot(data,indexes='show',headers='show',aspect_size=200., value_max=100,marker='s',
-               ax=None,legend='normal',legend_title=None, color='blue'):
-
-    """sample ids X feature ids"""
-    data=data.T
-
-    try:
-        sns.set_style("whitegrid")
-    except:
-        pass
-
-    #NORMALIZE
-    size=data.values.ravel()/float(value_max)
-
-    y,x=np.arange(data.shape[0]-1,-1,-1), np.arange(data.shape[1])
-    X,Y=plt.meshgrid(x,y)
-    X,Y=X.ravel(), Y.ravel()
-
-
-    if ax is None:
-        ax = plt.subplot(111)
-
-    ax.yaxis.tick_right()
-    ax.scatter(X,Y,s=size*float(aspect_size),marker=marker, color= color)
-
-    #AXES
-    if headers is None:
-        ax.set_xticklabels(ax.get_xticklabels(), visible=False)
-
-
-    elif headers=='show':
-        ax.set_xticks(x+0.5)
-        ax.set_xticklabels(data.columns.values, ha='right',rotation=90)
-        ax.set_xlim([-.5,max(x)+.5])
-
-    elif headers=='hide':
-        ax.set_xticks(x+0.5)
-        ax.set_xlim([-.5,max(x)+.5])
-        ax.set_xticklabels(data.columns.values,rotation=90, visible=False)
-
-
-
-    if indexes=='show':
-        ax.set_yticks(y-0.5)
-        ax.set_yticklabels(data.index.values,va='bottom')
-    else:
-        ax.yaxis.set_visible(False)
-    ax.set_ylim([-.5,max(y)+.5])
-
-    #LEGEND
-    if legend!='hide':
-        sizes = np.array([0.1,0.5,1.])
-        labels=(sizes*value_max).astype(type(value_max))
-
-
-        lines=[plt.scatter([],[], s=s*aspect_size, edgecolors='none',marker=marker, color= color) for s in sizes]
-        legend_prop=dict(ncol=len(labels), frameon=False,loc = 2,scatterpoints = 1,
-            bbox_to_anchor=(1, 0), borderaxespad=0.25,title=legend_title)
-        if legend=='normal':
-
-            leg = ax.legend(lines, labels, fontsize=12, handlelength=2, borderpad = 1.8, handletextpad=1 ,**legend_prop)
-        elif legend=='slim':
-            leg = ax.legend(lines, labels, fontsize='x-small', borderpad = 0.7,**legend_prop)
-    return ax
-
-
-
-def Grouped_Bubble_Plot(data,grouping_variables,headers='hide',
-                        figsize=(15,10),order=None,value_max=1.,sp_keywords={},Grid=None):
-    """sample ids X feature ids"""
-    data=data.T
-
-    if order is None:
-        order=np.unique(grouping_variables)
-
-
-    Grouped_data= data.groupby(grouping_variables,axis=1)
-
-
-
-
-    ngroups =len(order)
-    index_of_subplot=dict(zip(order,range(ngroups)))
-
-## make grid
-    if Grid is None:
-
-        fig = plt.figure(figsize=figsize)
-        Grid=gridspec.GridSpec(1,1)[0]
-
-    gs =gridspec.GridSpecFromSubplotSpec(1,ngroups,subplot_spec=Grid ,
-                                         width_ratios= Grouped_data.size().loc[order].values,
-                                        wspace=0.05)
-    axes=[plt.subplot(gs[0])]
-
-    for i in range(1,ngroups):
-        axes.append(plt.subplot(gs[i],sharey=axes[0]))
-
-    #gridspec_kw=dict(width_ratios= Grouped_data.size().loc[order].values ) # adapt widths
-
-    #fig, axes = plt.subplots(1,ngroups, sharex=False, sharey=True, figsize=figsize,gridspec_kw=gridspec_kw)
-
-
-
-
-    for group_name in order[:-1]:
-
-        data_group = Grouped_data.get_group(group_name)
-        ax=axes[index_of_subplot[group_name]]
-
-        Bubbleplot(data_group,value_max=value_max,indexes='show',headers=headers,ax=ax,**sp_keywords)
-        plt.setp(ax.get_yticklabels(), visible=False)
-        plt.setp(ax.get_legend(),visible=False)
-        ax.set_title(group_name)
-
-
-
-    #plt.tight_layout(pad=0.0)
-    group_name=order[-1]
-    ax=axes[-1]
-    data_group = Grouped_data.get_group(group_name)
-    Bubbleplot(data_group,value_max=value_max,headers=headers,indexes='show',ax=ax,**sp_keywords)
-    ax.set_title(group_name)
-
-
-
-    return axes
-
-
 
 
 def BarPlot(data,colormap='Paired',ax=None,headers='show',value_max=None,x_ticklabels_rotation=90,**kws):
