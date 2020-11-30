@@ -75,9 +75,9 @@ question("How many are there?",
 ```
 
 
-## Use the output in R/Python 
+## Taxonomy
 
-Now we want to analyze the taxonomy of these genomes. The taxonomy can be found in `Example/Results/taxonomy.tsv`. 
+Now we want to analyze the taxonomy of these genomes. The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org The taxonomy can be found in `Example/Results/taxonomy.tsv`. 
 
 To get a better grip on this table we will use R/Python to analyze the taxonomy. 
 
@@ -89,9 +89,6 @@ The code is in the `R` or `Python` directory, depending of your choosen language
 
 
 Try to answer the folowing 2 questions. You can use code or look at the file in the filebrowser. 
-
-
-The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org 
 
 
 ```{r q2, echo=FALSE}
@@ -158,8 +155,9 @@ One contig.
 Which is the most abundant genome? 
 
 
-* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? If reads from the host (Mouse) would have been filtered out do you think the mapping rate would be higher?
+* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? 
 
+ what could be done to imprve it?
 * The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high fat diet and got obese. Can you see the difference between the groups in the PCA?
 
 *  We use the median coverage over the genomes to calculate the relative abundance. What is the most abundant species in these metagenomes?
@@ -172,11 +170,23 @@ Which is the most abundant genome?
 
 We prepared  code for differential analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. Open the `Differential_abundance` .Rmd / .ipynb
 
+```{r ob1, echo=FALSE}
+question("What is the relative increase of bodyweight of the mice on high-fat diet compared to the control mice? ",
+  answer("3%"),
+  answer("30%"),
+  answer("10%", correct = TRUE)
+)
+```
 
 
 
+We see that the high fat diet induces a big change from the *Muribaculaceae* family (Bacteroidetes) to the *Lachnospiraceae* family.
 
 
+The uncultured species with the name 'UBA7173 sp001689485' is highly significantly increased in chow mice vs HF mice. It belongs to the Muribaculaceae family.
+
+
+The uncultured species with the name 'UBA7173 sp001689485' is highly significantly increased in chow mice vs HF mice. It belongs to the Muribaculaceae family.
 
 
 
