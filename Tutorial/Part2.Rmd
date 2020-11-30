@@ -164,6 +164,9 @@ Which is the most abundant genome?
 
 * Functional annotation is based on the output of EggNOG mapper of all the genes. Using the link  between the genes and the genomes we can calculate which function is present in which genome (`genomes/gene2genome.tsv.gz`). Finally, the relative abundance of functions (`Results/annotations`).
 
+
+
+
 ## Differencial abundance 
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
@@ -178,18 +181,60 @@ question("What is the relative increase of bodyweight of the mice on high-fat di
 )
 ```
 
+### Relative abundance
+
+Execute all steps necessary for the barplot to show up, then answe the folowing questions.
+
+```{r ob2, echo=FALSE}
+question("Which major change induced by the died do you observe at phylum level?",
+  answer("- Bacteroidetes",correct=TRUE),
+  answer("+ Firmicutes_A",correct = TRUE)
+)
+```
+
+```{r ob3, echo=FALSE}
+question("What do you see atfamily level?",
+  answer("- Muribaculaceae",correct=TRUE),
+  answer("+ Lachnospiraceae",correct = TRUE),
+  answer("- Lachnospiraceae"),
+  answer("+ Lactobacillaceae",correct=TRUE),
+  answer("+ Oscillospiraceae",correct = TRUE)
+)
+```
 
 
-We see that the high fat diet induces a big change from the *Muribaculaceae* family (Bacteroidetes) to the *Lachnospiraceae* family.
+
+### Coda
 
 
-The uncultured species with the name 'UBA7173 sp001689485' is highly significantly increased in chow mice vs HF mice. It belongs to the Muribaculaceae family.
+From the vulcano plot select the most significant species. 
 
 
-The uncultured species with the name 'UBA7173 sp001689485' is highly significantly increased in chow mice vs HF mice. It belongs to the Muribaculaceae family.
+```{r ob5, echo=FALSE}
+question("To which family does it belong?",
+  answer("Lachnospiraceae"),
+  answer("Lactobacillaceae"),
+  answer("Muribaculaceae",correct=TRUE),
+  answer("Oscillospiraceae")
+)
+```
 
 
+### Look up in GTDB 
+The Species name *UBA7173 sp001689485* may not mean much to you (and to me) but it is acctualy a full species name from the GTDB database. Go to https://gtdb.ecogenomic.org/ and search for this species.
 
+
+```{r ob6, echo=FALSE}
+message="The 'Genome Category' is MAG so the genome is probably not cultured."
+question("Is the species cultured?",
+  answer("Yes", message=message),
+  answer("No", correct=TRUE,message=message)
+)
+```
+
+### End
+
+Even if the genome is uncultured, you can dig deeper in the taxonomy and look what other resercher have found out about this species. 
 
 
 
