@@ -198,7 +198,7 @@ pheatmap(sig_data, cluster_rows = T, cluster_cols = T, annotation_col = annot_df
 #  theme_minimal()
 
 plt <- ggplot(aldex_stats, aes(x = logFC, y = logP, alpha = logP,
-                         label = Labels, label2 = HF, label3 = chow)) +
+                         label = Labels, label2 = Id)) +
   geom_point(color = "#67000d") +
   theme_minimal()
 
