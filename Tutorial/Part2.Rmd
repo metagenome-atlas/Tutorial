@@ -11,20 +11,31 @@ runtime: shiny_prerendered
 library(learnr)
 ```
 
-<!--
+
 ## Setup
 
-For the second part of the tutorial we made online cumputing environemnts available. Click on either of the two links depending on which cimputer language you are more familiar. 
+For the second part of the tutorial we made a different online cumputing environemnts available. 
 
+--> Click on either of the two links depending on which cimputer language you are more familiar. 
+
+
+<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Jupyter</a>
+
+<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/R?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Drstudio%252F%26branch%3Dmaster" target="_blank">Rstudio</a>
+
+<!--
 [![Jupyter](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Jupyter_logo.svg/207px-Jupyter_logo.svg.png){width=200px}](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=lab)            [![Rstudio](https://rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-flat.svg){width=200px}](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=rstudio)
+-->
 
 The setup can take some minutes ...
 
-Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
 
 If there is an error in the building process, try to refresh the page. This will trigger a re-build. Sometimes I had to rebuild 2-3 times.
 
 
+
+
+<!--
 ## Output files
 
 Usually before starting to install a program I want to make sure that it gives the output I want. Therefore, we look at the output of Metagenome-Atlas. A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run.
@@ -42,7 +53,16 @@ A real metagenome-atlas run can take more than a day. Therefore we have prepared
 
 The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high fat diet and got obese.
 
+The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there. 
 
+
+
+
+
+
+
+
+<!--
 
 ### Setup
 
@@ -56,14 +76,23 @@ cd Tutorial
 
 
 Then, in the filebrowser of your jupyter lab / Rstudio  navigate to the `Tutorial` folder in. 
-The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there. 
 
+
+
+The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there. 
+-->
 ## Output files
 <!--
 I put only the result from one sample online, named `ERR675519`. 
 -->
 
 The main goal of atlas is to create metagenome-assembled genomes (MAGs). The final set of non-redundant genomes are in the folder `genomes/genomes`.
+
+
+* Open the `Annotations` .Rmd or .ipynb.
+
+* Run the code chunks/cells to answer the following questions. 
+
 
 ```{r q1, echo=FALSE}
 question("How many are there?",
@@ -79,16 +108,8 @@ question("How many are there?",
 
 Now we want to analyze the taxonomy of these genomes. The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org The taxonomy can be found in `Example/Results/taxonomy.tsv`. 
 
-To get a better grip on this table we will use R/Python to analyze the taxonomy. 
-
-The code is in the `R` or `Python` directory, depending of your choosen language.
-
-* Open the `Analyis_genome_abundances` .Rmd or .ipynb.
-
-* Run the first code chinks/cells wich open the taxonomy file programatically. 
 
 
-Try to answer the folowing 2 questions. You can use code or look at the file in the filebrowser. 
 
 
 ```{r q2, echo=FALSE}
@@ -115,7 +136,7 @@ question("How many species are new/unnamed?",
 
 ## MAG quality
 
-MAGs are usually not complete or can contain some contamination. Atlas estimates the quality of genomes using checkM. 
+As alread discussed, MAGs are usually not complete or can contain some contamination. Atlas estimates the quality of genomes using checkM. 
 
 
 - Run the next cells to get the interactive figure. 
@@ -130,7 +151,7 @@ question("Which is the species with the best quality? (Hint: You can zoom in in 
 )
 ```
 
-
+### Lactobacilus
 
 ```{r lacto, echo=FALSE}
 message="The species was part of the  Lactobacillus genus before. But careful analysis showed that Lactobacillus consisted of different genera. doi:10.3390/microorganisms7050126"
@@ -140,31 +161,27 @@ question("Does the name surprise you?",
   )
 ```
 
-## Other Questions
 
-Go to the website: https://gtdb.ecogenomic.org 
-What can you find out about a unknow genome.
+```{r n50, echo=FALSE}
 
-How else can one asses the quality of a genome?
+question("What are other ways to be shure that the MAG is really a genome?",
+  answer("If it maps to a reference genome.",correct = T),
+  answer("If it was never discovered before"),
+  answer("If it contains all the marker genes that are expected.", message="This is exaclty how checkM works, I asked for alternative ways."),
+    answer("If the MAG is as continuous as possible",correct = T)
+  
+  )
+```
 
-N50
-Size 
-One contig.
+--> Run the rest of the code and think about the folowing points.
 
 
-Which is the most abundant genome? 
-
-
-* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? 
-
- what could be done to imprve it?
-* The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high fat diet and got obese. Can you see the difference between the groups in the PCA?
+* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? what could be done to imprve it?
+ 
 
 *  We use the median coverage over the genomes to calculate the relative abundance. What is the most abundant species in these metagenomes?
 
 * Functional annotation is based on the output of EggNOG mapper of all the genes. Using the link  between the genes and the genomes we can calculate which function is present in which genome (`genomes/gene2genome.tsv.gz`). Finally, the relative abundance of functions (`Results/annotations`).
-
-
 
 
 ## Differencial abundance 
@@ -186,19 +203,19 @@ question("What is the relative increase of bodyweight of the mice on high-fat di
 Execute all steps necessary for the barplot to show up, then answe the folowing questions.
 
 ```{r ob2, echo=FALSE}
-question("Which major change induced by the died do you observe at phylum level?",
-  answer("- Bacteroidetes",correct=TRUE),
-  answer("+ Firmicutes_A",correct = TRUE)
+question("Which major change do you see at phylum level when you compare HFD vs chow diet?",
+  answer("Less Bacteroidetes",correct=TRUE),
+  answer("More Firmicutes_A",correct = TRUE)
 )
 ```
 
 ```{r ob3, echo=FALSE}
-question("What do you see atfamily level?",
-  answer("- Muribaculaceae",correct=TRUE),
-  answer("+ Lachnospiraceae",correct = TRUE),
-  answer("- Lachnospiraceae"),
-  answer("+ Lactobacillaceae",correct=TRUE),
-  answer("+ Oscillospiraceae",correct = TRUE)
+question("What do you see at the family level?",
+  answer("Less Muribaculaceae",correct=TRUE),
+  answer("More Lachnospiraceae",correct = TRUE),
+  answer("Less Lachnospiraceae"),
+  answer("More Lactobacillaceae",correct=TRUE),
+  answer("More Oscillospiraceae",correct = TRUE)
 )
 ```
 
@@ -232,10 +249,11 @@ question("Is the species cultured?",
 )
 ```
 
-### End
-
-Even if the genome is uncultured, you can dig deeper in the taxonomy and look what other resercher have found out about this species. 
 
 
+The links to the genome identifier allows you also to dig deeper, and look what other reserchers have found out about this species. E.g. in [this figure](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0181-2/figures/3) from Ormerod *et al.* 2016 you can find the species designated with it's strain name `M6`.
 
+## End
+
+Thank, you very much for participating in the Tutorial.
 
