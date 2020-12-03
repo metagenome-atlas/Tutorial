@@ -11,31 +11,31 @@ runtime: shiny_prerendered
 library(learnr)
 ```
 ## Intro
-In the first part of the tutorial you will learn how to install Atlas, init a new project and run it. Everithing is done in the command line.
+In the first part of the tutorial, you will learn how to install Atlas, init a new project and run it. Everything is done in the command line.
 
 
 
-Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
+Do you need some music to work? Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
 
 
-### Setup 
+### Setup
 
-**If you work on Windows don't open this webpage in Microsoft edge, it doesn't diplay all th interactive part correctly**
+**If you work on Windows don't open this webpage in Microsoft edge, it doesn't display all the interactive part correctly**
 
 1. Connect to the server on this link  http://18.198.190.146:8000/
-2. Log in with the credentials you receved before.
+2. Login with the credentials you received before.
 3. Go to the terminal
 
-![In the upper right corner. click on new, then Terminal](images/go_to_terminal_jupyter.png)
+![In the upper right corner. Click on new, then Terminal](images/go_to_terminal_jupyter.png)
 
-It is as if you would connect to the server of your institution. 
+It is as if you would connect to the server of your institution.
 
 ### Conda
 
 
-The only dependency for metagenome atlas is the *conda package manager*. It can easily be installed with the miniconda package. 
+The only dependency for metagenome atlas is the *conda package manager*. It can easily be installed with the miniconda package.
 
-On the server we have already installed it. You only need to activate it by running:
+On the server, we have already installed it. You only need to activate it by running:
 ```{bash, eval=FALSE}
 /opt/miniconda3/bin/conda init
 exec bash
@@ -53,7 +53,7 @@ conda config --add channels conda-forge
 These two channels are community-driven efforts to make many software packages installable as easy as possible.
 
 
-Different programs need often different versions of python/R or other packages. It can become a nightmare to install different tools with conflicting dependencies. Conda allows you to encapsulate each software into its own *environment*. 
+Different programs need often different versions of python/R or other packages. It can become a nightmare to install different tools with conflicting dependencies. Conda allows you to encapsulate each software into its own *environment*.
 
 --> Create a conda environment with to you name, then activate it.
 ```{bash eval=F}
@@ -118,7 +118,7 @@ question("What files did atlas create directory?",
 ### Configure
 
 
---> Have a look at the `samples.tsv` with `cat samples.tsv`. 
+--> Have a look at the `samples.tsv` with `cat samples.tsv`.
 Check if the names of the samples are inferred correctly. Samples should be alphanumeric names and cam be dash delimited. The `BinGroup` parameter can be used to activate co-binning. All samples in the same BinGroup are used mapped against each other. However, as it doesn't make sense to use this feature for less than three samples we don't use it and let the default.
 
 Let's check the `config.yaml` file. Open it in the integrated file browser on the jupyter page (The first page you entered after the login). It contains many parameters to configure the pipeline. They are explained in the comments or more in detail in the documentation.
@@ -134,13 +134,13 @@ question("With the default configuration. How much memory would be used maximall
 )
 ```
 
-You can also see that this amount of memory would be needed for 48h with 8 CPUS. When I meant that metagenomics is resource intesive I was not joking. Lukily, most institutions have high perfomance computing system with allow you to run such calculations. ALternatively atlas can also be run in the cloud.
+You can also see that this amount of memory would be needed for 48h with 8 CPUs. When I meant that metagenomics is resource-intensive I was not joking. Luckily, most institutions have a high-performance computing system with allow you to run such calculations. Alternatively, atlas can also be run in the cloud.
 
 
-If you scrol down to `contaminant_references`, cou can alredy see that the Phix genome is added as contaminant. The Phix is a virus that is frequently used as control for sequencing. Even if you haven't used it in your sequencing there is some chance that some reads might swim around in the sequencer.
+If you scroll down to `contaminant_references`, you can already see that the Phix genome is added as a contaminant. The Phix is a virus that is frequently used as a control for sequencing. Even if you haven't used it in your sequencing there is some chance that some reads might swim around in the sequencer.
 
 Let's add a host genome that should be removed during the decontamination step.
-You should find a `human_genome.fasta` in your database folder. 
+You should find a `human_genome.fasta` in your database folder.
 
 <!--
 First, find out the absolute path to the human genome, then add it to the config file in the section `contaminant_references`.
@@ -180,22 +180,22 @@ question("How many steps would be executed by atlas?",
 
 This command runs all the steps in the atlas pipeline for two staples. You can see how it would scale for more samples.
 
-### Profile 
+### Profile
 
 If you run metagenome-atlas on your cluster (or cloud) you should set up a cluster profile, as described in the documentation. For the demo, I made a profile called `Demo`. On a cluster, each step can be automatically submitted to the cluster. In this case, you can run many jobs or steps in parallel. Even when you don't want to submit jobs to the cluster you can run metagenome-atlas on a server with high memory. In this case, atlas can also run many jobs in parallel. The Demo profile limits the memory usage so that one step is executed after the other.
 
 
-**Important: always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.** 
+**Important: always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.**
 
 
 To understand better what atlas does we, begin to run only the quality control and assembly sub-workflow (QC + assembly). For your project, you don't need to run QC separately. You can directly run all steps with `atlas run all` from the beginning.
 
 
 
---> Run the following command. 
+--> Run the following command.
 
 ```{bash eval=F}
-atlas run assembly --profile Demo 
+atlas run assembly --profile Demo
 ```
 
 
@@ -218,18 +218,18 @@ Downloading and installing remote packages.
 ```
 
 
-At the beginning, atlas installs all the software it needs in conda environments. This can take quite some time but has to be done only once. You can easily run metagenome-atlas in a screen and come back some hours later. But wait -- stay here!  For the tutorial, we have already installed all except one conda environment so the
+In the beginning, atlas installs all the software it needs in conda environments. This can take quite some time but has to be done only once. You can easily run metagenome-atlas in a screen and come back some hours later. But wait -- stay here!  For the tutorial, we have already installed all except one conda environment so the
 
-Once the conda environments are installed atlas will start with the steps of the pipeline. 
+Once the conda environments are installed atlas will start with the steps of the pipeline.
 
 -->
 
 ## QC + Assembly
 ### Reports
 
-While the pipeline is runing you can already answer the flowing questions?
+While the pipeline is running you can already answer the flowing questions?
 
-The main output file of the qc and the assembly sub-workflow is a reports.
+The output of the qc, and the assembly sub-workflow are summarized in two reports.
 
 The `reports/QC_report.html` gives a graphical report on the most important numbers.
 The dataset used for the Tutorial is a very small one, here you can see the [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
@@ -283,7 +283,7 @@ localrule qc:
     input: sample2/sequence_quality_control/finished_QC, sample1/sequence_quality_control/finished_QC, stats/read_counts.tsv, stats/insert_stats.tsv, stats/read_length_stats.tsv, reports/QC_report.html
 
 ```
-This are the main output files of the QC workflow for all samples.
+This is the main output files of the QC workflow for all samples.
 
 -> Try to open the `stats/read_counts.tsv` with the integrated text editor. Which sample has more reads?
 -->
@@ -333,7 +333,7 @@ These groups are called **bins**, and if we really think it is a genome then we 
 <!--
 ![](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width=15cm}
 
-*Here is a short animation from the a class of Prof. Eren https://merenlab.org/momics/*
+*Here is a short animation from a class of Prof. Eren https://merenlab.org/momics/*
 -->
 
 By default, we use the automatic binners metabat2 and maxbin2 and then a bin refining with DAS-Tool.
@@ -410,15 +410,15 @@ question("Is the quality estimate of DAS Tool as bad as the one from maxbin for 
 ```
 
 ### Quality assessment
-It is not easy to find a set of marker genes for each genome, especially if the genome belongs to unknown species. And different sets yield different results. Usually, the final quality estimates is made with BUSCO or CheckM, which adapt the marker gene set to better estimate the quality.
+It is not easy to find a set of marker genes for each genome, especially if the genome belongs to unknown species. And different sets yield different results. Usually, the final quality estimates are made with BUSCO or CheckM, which adapt the marker gene set to better estimate the quality.
 
 Unfortunately, this step cannot be run until the end as the genome quality estimation needs more than 100GB of RAM.
 
 But, you can look [here](https://rawcdn.githack.com/metagenome-atlas/Tutorial/31f89f0bdf476ab34b7e52ebd68ef14e20b9c677/media/bin_report_DASTool.html) at the final output of the binning report.
 
 ```{r qbin5, echo=FALSE}
-question("Was the low quality estimation of maxbin correct at the end? Assuming that the checkM quality estimation in the report is closest to the truth?",
-  answer("maxbin quality estimation was way to low",correct=TRUE, message = "The species in this dataset have very small genomes, this may cause the low quality estimation."),
+question("Was the low-quality estimation of maxbin correct at the end? Assuming that the checkM quality estimation in the report is closest to the truth?",
+  answer("maxbin quality estimation was way too low",correct=TRUE, message = "The species in this dataset have very small genomes, this may cause the low-quality estimation."),
   answer("maxbin quality estimation was ok")
 )
 ```
@@ -440,7 +440,7 @@ The *genomes* sub-workflow of Atlas combines the binning results from different 
 
 
 
-Because of the computational and time limits we won't run atlas until the end. It won't anyway not be very interesting for this small dataset.  Instead, you will analyze the output of a more interesting project in part 2 of the Tutorial.
+Because of the computational and time limits we won't run atlas until the end. It won't any way not be very interesting for this small dataset.  Instead, you will analyze the output of a more interesting project in part 2 of the Tutorial.
 
 
 
@@ -465,7 +465,7 @@ Have a look at the output of the genecatalog wokflow.
 head Genecatalog/gene_catalog.faa
 ```
 
-Count how many genes are there, by counting the fasta headers. 
+Count how many genes are there, by counting the fasta headers.
 ```{bash,eval=FALSE}
 grep -c '^>' Genecatalog/gene_catalog.faa
 ```

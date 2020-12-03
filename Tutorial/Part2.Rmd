@@ -14,9 +14,9 @@ library(learnr)
 
 ## Setup
 
-For the second part of the tutorial we made a different online cumputing environemnts available. 
+For the second part of the tutorial, we made two different online computing environments available. 
 
---> Click on either of the two links depending on which cimputer language you are more familiar. 
+--> Click on either of the two links depending on which programming language you are more familiar. 
 
 
 <a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Jupyter</a>
@@ -38,7 +38,7 @@ If there is an error in the building process, try to refresh the page. This will
 <!--
 ## Output files
 
-Usually before starting to install a program I want to make sure that it gives the output I want. Therefore, we look at the output of Metagenome-Atlas. A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run.
+Usually, before starting to install a program I want to make sure that it gives the output I want. Therefore, we look at the output of Metagenome-Atlas. A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run.
 
 You should find a navigation plane in Rstudio/Jupyter lab. 
 -->
@@ -51,7 +51,7 @@ You should find a navigation plane in Rstudio/Jupyter lab.
 
 A real metagenome-atlas run can take more than a day. Therefore we have prepared for you some output of a previous run. We are going to look at the main output files and then do some statistical analysis on the output.
 
-The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high fat diet and got obese.
+The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high-fat diet and got obese.
 
 The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there. 
 
@@ -75,7 +75,7 @@ cd Tutorial
 ```
 
 
-Then, in the filebrowser of your jupyter lab / Rstudio  navigate to the `Tutorial` folder in. 
+Then, in the file browser of your jupyter lab / Rstudio navigate to the `Tutorial` folder in. 
 
 
 
@@ -136,7 +136,7 @@ question("How many species are new/unnamed?",
 
 ## MAG quality
 
-As alread discussed, MAGs are usually not complete or can contain some contamination. Atlas estimates the quality of genomes using checkM. 
+As already discussed, MAGs are usually not complete or can contain some contamination. Atlas estimates the quality of genomes using checkM. 
 
 
 - Run the next cells to get the interactive figure. 
@@ -157,38 +157,38 @@ question("Which is the species with the best quality? (Hint: You can zoom in in 
 message="The species was part of the  Lactobacillus genus before. But careful analysis showed that Lactobacillus consisted of different genera. doi:10.3390/microorganisms7050126"
 question("Does the name surprise you?",
   answer("Yes, Should it not be 'Lactobacillus'?",correct = T, message=message),
-  answer("No not at al", message=message)
+  answer("No not at all", message=message)
   )
 ```
 
 
 ```{r n50, echo=FALSE}
 
-question("What are other ways to be shure that the MAG is really a genome?",
-  answer("If it maps to a reference genome.",correct = T),
+question("What are other ways to be sure that the MAG is really a genome?",
+  answer("If it maps to a reference genome.", correct = T),
   answer("If it was never discovered before"),
-  answer("If it contains all the marker genes that are expected.", message="This is exaclty how checkM works, I asked for alternative ways."),
+  answer("If it contains all the marker genes that are expected.", message="This is exactly how checkM works, I asked for alternative ways."),
     answer("If the MAG is as continuous as possible",correct = T)
   
   )
 ```
 
---> Run the rest of the code and think about the folowing points.
+--> Run the rest of the code and think about the following points.
 
 
-* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? what could be done to imprve it?
+* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? what could be done to improve it?
  
 
 *  We use the median coverage over the genomes to calculate the relative abundance. What is the most abundant species in these metagenomes?
 
-* Functional annotation is based on the output of EggNOG mapper of all the genes. Using the link  between the genes and the genomes we can calculate which function is present in which genome (`genomes/gene2genome.tsv.gz`). Finally, the relative abundance of functions (`Results/annotations`).
+* Functional annotation is based on the output of EggNOG mapper of all the genes. Using the link between the genes and the genomes we can calculate which function is present in which genome (`genomes/gene2genome.tsv.gz`). Finally, the relative abundance of functions (`Results/annotations`).
 
 
-## Differencial abundance 
+## Differential abundance 
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
-We prepared  code for differential analysis. The goal is to find out which changes are associated with High fat diet induced obesity in mice. Open the `Differential_abundance` .Rmd / .ipynb
+We prepared some code for differential analysis. The goal is to find out which changes are associated with High-fat-diet induced obesity in mice. Open the `Differential_abundance` .Rmd / .ipynb
 
 ```{r ob1, echo=FALSE}
 question("What is the relative increase of bodyweight of the mice on high-fat diet compared to the control mice? ",
@@ -200,7 +200,7 @@ question("What is the relative increase of bodyweight of the mice on high-fat di
 
 ### Relative abundance
 
-Execute all steps necessary for the barplot to show up, then answe the folowing questions.
+Execute all steps necessary for the barplot to show up, then answer the following questions.
 
 ```{r ob2, echo=FALSE}
 question("Which major change do you see at phylum level when you compare HFD vs chow diet?",
@@ -224,7 +224,7 @@ question("What do you see at the family level?",
 ### Coda
 
 
-From the vulcano plot select the most significant species. 
+From the volcano plot select the most significant species. 
 
 
 ```{r ob5, echo=FALSE}
@@ -238,7 +238,7 @@ question("To which family does it belong?",
 
 
 ### Look up in GTDB 
-The Species name *UBA7173 sp001689485* may not mean much to you (and to me) but it is acctualy a full species name from the GTDB database. Go to https://gtdb.ecogenomic.org/ and search for this species.
+The Species name *UBA7173 sp001689485* may not mean much to you (and to me) but it is actually a full species name from the GTDB database. Go to https://gtdb.ecogenomic.org/ and search for this species.
 
 
 ```{r ob6, echo=FALSE}
@@ -251,7 +251,7 @@ question("Is the species cultured?",
 
 
 
-The links to the genome identifier allows you also to dig deeper, and look what other reserchers have found out about this species. E.g. in [this figure](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0181-2/figures/3) from Ormerod *et al.* 2016 you can find the species designated with it's strain name `M6`.
+The links to the genome identifier allow you also to dig deeper, and look what other researchers have found out about this species. E.g. in [this figure](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0181-2/figures/3) from Ormerod *et al.* 2016 you can find the species designated with its strain name `M6`.
 
 ## End
 
