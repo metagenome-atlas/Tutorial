@@ -14,6 +14,7 @@ library(learnr)
 In the first part of the tutorial you will learn how to install Atlas, init a new project and run it. Everithing is done in the command line.
 
 
+
 Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
 
 
@@ -74,29 +75,29 @@ question("What is the command to install metagenome-atlas",
 )
 ```
 
---> Run the fastest way to install metagenome-atlas.
+--> Run the fastest command to install metagenome-atlas.
+
+
+
+## Initialisation
+### Start a new project
 
 Run `atlas --help`
-Do you get a message? Then atlas is installed correctly.
 
 ```{r init1, echo=FALSE}
 question("What is the subcommand that you will run to start a new project?",
   answer("atlas download", message="All databases and software is installed on the fly. Download is optional."),
   answer("atlas init",correct = TRUE, message = "Run the command with the '--help' to see what attributes you need"),
   answer("atlas run")
-
 )
 ```
-
-## Initialisation
-### Start a new project
 
 
 To start a new project you need the path to the fastq files of your metagenome samples (You analyze all samples together). We have provided you with two samples of test data in the folder `/data/test_reads`.
 
 The other parameter you should set is the database directory. This should point to a path where you can store the >100GB databases and software installed automatically by metagenome-atlas. Ideally, this is also a shared location with your colleges. For the Tutorial, we will simply use `/data/databases` folder which already exists.
 
---> run the init command
+--> run the init command:
 
 ```{bash, eval=FALSE}
 atlas init --db-dir /data/databases /data/test_reads
@@ -120,7 +121,7 @@ question("What files did atlas create directory?",
 --> Have a look at the `samples.tsv` with `cat samples.tsv`. 
 Check if the names of the samples are inferred correctly. Samples should be alphanumeric names and cam be dash delimited. The `BinGroup` parameter can be used to activate co-binning. All samples in the same BinGroup are used mapped against each other. However, as it doesn't make sense to use this feature for less than three samples we don't use it and let the default.
 
-Let's check the `config.yaml` file. Open it in the integrated file browser on the jupyter page (The first page you entered wafter the login). It contains many parameters to configure the pipeline. They are explained in the comments or more in detail in the documentation.
+Let's check the `config.yaml` file. Open it in the integrated file browser on the jupyter page (The first page you entered after the login). It contains many parameters to configure the pipeline. They are explained in the comments or more in detail in the documentation.
 
 
 ```{r config, echo=FALSE}
@@ -132,6 +133,9 @@ question("With the default configuration. How much memory would be used maximall
   answer(" 60 MB",message= message)
 )
 ```
+
+You can also see that this amount of memory would be needed for 48h with 8 CPUS. When I meant that metagenomics is resource intesive I was not joking. Lukily, most institutions have high perfomance computing system with allow you to run such calculations. ALternatively atlas can also be run in the cloud.
+
 
 If you scrol down to `contaminant_references`, cou can alredy see that the Phix genome is added as contaminant. The Phix is a virus that is frequently used as control for sequencing. Even if you haven't used it in your sequencing there is some chance that some reads might swim around in the sequencer.
 
@@ -256,9 +260,8 @@ question("What is the longest contig in any sample?",
 
 Info: there is also the option to use scaffolding with the spades assembler to combine contigs that can be linked by paired-reads.
 
-### QC output
-
-There are also many files produced for each sample. Can you find the quality-controlled reads (.fastq) for sample1?
+### Sample specific output files
+There are also many files produced for each sample. Once the assembly workflow is finished try to find the quality-controlled reads (.fastq) for sample1?
 
 ```{r qcfastq, echo=FALSE}
 message="We have paired-reads. The third file contains the reads that lost their mate during the equality control. They are seamlessly integrated in the pipeline."
@@ -286,27 +289,6 @@ This are the main output files of the QC workflow for all samples.
 -->
 
 
-### Assembly output
-
-
-
-
-
-
-
-
-
-
-Once the assembly workflow is finished try to find the contigs file for sample 2 (.fasta file). Open it.
-
-
-```{r nsample, echo=FALSE}
-question("What is the name of the first contig? ",
-  answer("sample_0"),
-  answer("sample2_1"),
-  answer("sample2_0",correct = TRUE, message='In python we start to count from 0, it is also the longest contig in the file.')
-)
-```
 
 
 
@@ -321,7 +303,7 @@ Run the dry run command for binning
 atlas run binning --profile Demo
 ```
 
--> How many steps would now be executed by atlas? Remember the number
+--> How many steps would now be executed by atlas? Remember the number
 –> run the command without the dry-run.
 
 Wait until one or two steps have finished then. –> press `CTR + C.`
@@ -347,11 +329,12 @@ We try to reconstruct genomes from the metagenome.
 This is done by grouping together contigs which we think belong to the same genome.
 These groups are called **bins**, and if we really think it is a genome then we call it **MAG for metagenome-assembled genome**
 
+
+<!--
 ![](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width=15cm}
 
-
 *Here is a short animation from the a class of Prof. Eren https://merenlab.org/momics/*
-
+-->
 
 By default, we use the automatic binners metabat2 and maxbin2 and then a bin refining with DAS-Tool.
 Both binners are based on the sequence composition and the coverage profile in one sample. To get the coverage profile we first need to align the reads to the assembly.
@@ -359,6 +342,19 @@ Both binners are based on the sequence composition and the coverage profile in o
 ### Bins
 
 Once the pipeline has finished, let's look at the output.
+
+First, open the contigs file for sample 2 (.fasta file).
+
+```{r nsample, echo=FALSE}
+question("What is the name of the first contig? ",
+  answer("sample_0"),
+  answer("sample2_1"),
+  answer("sample2_0",correct = TRUE, message='It is also the longest contig in the file.')
+)
+```
+
+
+
 
 Each binner produces a `cluster_attribution.tsv` which provides the link between contig and bin.
 Have a look at the one from sample 2 produced by both binners, by running:
@@ -462,4 +458,14 @@ You can no go [Part 2 of the Tutorial](https://metagenome-atlas.shinyapps.io/Par
 
 ```{bash eval=F}
 atlas run genecatalog --profile Demo --working-dir workdir
+```
+
+Have a look at the output of the genecatalog wokflow.
+```{bash,eval=FALSE}
+head Genecatalog/gene_catalog.faa
+```
+
+Count how many genes are there, by counting the fasta headers. 
+```{bash,eval=FALSE}
+grep -c '^>' Genecatalog/gene_catalog.faa
 ```
