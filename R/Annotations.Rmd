@@ -1,5 +1,5 @@
 ---
-title: "Metagenome-atlas output summary"
+title: "Analyze the output of metagenome-atlas"
 output: html_document
 ---
 
@@ -9,15 +9,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE,
 knitr::opts_knit$set(root.dir = "..") # set root dir one level above where Rmd is saved
 ```
 
-Atlas output files are stored in the `Example` folder in the GitHub repository `metagenome-atlas/Tutorial`.
-
-If you don't already have a copy of the GitHub repository locally, you can run the following command from a Terminal.
-Note that RStudio includes a `Terminal` tab next to the `Console` tab.
-In the default configuration of RStudio, this panel is located in the bottom left hand corner.
-
-```{r, eval = F}
-git clone https://github.com/metagenome-atlas/Tutorial.git
-```
+Atlas output files are stored in the `Example` folder.
 
 ```{r libraries}
 library(dplyr)
@@ -34,12 +26,10 @@ library(vegan)
 install.packages("useful")
 library(useful)
 library(kableExtra)
-#library(RColorBrewer)
+library(ggtree)
 ```
 
-# Metagenome assembled genomes
-
-## Taxonomy
+# Taxonomy
 
 ```{r read_tax}
 Tax <- read_tsv("Example/Results/taxonomy.tsv")
@@ -52,8 +42,39 @@ Tax <- Tax %>%
   mutate(Labels = ifelse(is.na(species) & is.na(genus), paste0(family, " ", user_genome), species)) %>%
   mutate(Labels = ifelse(is.na(Labels), paste0(genus, " ", user_genome), Labels))
 ```
+## Draw tree
 
-## Genome quality
+```{r read_newick}
+T <- ggtree::read.tree("Example/genomes/tree/gtdbtk.bac120.nwk")
+```
+
+```{r tax_labels}
+# node names are stored in T$tip.label.
+Tax <- Tax[order(match(Tax$user_genome, T$tip.label)), ] # sort Tax according to the tree
+stopifnot(all.equal(Tax$user_genome, T$tip.label)) # make sure the sorting worked
+T$tip.label <- Tax$Labels
+```
+
+```{r color_tree, fig.height=10}
+# color tree by phylum
+ggtree(T, layout = 'circular') %<+% Tax + 
+  geom_tiplab(aes(color = phylum)) +
+  theme(legend.position = "bottom")
+```
+
+
+```{r highlight_tree, fig.height = 10}
+library(phytools)
+Bacteroidota <- findMRCA(T, c("RC9 sp002298075", "Paramuribaculum MAG61"))
+
+ggtree(T, layout = 'circular') +
+  geom_tiplab() +
+  geom_highlight(Bacteroidota, fill = "steelblue", extend = 3) 
+```
+
+
+
+# Genome quality
 
 ```{r read_genome_quality}
 genome_quality <- read_tsv("Example/Results/genome_completeness.tsv") %>%
@@ -66,19 +87,19 @@ genome_quality <- read_tsv("Example/Results/genome_completeness.tsv") %>%
 
 ```{r plot_contam_vs_quality}
 plt <- ggplot(genome_quality, aes(x = Contamination, y = Completeness, color = phylum)) +
-  geom_point() +
+  geom_point() + xlab('Contamination [%]') + ylab('Completeness [%]') +
   theme_minimal()
 ggplotly(plt)
 ```
 
-## Abundance
+# Abundance
 
 ```{r read_counts}
 Counts <- read_tsv("Example/Results/counts/raw_counts_genomes.tsv")
 kable(topleft(Counts, c = 10))
 ```
 
-### Mapping rate
+## Mapping rate
 
 ```{r mapping_rate, fig.width=2, fig.height=4}
 mapping_rate <- read_tsv("Example/Results/mapping_rate.tsv",
@@ -91,44 +112,8 @@ ggplot(mapping_rate, aes(x = tmp, y = Mapping_rate)) +
   theme_minimal()
 ```
 
-### Stats based on raw counts
 
-There are good reasons to use rawcounts and use centric log ratios, see more in
-
-Gloor, Gregory B., Jean M. Macklaim, Vera Pawlowsky-Glahn, and Juan J. Egozcue. 2017. “Microbiome Datasets Are Compositional: And This Is Not Optional.” Frontiers in Microbiology 8 (November). Frontiers: 2224. doi:10.3389/fmicb.2017.02224.
-
-
-For differencial abundance analysis see also the same paper.
-
-```{r clr_transform}
-# transform counts with centered log ratio
-data <- Counts %>%
-  column_to_rownames(var = "Sample") %>%
-  as.data.frame()
-data <- transform(data, "clr")
-```
-
-```{r heatmap, fig.height = 14, fig.width=10}
-pheatmap(data, cluster_rows = T, cluster_cols = T,
-         labels_row = Tax$Labels)
-```
-
-### PCA (PCoA) of the robust aitchison distance
-
-```{r pcoa_aitchison}
-pcoa_data <- pcoa(dist(t(data), method = "euclidean"))
-pcoa_df <- as.data.frame(pcoa_data$vectors)
-
-plt <- ggplot(pcoa_df, aes(x = Axis.1, y = Axis.2, label = rownames(pcoa_df))) +
-  geom_point() +
-  labs(x = paste0("PC1 (", round(pcoa_data$values$Relative_eig[1] * 100, digits = 1), "%)"),
-       y = paste0("PC2 (", round(pcoa_data$values$Relative_eig[2] * 100, digits = 1), "%)")) +
-  theme_minimal()
-
-ggplotly(plt)
-```
-
-### Relative abundance
+## Relative abundance
 
 For the relative abundance we take the coverage over the genome not the raw counts. This inmplicit normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
@@ -183,13 +168,13 @@ ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
 
 ```
 
-## Functional annotation
+# Functional annotation
 
 Relative abundance of functional annotations per sample
 
 The abundance is calculated as the sum of the relative abundance of all bacteria containing a function.
 
-### CAZy -- Carbohydrate active enzymes
+## CAZy -- Carbohydrate active enzymes
 
 ```{r read_cazy}
 CAZy_annotations_genome <- read_tsv('Example/Results/annotations/CAZy.tsv')
@@ -204,7 +189,7 @@ kable(topleft(CAZy_rel_ab, c=10 ))
 pheatmap(CAZy_rel_ab, show_colnames = F)
 ```
 
-### KEGG orthologs
+## KEGG orthologs
 
 ```{r read_kegg}
 Kegg_annotations_genome <- read_tsv('Example/Results/annotations/KO.tsv')
