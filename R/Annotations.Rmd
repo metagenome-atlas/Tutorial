@@ -57,7 +57,7 @@ T$tip.label <- Tax$Labels
 
 ```{r color_tree, fig.height=10}
 # color tree by phylum
-ggtree(T, layout = 'circular') %<+% Tax + 
+ggtree(T, layout = 'circular') %<+% Tax +
   geom_tiplab(aes(color = phylum)) +
   theme(legend.position = "bottom")
 ```
@@ -69,7 +69,7 @@ Bacteroidota <- findMRCA(T, c("RC9 sp002298075", "Paramuribaculum MAG61"))
 
 ggtree(T, layout = 'circular') +
   geom_tiplab() +
-  geom_highlight(Bacteroidota, fill = "steelblue", extend = 3) 
+  geom_highlight(Bacteroidota, fill = "steelblue", extend = 3)
 ```
 
 
@@ -115,7 +115,7 @@ ggplot(mapping_rate, aes(x = tmp, y = Mapping_rate)) +
 
 ## Relative abundance
 
-For the relative abundance we take the coverage over the genome not the raw counts. This inmplicit normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
+For the relative abundance, we take the coverage over the genome, not the raw counts. This implicitly normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
 ```{r}
 D <- read_tsv("Example/Results/counts/median_coverage_genomes.tsv") %>%
@@ -170,7 +170,7 @@ ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
 
 # Functional annotation
 
-Relative abundance of functional annotations per sample
+The relative abundance of functional annotations per sample
 
 The abundance is calculated as the sum of the relative abundance of all bacteria containing a function.
 
