@@ -24,7 +24,7 @@ library(ALDEx2)
 
 ```
 
-# How does high fat diet impact the microbiome of mice?
+# How does high-fat diet impact the microbiome of mice?
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
@@ -34,7 +34,7 @@ metadata <- read_tsv('Example/metadata.txt')
 kable(metadata)
 ```
 
-We confirm that the mice on high fat diet really put more weight on.
+We confirm that the mice on high-fat diet really put more weight on.
 
 ```{r plot_metadata, fig.width=3, fig.height=4}
 ggplot(metadata, aes(x = Diet, y = Body_weight)) +
@@ -51,7 +51,7 @@ Tax <- read_tsv('Example/Results/taxonomy.tsv') %>%
 
 ## Relative abundance
 
-For the relative abundance we take the coverage over the genome not the raw counts. This inmplicit normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
+For the relative abundance, we take the coverage over the genome, not the raw counts. This implicitly normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
 ```{r}
 D <- read_tsv("Example/Results/counts/median_coverage_genomes.tsv") %>%
@@ -94,13 +94,13 @@ ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
 ## Compositional data analysis
 
 
-In order to analyze the microbiome at the species or genome level we use compositional data analyis (CoDa), see more on [Wikipedia](https://en.wikipedia.org/wiki/Compositional_data) and this article:
+In order to analyze the microbiome at the species or genome-level we use compositional data analysis (CoDa), see more on [Wikipedia](https://en.wikipedia.org/wiki/Compositional_data) and this article:
 
 >Gloor, Gregory B., Jean M. Macklaim, Vera Pawlowsky-Glahn, and Juan J. Egozcue. 2017. “Microbiome Datasets Are  Compositional: And This Is Not Optional.” Frontiers in Microbiology 8 (November). Frontiers: 2224.
     doi: [10.3389/fmicb.2017.02224](https://www.frontiersin.org/articles/10.3389/fmicb.2017.02224).
 
 
-For this we load the rawcounts and use centric log ratios (clr) after imputing values for the zeros.
+For this, we load the raw counts and use centric log-ratios (CLR) after imputing values for the zeros.
 
 
 
@@ -116,7 +116,7 @@ Counts <- read_tsv('Example/Results/counts/raw_counts_genomes.tsv') %>%
 data <- transform(Counts, transform = "clr")
 ```
 
-### PCA (PCoA) of the robust aitchison distance
+### PCA (PCoA) of the robust Aitchison distance
 
 ```{r pca}
 transformed_data <- prcomp(data)
@@ -134,9 +134,9 @@ ggplot(pca_data, aes(x = PC1, y = PC2, color = Diet)) +
   scale_color_manual(values = c(chow = "#00BFC4", HF = "#F8766D"))
 ```
 
-### Differencial abundance analyis
+### Differential abundance analysis
 
-As the counts are normalized in centered log ratio the log FC becomes the difference.
+As the counts are normalized in centred log-ratio the log FC becomes the difference.
 
 We use the alde2 package that uses a welch test to assess differential abundance in the two groups. See Gloor et al for more information.
 
