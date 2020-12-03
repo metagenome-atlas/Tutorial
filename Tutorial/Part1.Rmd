@@ -26,7 +26,7 @@ Do you need some music to work. Have a look at this [spotify playlist](https://o
 2. Log in with the credentials you receved before.
 3. Go to the terminal
 
-![](media/go_to_terminal_jupyter.png)
+![In the upper right corner. click on new, then Terminal](images/go_to_terminal_jupyter.png)
 
 It is as if you would connect to the server of your institution. 
 
