@@ -55,13 +55,6 @@ stopifnot(all.equal(Tax$user_genome, T$tip.label)) # make sure the sorting worke
 T$tip.label <- Tax$Labels
 ```
 
-```{r color_tree, fig.height=10}
-# color tree by phylum
-ggtree(T, layout = 'circular') %<+% Tax +
-  geom_tiplab(aes(color = phylum)) +
-  theme(legend.position = "bottom")
-```
-
 
 ```{r highlight_tree, fig.height = 10}
 library(phytools)
