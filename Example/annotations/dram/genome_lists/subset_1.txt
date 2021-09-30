@@ -1,0 +1,1 @@
+genomes/genomes/MAG14.fasta genomes/genomes/MAG12.fasta genomes/genomes/MAG24.fasta genomes/genomes/MAG25.fasta genomes/genomes/MAG29.fasta genomes/genomes/MAG09.fasta genomes/genomes/MAG07.fasta genomes/genomes/MAG18.fasta genomes/genomes/MAG11.fasta genomes/genomes/MAG06.fasta
