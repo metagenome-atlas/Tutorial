@@ -1,0 +1,12 @@
+[2021-10-01 08:29:11] INFO: GTDB-Tk v1.5.0
+[2021-10-01 08:29:11] INFO: gtdbtk classify --genome_dir genomes/genomes --align_dir genomes/taxonomy/gtdb --out_dir genomes/taxonomy/gtdb --extension fasta --cpus 8
+[2021-10-01 08:29:11] INFO: Using GTDB-Tk reference data version r202: /srv/beegfs/scratch/users/k/kiesers/Atlas/databases/GTDB_V06
+[2021-10-01 08:29:13] TASK: Placing 33 bacterial genomes into reference tree with pplacer using 8 CPUs (be patient).
+[2021-10-01 08:29:14] INFO: pplacer version: v1.1.alpha19-0-g807f6f3
+[2021-10-01 09:44:03] INFO: Calculating RED values based on reference tree.
+[2021-10-01 09:44:13] TASK: Traversing tree to determine classification method.
+[2021-10-01 09:44:13] INFO: Completed 33 genomes in 0.01 seconds (2,225.49 genomes/second).
+[2021-10-01 09:44:14] TASK: Calculating average nucleotide identity using FastANI (v1.32).
+[2021-10-01 09:46:42] INFO: Completed 1,494 comparisons in 2.46 minutes (606.09 comparisons/minute).
+[2021-10-01 09:46:43] INFO: 18 genome(s) have been classified using FastANI and pplacer.
+[2021-10-01 09:46:43] INFO: Done.
