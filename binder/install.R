@@ -7,9 +7,9 @@ install.packages("useful")
 install.packages("broom")
 install.packages("dplyr")
 install.packages("ggplot2")
-install.packages("pheatmap")2
-install.packages("phytools")7
-install.packages("plotly").1
+install.packages("pheatmap")
+install.packages("phytools")
+install.packages("plotly")
 install.packages("purrr")
 install.packages("readr")
 install.packages("stringr")
