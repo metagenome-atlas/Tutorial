@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE,
 
 Load libraries
 
-```{r, libraries}
+```{r, libraries,include=FALSE}
 library(dplyr)
 library(readr)
 library(stringr)
@@ -48,7 +48,7 @@ keggmodules_file = paste0(atlas_wd_folder,"genomes/annotations/dram/kegg_modules
 # Taxonomy
 
 ```{r, read_tax}
-Tax <- read_tsv(taxonomy_file)
+Tax <- read_tsv(taxonomy_file,show_col_types = FALSE)
 kable(Tax)
 ```
 
@@ -107,7 +107,7 @@ tree_plot
 # Genome quality
 
 ```{r, read_genome_quality}
-genome_quality <- read_tsv(quality_file) %>%
+genome_quality <- read_tsv(quality_file,show_col_types = FALSE) %>%
   mutate(Quality_Score = Completeness - (5*Contamination)) %>%
   left_join(Tax, by = c("Bin Id" = "user_genome")) %>%
   mutate(Name = Label) %>%
@@ -116,7 +116,7 @@ genome_quality <- read_tsv(quality_file) %>%
 
 ```{r, plot_contam_vs_quality}
 plt <- ggplot(genome_quality, aes(x = Contamination, y = Completeness, color = phylum, 
-                                  text =      paste("Bin Id:", `Bin Id`, "\nGenus",genus))) +
+                                  text =      paste("Bin Id:", `Bin Id`, "\nName",Name,"\nQuality score:", Quality_Score))) +
   geom_point() + xlab('Contamination [%]') + ylab('Completeness [%]') +
   theme_minimal()
 ggplotly(plt,tooltip = c('text' ))
@@ -129,8 +129,8 @@ ggplotly(plt,tooltip = c('text' ))
 ## Calculate mapping rate
 
 ```{r, mapping_rate, fig.width=1, fig.height=2}
-Counts <- read_tsv(counts_file)
-read_stats <-read_tsv(readstats_file) %>% filter(Step == "QC" )
+Counts <- read_tsv(counts_file, show_col_types = FALSE)
+read_stats <-read_tsv(readstats_file, show_col_types = FALSE) %>% filter(Step == "QC" )
 
 d <- tibble( Sample= colnames(Counts)[-1],
             Mapped_Reads = colSums(Counts[,-1]),
@@ -159,7 +159,7 @@ plt
 For the relative abundance, we take the coverage over the genome, not the raw counts. This implicitly normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
 ```{r}
-D <- read_tsv(abundance_file) %>%
+D <- read_tsv(abundance_file, show_col_types = FALSE) %>%
   column_to_rownames(var = "...1") %>%
   as.data.frame()
 kable(topleft(D, c= 10))
@@ -220,7 +220,7 @@ The abundance is calculated as the sum of the relative abundance of all bacteria
 ```{r, load_modules}
 
 kegg_modules= read_tsv(keggmodules_file,col_select = -1)
-moudle_names= kegg_modules %>% select(c('module','module_name')) %>% distinct()
+module_names= kegg_modules %>% select(c('module','module_name')) %>% distinct()
 
 
 kable(head(kegg_modules))
@@ -250,6 +250,38 @@ module_presence_matrix = module_presence_matrix[, colSums(module_presence_matrix
 hatmap
 ```
 
+```{r,heatmap_interactive2}
+
+library("heatmaply")
+
+d_tax= column_to_rownames(Tax,"user_genome")
+
+
+
+annotations <- module_step_coverage_matrix
+for (genome in rownames(annotations))
+{
+  for (module in colnames(annotations))
+  {
+    annotations[genome,module] = paste0("Name: ", d_tax[genome,"Label"],
+                       "\nPhylum: ",d_tax[genome,"phylum"],
+                       "\nPathway: ", module_names[module,"module_name"]
+                       )
+  }
+}
+
+
+
+
+heatmaply(module_step_coverage_matrix,
+          custom_hovertext = annotations,
+          showticklabels = c(FALSE,FALSE)
+          )
+
+
+```
+
+
 ```{r, module_abundance}
 # Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
 stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
@@ -258,5 +290,6 @@ module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
 pheatmap(module_rel_ab, show_colnames = F)
 
 ```
+
 
 
