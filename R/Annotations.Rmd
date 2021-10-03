@@ -42,7 +42,7 @@ quality_file= paste0(atlas_wd_folder,"genomes/checkm/completeness.tsv")
 counts_file= paste0(atlas_wd_folder,"genomes/counts/raw_counts_genomes.tsv")
 abundance_file = paste0(atlas_wd_folder,"genomes/counts/median_coverage_genomes.tsv")
 readstats_file= paste0(atlas_wd_folder,"stats/read_counts.tsv")
-keggmodules_file = paste0(atlas_wd_folder,"annotations/dram/kegg_modules.tsv")
+keggmodules_file = paste0(atlas_wd_folder,"genomes/annotations/dram/kegg_modules.tsv")
 ```
 
 # Taxonomy
@@ -240,14 +240,22 @@ module_step_coverage_matrix = pivot_wider(kegg_modules,
 
 module_step_coverage_matrix = module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
 
+
 hatmap<- pheatmap(module_step_coverage_matrix, show_colnames = F)
-show(hatmap)
 
 module_presence_matrix = 1 * (module_step_coverage_matrix>step_coverage_threshold)
 
+module_presence_matrix = module_presence_matrix[, colSums(module_presence_matrix) > 0]
+
+hatmap
+```
+
+```{r, module_abundance}
 # Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
 stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
 module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
+
+pheatmap(module_rel_ab, show_colnames = F)
 
 ```
 
