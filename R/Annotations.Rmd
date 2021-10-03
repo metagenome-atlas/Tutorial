@@ -3,107 +3,155 @@ title: "Analyze the output of metagenome-atlas"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE,
-                      warning = FALSE, cache = FALSE, include = TRUE)
-knitr::opts_knit$set(root.dir = "..") # set root dir one level above where Rmd is saved
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
+                      message = FALSE,
+                      warning = FALSE, 
+                      cache = FALSE, include = TRUE)
+
 ```
 
-Atlas output files are stored in the `Example` folder.
+Load libraries
 
-```{r libraries}
+```{r, libraries}
 library(dplyr)
 library(readr)
 library(stringr)
 library(tidyr)
 library(tibble)
 library(ggplot2)
+library(ggbeeswarm)
 library(plotly)
 library(pheatmap)
 library(microbiome)
 library(ape)
 library(vegan)
-install.packages("useful")
 library(useful)
 library(kableExtra)
 library(ggtree)
 ```
 
+Atlas output files are stored in the `Example` folder.
+
+```{r, file_paths}
+atlas_wd_folder = "../Example/"
+
+taxonomy_file = paste0(atlas_wd_folder,"genomes/taxonomy/gtdb_taxonomy.tsv")
+tree_file = paste0(atlas_wd_folder,"genomes/tree/gtdbtk.bac120.nwk")
+quality_file= paste0(atlas_wd_folder,"genomes/checkm/completeness.tsv")
+counts_file= paste0(atlas_wd_folder,"genomes/counts/raw_counts_genomes.tsv")
+abundance_file = paste0(atlas_wd_folder,"genomes/counts/median_coverage_genomes.tsv")
+readstats_file= paste0(atlas_wd_folder,"stats/read_counts.tsv")
+keggmodules_file = paste0(atlas_wd_folder,"annotations/dram/kegg_modules.tsv")
+```
+
 # Taxonomy
 
-```{r read_tax}
-Tax <- read_tsv("Example/Results/taxonomy.tsv")
+```{r, read_tax}
+Tax <- read_tsv(taxonomy_file)
 kable(Tax)
 ```
 
-```{r lab_tax}
+```{r, lab_tax}
 # create a short label for each species
 Tax <- Tax %>%
-  mutate(Labels = ifelse(is.na(species) & is.na(genus), paste0(family, " ", user_genome), species)) %>%
-  mutate(Labels = ifelse(is.na(Labels), paste0(genus, " ", user_genome), Labels))
+  mutate(Label = ifelse(is.na(species) & is.na(genus), paste0(family, " ", user_genome), species)) %>%
+  mutate(Label = ifelse(is.na(Label), paste0(genus, " ", user_genome), Label))
 ```
 ## Draw tree
 
-```{r read_newick}
-T <- ggtree::read.tree("Example/genomes/tree/gtdbtk.bac120.nwk")
+```{r, read_newick}
+T <- ggtree::read.tree(tree_file)
+T <- full_join(T, rename(Tax,label=user_genome), by = "label")
 ```
 
-```{r tax_labels}
+<!--
+```{r, tax_Label}
 # node names are stored in T$tip.label.
 Tax <- Tax[order(match(Tax$user_genome, T$tip.label)), ] # sort Tax according to the tree
 stopifnot(all.equal(Tax$user_genome, T$tip.label)) # make sure the sorting worked
-T$tip.label <- Tax$Labels
+T$tip.label <- Tax$Label
 ```
+-->
 
-
-```{r highlight_tree, fig.height = 10}
+```{r, highlight_tree, fig.height = 10}
 library(phytools)
-Bacteroidota <- findMRCA(T, c("RC9 sp002298075", "Paramuribaculum MAG61"))
 
-ggtree(T, layout = 'circular') +
-  geom_tiplab() +
-  geom_highlight(Bacteroidota, fill = "steelblue", extend = 3)
+tree_plot <- ggtree(T, layout = 'circular') +
+  geom_tiplab(aes(label=Label))
+
+for (phy in unique(Tax$phylum))
+{
+  phy_tax= Tax %>% filter( phylum == phy)
+  if (dim(phy_tax)[1] >1)
+  {
+    phy_mrca <- findMRCA(T@phylo, phy_tax$user_genome)
+    tree_plot <- tree_plot + geom_cladelabel(phy_mrca,
+                                              label = phy,
+                                              angle=0,
+                                              align=TRUE,
+                                              fontsize=20,
+                                             offset = 0.5,
+                                              offset.text=.1,
+                                              barsize=5,
+                                              )
+  }
+}
+
+tree_plot
+  #geom_highlight(Bacteroidota, fill = "steelblue", extend = 3)
 ```
 
 
 
 # Genome quality
 
-```{r read_genome_quality}
-genome_quality <- read_tsv("Example/Results/genome_completeness.tsv") %>%
+```{r, read_genome_quality}
+genome_quality <- read_tsv(quality_file) %>%
   mutate(Quality_Score = Completeness - (5*Contamination)) %>%
-  mutate(Lineage = sapply(str_split(`Marker lineage`, " "), function(x) x[1])) %>%
   left_join(Tax, by = c("Bin Id" = "user_genome")) %>%
-  mutate(Name = Labels) %>%
-  select(-Labels)
+  mutate(Name = Label) %>%
+  select(-Label)
 ```
 
-```{r plot_contam_vs_quality}
-plt <- ggplot(genome_quality, aes(x = Contamination, y = Completeness, color = phylum)) +
+```{r, plot_contam_vs_quality}
+plt <- ggplot(genome_quality, aes(x = Contamination, y = Completeness, color = phylum, 
+                                  text =      paste("Bin Id:", `Bin Id`, "\nGenus",genus))) +
   geom_point() + xlab('Contamination [%]') + ylab('Completeness [%]') +
   theme_minimal()
-ggplotly(plt)
+ggplotly(plt,tooltip = c('text' ))
+
+
 ```
 
 # Abundance
 
-```{r read_counts}
-Counts <- read_tsv("Example/Results/counts/raw_counts_genomes.tsv")
-kable(topleft(Counts, c = 10))
-```
+## Calculate mapping rate
 
-## Mapping rate
+```{r, mapping_rate, fig.width=1, fig.height=2}
+Counts <- read_tsv(counts_file)
+read_stats <-read_tsv(readstats_file) %>% filter(Step == "QC" )
 
-```{r mapping_rate, fig.width=2, fig.height=4}
-mapping_rate <- read_tsv("Example/Results/mapping_rate.tsv",
-                         col_names = c("Sample", "Mapping_rate"), skip = 1)  %>%
-  mutate(tmp = "samples")
+d <- tibble( Sample= colnames(Counts)[-1],
+            Mapped_Reads = colSums(Counts[,-1]),
+             x=0
+             ) %>%
+    left_join(read_stats, on = "Sample") %>%
+  mutate(Mapping_rate = Mapped_Reads / Total_Reads *100)
 
-ggplot(mapping_rate, aes(x = tmp, y = Mapping_rate)) +
-  geom_jitter() +
-  ylim(c(0, 1))+
+plt <- ggplot(d, aes(y = Mapping_rate, x=x,text=paste("Sample:",Sample))) +
+  ylim(c(0, 100))+
+  xlim(c(-0.1,0.1)) +
+   geom_beeswarm() + 
   theme_minimal()
+
+plt
+
+#ggplotly(plt,tooltip = c('text','y' ))
+
 ```
+
+
 
 
 ## Relative abundance
@@ -111,18 +159,18 @@ ggplot(mapping_rate, aes(x = tmp, y = Mapping_rate)) +
 For the relative abundance, we take the coverage over the genome, not the raw counts. This implicitly normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
 ```{r}
-D <- read_tsv("Example/Results/counts/median_coverage_genomes.tsv") %>%
-  column_to_rownames(var = "X1") %>%
+D <- read_tsv(abundance_file) %>%
+  column_to_rownames(var = "...1") %>%
   as.data.frame()
 kable(topleft(D, c= 10))
 ```
 
-```{r relative_abund}
+```{r, relative_abund}
 # calculate relative abundance
 rel_ab <- sweep(D, 1, rowSums(D),`/`)
 ```
 
-```{r calc_most_abund}
+```{r, calc_most_abund}
 # get most abundant genomes
 counts_per_genome <- data.frame(sums = colSums(rel_ab)) %>%
   rownames_to_column(var = "Sample") %>%
@@ -131,7 +179,7 @@ counts_per_genome <- data.frame(sums = colSums(rel_ab)) %>%
 
 
 ggplot(counts_per_genome %>%
-         top_n(sums, n = 10), aes(x = reorder(Labels, sums), y = sums)) +
+         top_n(sums, n = 10), aes(x = reorder(Label, -sums), y = sums)) +
   geom_col() +
   labs(x = "", y = "Abundance [rel_ab]", title = "Most abundant genomes") +
   theme_minimal() +
@@ -140,8 +188,8 @@ ggplot(counts_per_genome %>%
 
 ### Typical bar chart
 
-```{r barchart}
-level <- 'family'
+```{r, barchart}
+level <- 'phylum'
 
 grouped_data <- rel_ab %>%
   t() %>%
@@ -161,38 +209,46 @@ ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
 
 ```
 
-# Functional annotation
+# Functional annotations
 
 The relative abundance of functional annotations per sample
 
 The abundance is calculated as the sum of the relative abundance of all bacteria containing a function.
 
-## CAZy -- Carbohydrate active enzymes
+## Kegg modules produced by Dram
 
-```{r read_cazy}
-CAZy_annotations_genome <- read_tsv('Example/Results/annotations/CAZy.tsv')
-CAZy_presence <- CAZy_annotations_genome %>%
-  column_to_rownames("MAG")
-CAZy_presence[CAZy_presence > 0] <- 1
-kable(topleft(CAZy_presence, c=10))
+```{r, load_modules}
+
+kegg_modules= read_tsv(keggmodules_file,col_select = -1)
+moudle_names= kegg_modules %>% select(c('module','module_name')) %>% distinct()
 
 
-CAZy_rel_ab <- as.matrix(rel_ab) %*% as.matrix(CAZy_presence)
-kable(topleft(CAZy_rel_ab, c=10 ))
-pheatmap(CAZy_rel_ab, show_colnames = F)
+kable(head(kegg_modules))
+
 ```
 
-## KEGG orthologs
+```{r, module_presence}
 
-```{r read_kegg}
-Kegg_annotations_genome <- read_tsv('Example/Results/annotations/KO.tsv')
-Kegg_presence <- Kegg_annotations_genome %>%
-  column_to_rownames("MAG")
-Kegg_presence[Kegg_presence > 0] <- 1
-kable(topleft(Kegg_presence, c=10 ))
+step_coverage_threshold= 0.8
 
+module_step_coverage_matrix = pivot_wider(kegg_modules,  
+                                   id_cols = genome,
+                                   names_from = module, 
+                                   values_from = step_coverage
+                                   ) %>%
+                              column_to_rownames("genome") %>% as.matrix() 
 
-Kegg_rel_ab <- as.matrix(rel_ab) %*% as.matrix(Kegg_presence)
-kable(topleft(Kegg_rel_ab, c=10 ))
-pheatmap(Kegg_rel_ab, show_colnames = F)
+module_step_coverage_matrix = module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
+
+hatmap<- pheatmap(module_step_coverage_matrix, show_colnames = F)
+show(hatmap)
+
+module_presence_matrix = 1 * (module_step_coverage_matrix>step_coverage_threshold)
+
+# Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
+stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
+module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
+
 ```
+
+
