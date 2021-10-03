@@ -42,6 +42,7 @@ quality_file= paste0(atlas_wd_folder,"genomes/checkm/completeness.tsv")
 counts_file= paste0(atlas_wd_folder,"genomes/counts/raw_counts_genomes.tsv")
 abundance_file = paste0(atlas_wd_folder,"genomes/counts/median_coverage_genomes.tsv")
 readstats_file= paste0(atlas_wd_folder,"stats/read_counts.tsv")
+keggmodules_file = paste0(atlas_wd_folder,"annotations/dram/kegg_modules.tsv")
 ```
 
 # Taxonomy
@@ -188,7 +189,7 @@ ggplot(counts_per_genome %>%
 ### Typical bar chart
 
 ```{r, barchart}
-level <- 'family'
+level <- 'phylum'
 
 grouped_data <- rel_ab %>%
   t() %>%
@@ -208,38 +209,46 @@ ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
 
 ```
 
-# Functional annotation
+# Functional annotations
 
 The relative abundance of functional annotations per sample
 
 The abundance is calculated as the sum of the relative abundance of all bacteria containing a function.
 
-## CAZy -- Carbohydrate active enzymes
+## Kegg modules produced by Dram
 
-```{r, read_cazy}
-CAZy_annotations_genome <- read_tsv('Example/Results/annotations/CAZy.tsv')
-CAZy_presence <- CAZy_annotations_genome %>%
-  column_to_rownames("MAG")
-CAZy_presence[CAZy_presence > 0] <- 1
-kable(topleft(CAZy_presence, c=10))
+```{r, load_modules}
+
+kegg_modules= read_tsv(keggmodules_file,col_select = -1)
+moudle_names= kegg_modules %>% select(c('module','module_name')) %>% distinct()
 
 
-CAZy_rel_ab <- as.matrix(rel_ab) %*% as.matrix(CAZy_presence)
-kable(topleft(CAZy_rel_ab, c=10 ))
-pheatmap(CAZy_rel_ab, show_colnames = F)
+kable(head(kegg_modules))
+
 ```
 
-## KEGG orthologs
+```{r, module_presence}
 
-```{r, read_kegg}
-Kegg_annotations_genome <- read_tsv('Example/Results/annotations/KO.tsv')
-Kegg_presence <- Kegg_annotations_genome %>%
-  column_to_rownames("MAG")
-Kegg_presence[Kegg_presence > 0] <- 1
-kable(topleft(Kegg_presence, c=10 ))
+step_coverage_threshold= 0.8
 
+module_step_coverage_matrix = pivot_wider(kegg_modules,  
+                                   id_cols = genome,
+                                   names_from = module, 
+                                   values_from = step_coverage
+                                   ) %>%
+                              column_to_rownames("genome") %>% as.matrix() 
 
-Kegg_rel_ab <- as.matrix(rel_ab) %*% as.matrix(Kegg_presence)
-kable(topleft(Kegg_rel_ab, c=10 ))
-pheatmap(Kegg_rel_ab, show_colnames = F)
+module_step_coverage_matrix = module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
+
+hatmap<- pheatmap(module_step_coverage_matrix, show_colnames = F)
+show(hatmap)
+
+module_presence_matrix = 1 * (module_step_coverage_matrix>step_coverage_threshold)
+
+# Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
+stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
+module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
+
 ```
+
+
