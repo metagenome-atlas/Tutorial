@@ -19,7 +19,7 @@ For the second part of the tutorial, we are using Rstudio in the cloud to analyz
 You will need to create a Rstudio could accout. Take care to create a free one.
 
 
-<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Open Rstudio in the cloud</a>
+<a href="https://rstudio.cloud/project/2975573" target="_blank">Open Rstudio in the cloud</a>
 
 
 
@@ -111,15 +111,15 @@ question("Which is the phylum with the most genomes?",
 ```
 
 
-<!--
+
 ```{r q3, echo=FALSE}
 question("How many species are new/unnamed?",
   answer("3"),
-  answer("63"),
-  answer("41", correct = TRUE),
+  answer("10"),
+  answer("15", correct = TRUE),
   answer("27")
 )
-``` -->
+``` 
 
 
 ## MAG quality
@@ -200,7 +200,7 @@ Execute all steps necessary for the barplot to show up, then answer the followin
 ```{r ob2, echo=FALSE}
 question("Which major change do you see at phylum level when you compare HFD vs chow diet?",
   answer("Less Bacteroidetes",correct=TRUE),
-  answer("More Firmicutes_A",correct = TRUE)
+  answer("More Firmicutes_A",correct = TRUE),
   answer("More Firmicutes")
 )
 ```
