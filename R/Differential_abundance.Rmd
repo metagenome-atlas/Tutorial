@@ -6,7 +6,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE,
                       warning = FALSE, cache = FALSE, include = TRUE)
-knitr::opts_knit$set(root.dir = "..") # set root dir one level above where Rmd is saved
 ```
 
 ```{r libraries,inlclude=FALSE}
@@ -288,7 +287,7 @@ heatmap_labels <- Tax %>%
 heatmap_labels <- heatmap_labels[order(match(heatmap_labels$user_genome, rownames(sig_data))), ]
 
 
-pheatmap(module_rel_ab, show_colnames = F, annotation_row =select(metadata,"Diet"))
+pheatmap(module_rel_ab, show_colnames = F, annotation_row =dplyr::select(metadata,"Diet"))
 
 
 
