@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE,
 knitr::opts_knit$set(root.dir = "..") # set root dir one level above where Rmd is saved
 ```
 
-```{r libraries}
+```{r libraries,inlclude=FALSE}
 library(dplyr)
 library(readr)
 library(tibble)
@@ -19,6 +19,7 @@ library(broom)
 library(pheatmap)
 library(plotly)
 library(microbiome)
+library(ggbeeswarm)
 library(knitr)
 library(ALDEx2)
 
@@ -28,46 +29,62 @@ library(ALDEx2)
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
+```{r, file_paths}
+atlas_wd_folder = "../Example/"
+
+taxonomy_file = paste0(atlas_wd_folder,"genomes/taxonomy/gtdb_taxonomy.tsv")
+tree_file = paste0(atlas_wd_folder,"genomes/tree/gtdbtk.bac120.nwk")
+quality_file= paste0(atlas_wd_folder,"genomes/checkm/completeness.tsv")
+counts_file= paste0(atlas_wd_folder,"genomes/counts/raw_counts_genomes.tsv")
+abundance_file = paste0(atlas_wd_folder,"genomes/counts/median_coverage_genomes.tsv")
+readstats_file= paste0(atlas_wd_folder,"stats/read_counts.tsv")
+keggmodules_file = paste0(atlas_wd_folder,"genomes/annotations/dram/kegg_modules.tsv")
+```
+
 ```{r load_metadata}
 # load metadata
-metadata <- read_tsv('Example/metadata.txt')
+metadata <- read_tsv('../Example/metadata.txt',show_col_types = FALSE) %>% column_to_rownames("...1")
 kable(metadata)
 ```
 
 We confirm that the mice on high-fat diet really put more weight on.
 
-```{r plot_metadata, fig.width=3, fig.height=4}
+```{r plot_metadata, fig.width=1.5, fig.height=1.5}
 ggplot(metadata, aes(x = Diet, y = Body_weight)) +
-  geom_jitter(width = 0.1) +
+   geom_beeswarm() + 
   theme_minimal()
 ```
 
 ```{r labels}
 # create a short label for each genome
-Tax <- read_tsv('Example/Results/taxonomy.tsv') %>%
-  mutate(Labels = ifelse(is.na(species) & is.na(genus), paste0(family, " ", user_genome), species)) %>%
-  mutate(Labels = ifelse(is.na(Labels), paste0(genus, " ", user_genome), Labels))
+Tax <- read_tsv(taxonomy_file,show_col_types = FALSE) %>%
+  mutate(Label = ifelse(is.na(species) & is.na(genus), paste0(family, " ", user_genome), species)) %>%
+  mutate(Label = ifelse(is.na(Label), paste0(genus, " ", user_genome), Label))
 ```
 
 ## Relative abundance
 
 For the relative abundance, we take the coverage over the genome, not the raw counts. This implicitly normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
-```{r}
-D <- read_tsv("Example/Results/counts/median_coverage_genomes.tsv") %>%
-  column_to_rownames(var = "X1")
-```
-
-
-```{r}
+```{r, relab}
+D <- read_tsv(abundance_file, show_col_types = FALSE) %>%
+  column_to_rownames(var = "...1") %>%
+  as.data.frame()
 # calculate relative abundance
-rel_ab <- D/rowSums(D)
+rel_ab <- sweep(D, 1, rowSums(D),`/`) 
+
+# Subset metadata ther is one sample not quantified
+metadata = metadata[rownames(rel_ab),]
+
 ```
 
 ### Bar chart wich group labels
 
 ```{r}
-level <- 'family'
+level <- 'phylum'
+
+grouping_columns= c("Sample",level,"Diet")
+grouping_columns <- lapply(grouping_columns, as.symbol)
 
 grouped_data <- rel_ab %>%
   t() %>%
@@ -75,11 +92,11 @@ grouped_data <- rel_ab %>%
   rownames_to_column(var = "user_genome") %>%
   pivot_longer(cols = -user_genome, names_to = "Sample", values_to = "rel_ab") %>%
   left_join(Tax, by = "user_genome") %>%
-  left_join(metadata, by = c("Sample" = "X1")) %>%
-  group_by(Sample, family, Diet) %>%
+  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")) %>%
+  group_by_(.dots = grouping_columns) %>%
   summarise(summarized_rel_ab = sum(rel_ab))
 
-ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
+ggplot(grouped_data, aes_string(x = "Sample", y = "summarized_rel_ab", fill = level)) +
   geom_col() +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90),
@@ -106,33 +123,27 @@ For this, we load the raw counts and use centric log-ratios (CLR) after imputing
 
 
 ```{r}
-#load raw counts
-
-Counts <- read_tsv('Example/Results/counts/raw_counts_genomes.tsv') %>%
-  column_to_rownames(var = "Sample") %>%
-  t()
-
-# transforme counts with centrig log ratio
-data <- transform(Counts, transform = "clr")
+# transforme counts with centered log ratio
+data <- transform(rel_ab, transform = "clr")
 ```
 
-### PCA (PCoA) of the robust Aitchison distance
+### PCA of the robust Aitchison distance
 
 ```{r pca}
 transformed_data <- prcomp(data)
-```
 
-```{r plot_pca}
 pca_data <- transformed_data$x %>%
   as.data.frame() %>%
   rownames_to_column(var = "Sample") %>%
-  left_join(metadata, by = c("Sample" = "X1"))
+  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname"))
 
 ggplot(pca_data, aes(x = PC1, y = PC2, color = Diet)) +
   geom_point() +
   theme_minimal() +
   scale_color_manual(values = c(chow = "#00BFC4", HF = "#F8766D"))
 ```
+
+
 
 ### Differential abundance analysis
 
@@ -142,7 +153,9 @@ We use the alde2 package that uses a welch test to assess differential abundance
 
 ```{r aldex2}
 
-x <- aldex.clr(reads= t(Counts), conds= metadata$Diet,mc.samples=16, denom="all", verbose=F)
+Counts <- read_tsv(counts_file, show_col_types = FALSE) %>% column_to_rownames("Sample") %>% as.matrix() #%>% t()
+
+x <- aldex.clr(reads= Counts, conds= metadata$Diet,mc.samples=16, denom="all", verbose=F)
 
 d.eff <- aldex.effect(x)
 d.tt <- aldex.ttest(x)
@@ -168,7 +181,7 @@ aldex_stats <- aldex_stats %>%
 
 #### heatmap of significant Genomes
 
-```{r heatmap, fig.height=10, fig.width=10}
+```{r heatmap, fig.height=3, fig.width=5}
 # filter to MAG abundances that were significantly different
 sig_data <- data[, aldex_stats[aldex_stats$Pvalue_BH < 0.1, ]$Id] %>%
   as.data.frame() %>%
@@ -176,7 +189,7 @@ sig_data <- data[, aldex_stats[aldex_stats$Pvalue_BH < 0.1, ]$Id] %>%
 
 # make a dataframe to use to annotate the heatmap
 annot_df <- data.frame(Sample = colnames(sig_data)) %>%
-  left_join(metadata, by = c("Sample" = "X1")) %>%
+  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")) %>%
   column_to_rownames(var = "Sample") %>%
   dplyr::select(Diet)
 
@@ -185,8 +198,8 @@ heatmap_labels <- Tax %>%
   filter(user_genome %in% rownames(sig_data))
 heatmap_labels <- heatmap_labels[order(match(heatmap_labels$user_genome, rownames(sig_data))), ]
 
-pheatmap(sig_data, cluster_rows = T, cluster_cols = T, annotation_col = annot_df,
-         labels_row = heatmap_labels$Labels)
+pheatmap(sig_data, annotation_col = annot_df,
+         labels_row = heatmap_labels$Label)
 ```
 
 #### Volcano plot
@@ -198,26 +211,85 @@ pheatmap(sig_data, cluster_rows = T, cluster_cols = T, annotation_col = annot_df
 #  theme_minimal()
 
 plt <- ggplot(aldex_stats, aes(x = logFC, y = logP, alpha = logP,
-                         label = Labels, label2 = Id)) +
+                         label = Label, label2 = Id)) +
   geom_point(color = "#67000d") +
   theme_minimal()
-
-ggplotly(plt, tooltip = c("label", "label2", "label3"))
+  
+ggplotly(plt) #, tooltip = c("label", "label2"))
 ```
 
 
 
 ```{r}
-genome_of_interest = 'MAG08'
+genome_of_interest = 'MAG01'
 ggplot(data %>%
          as.data.frame %>%
          rownames_to_column(var = "Sample") %>%
-         left_join(metadata, by = c("Sample" = "X1")),
-         aes(y = genome_of_interest, x = Diet, fill = Diet)) +
+         left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")),
+         aes_string(y = genome_of_interest, x = "Diet", fill = "Diet")) +
   geom_boxplot() +
   theme_minimal() +
   scale_fill_manual(values = c(chow = "#00BFC4", HF = "#F8766D"))
 
 kable(Tax %>%
   filter(user_genome == genome_of_interest))
+```
+
+
+# Functional Differences
+
+```{r, load_modules}
+
+kegg_modules= read_tsv(keggmodules_file,col_select = -1,show_col_types = FALSE)
+module_names= kegg_modules %>% select(c('module','module_name')) %>% distinct()
+
+
+```
+
+```{r, module_presence}
+
+step_coverage_threshold= 0.8
+
+module_step_coverage_matrix = pivot_wider(kegg_modules,  
+                                   id_cols = genome,
+                                   names_from = module, 
+                                   values_from = step_coverage
+                                   ) %>%
+                              column_to_rownames("genome") %>% as.matrix() 
+
+module_step_coverage_matrix = module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
+
+
+hatmap<- pheatmap(module_step_coverage_matrix, show_colnames = F)
+
+module_presence_matrix = 1 * (module_step_coverage_matrix>step_coverage_threshold)
+
+module_presence_matrix = module_presence_matrix[, colSums(module_presence_matrix) > 0]
+
+hatmap
+```
+
+
+
+```{r, module_abundance}
+# Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
+stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
+module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
+
+# make a dataframe to use to annotate the heatmap
+annot_df <- data.frame(Sample = colnames(sig_data)) %>%
+  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")) %>%
+  column_to_rownames(var = "Sample") %>%
+  dplyr::select(Diet)
+
+# sort labels by sig_data order
+heatmap_labels <- Tax %>%
+  filter(user_genome %in% rownames(sig_data))
+heatmap_labels <- heatmap_labels[order(match(heatmap_labels$user_genome, rownames(sig_data))), ]
+
+
+pheatmap(module_rel_ab, show_colnames = F, annotation_row =select(metadata,"Diet"))
+
+
+
 ```

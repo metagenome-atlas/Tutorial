@@ -14,24 +14,12 @@ library(learnr)
 
 ## Setup
 
-For the second part of the tutorial, we made two different online computing environments available. 
+For the second part of the tutorial, we are using Rstudio in the cloud to analyze the output of a demo atlas run.
 
---> Click on either of the two links depending on which programming language you are more familiar. 
-
-
-<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Jupyter</a>
-
-<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/R?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Drstudio%252F%26branch%3Dmaster" target="_blank">Rstudio</a>
-
-<!--
-[![Jupyter](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Jupyter_logo.svg/207px-Jupyter_logo.svg.png){width=200px}](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=lab)            [![Rstudio](https://rstudio.com/wp-content/uploads/2018/10/RStudio-Logo-flat.svg){width=200px}](http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=rstudio)
--->
-
-The setup can take some minutes ...
+You will need to create a Rstudio could accout. Take care to create a free one.
 
 
-If there is an error in the building process, try to refresh the page. This will trigger a re-build. Sometimes I had to rebuild 2-3 times.
-
+<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Open Rstudio in the cloud</a>
 
 
 
@@ -40,7 +28,7 @@ If there is an error in the building process, try to refresh the page. This will
 
 Usually, before starting to install a program I want to make sure that it gives the output I want. Therefore, we look at the output of Metagenome-Atlas. A real Metagenome-Atlas run can take more than a day. Therefore we have you prepared some output of a previous run.
 
-You should find a navigation plane in Rstudio/Jupyter lab. 
+You should find a navigation plane in Rstudio/Jupyter lab.
 -->
 
 
@@ -53,7 +41,7 @@ A real metagenome-atlas run can take more than a day. Therefore we have prepared
 
 The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high-fat diet and got obese.
 
-The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there. 
+The code is in the `R` <!--or in the `Python` --> directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there.
 
 
 
@@ -75,29 +63,29 @@ cd Tutorial
 ```
 
 
-Then, in the file browser of your jupyter lab / Rstudio navigate to the `Tutorial` folder in. 
+Then, in the file browser of your jupyter lab / Rstudio navigate to the `Tutorial` folder in.
 
 
 
-The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there. 
+The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there.
 -->
 ## Output files
 <!--
-I put only the result from one sample online, named `ERR675519`. 
+I put only the result from one sample online, named `ERR675519`.
 -->
 
 The main goal of atlas is to create metagenome-assembled genomes (MAGs). The final set of non-redundant genomes are in the folder `genomes/genomes`.
 
 
-* Open the `Annotations` .Rmd or .ipynb.
+* Open the `Annotations` .Rmd <!--or .ipynb. -->
 
-* Run the code chunks/cells to answer the following questions. 
+* Run the code chunks/cells to answer the following questions.
 
 
 ```{r q1, echo=FALSE}
-question("How many are there?",
+question("How many MAGs are there?",
   answer("14"),
-  answer("63", correct = TRUE),
+  answer("33", correct = TRUE),
   answer("42"),
   answer("26")
 )
@@ -106,7 +94,7 @@ question("How many are there?",
 
 ## Taxonomy
 
-Now we want to analyze the taxonomy of these genomes. The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org The taxonomy can be found in `Example/Results/taxonomy.tsv`. 
+Now we want to analyze the taxonomy of these genomes. The Taxonomy is based on the Genome Taxonomy Database (GTDB) which tries to be consistent with genome distances. See more on https://gtdb.ecogenomic.org The taxonomy can be found in `Example/genomes/taxonomy/gtdb_taxonomy.tsv`.
 
 
 
@@ -123,7 +111,7 @@ question("Which is the phylum with the most genomes?",
 ```
 
 
-
+<!--
 ```{r q3, echo=FALSE}
 question("How many species are new/unnamed?",
   answer("3"),
@@ -131,36 +119,39 @@ question("How many species are new/unnamed?",
   answer("41", correct = TRUE),
   answer("27")
 )
-```
+``` -->
 
 
 ## MAG quality
 
-As already discussed, MAGs are usually not complete or can contain some contamination. Atlas estimates the quality of genomes using checkM. 
+As already discussed, MAGs are usually not complete or can contain some contamination. Atlas estimates the quality of genomes using checkM.
 
 
-- Run the next cells to get the interactive figure. 
+- Run the next cells to get the interactive figure.
 
 
 ```{r q4, echo=FALSE}
+message="Best quality is measured as high Completeness and low Contamination."
 question("Which is the species with the best quality? (Hint: You can zoom in in the interactive figure)",
-  answer("Ligilactobacillus murinus", message="Best quality is measured as high Completeness and low Contamination."),
-  answer("Limosilactobacillus reuteri", correct = TRUE),
-  answer("Oscillospiraceae MAG59", message="Best quality is measured as high Completeness and low Contamination."),
-  answer("An181 MAG05", message="Best quality is measured as high Completeness and low Contamination.")
+  answer("Ligilactobacillus murinus", message=message),
+  answer("NM07-P-09 sp004793925 ", correct = TRUE),
+  answer("Bacteroides intestinalis ", message=message)
 )
 ```
 
-### Lactobacilus
+## Look up in GTDB
+The Species name *NM07-P-09 sp004793925* may not mean much to you (and to me) but it is actually a full species name from the GTDB database. Go to https://gtdb.ecogenomic.org/ and search for this species.
 
-```{r lacto, echo=FALSE}
-message="The species was part of the  Lactobacillus genus before. But careful analysis showed that Lactobacillus consisted of different genera. doi:10.3390/microorganisms7050126"
-question("Does the name surprise you?",
-  answer("Yes, Should it not be 'Lactobacillus'?",correct = T, message=message),
-  answer("No not at all", message=message)
-  )
+
+```{r ob6, echo=FALSE}
+message="Yes, there is a genome from an isolate."
+question("Is the species cultured?",
+  answer("Yes", message=message),
+  answer("No", correct=TRUE,message=message)
+)
 ```
 
+<!-- https://gtdb.ecogenomic.org/genomes?gid=GCF_004793665.1 -->
 
 ```{r n50, echo=FALSE}
 
@@ -169,26 +160,30 @@ question("What are other ways to be sure that the MAG is really a genome?",
   answer("If it was never discovered before"),
   answer("If it contains all the marker genes that are expected.", message="This is exactly how checkM works, I asked for alternative ways."),
     answer("If the MAG is as continuous as possible",correct = T)
-  
+
   )
 ```
+
+## Quantification
+
 
 --> Run the rest of the code and think about the following points.
 
 
 * Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? what could be done to improve it?
- 
+
 
 *  We use the median coverage over the genomes to calculate the relative abundance. What is the most abundant species in these metagenomes?
 
-* Functional annotation is based on the output of EggNOG mapper of all the genes. Using the link between the genes and the genomes we can calculate which function is present in which genome (`genomes/gene2genome.tsv.gz`). Finally, the relative abundance of functions (`Results/annotations`).
+* What are conserved functions among the genomes? Do you see trends by phylum? Can you distinguish genomes fromt he *Firmicutes_A* and *Firmicutes* phyla?
 
 
-## Differential abundance 
+## Differential abundance
 
 ![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
-We prepared some code for differential analysis. The goal is to find out which changes are associated with High-fat-diet induced obesity in mice. Open the `Differential_abundance` .Rmd / .ipynb
+We prepared some code for differential analysis. The goal is to find out which changes are associated with High-fat-diet induced obesity in mice. Open the `Differential_abundance` .Rmd
+<!-- / .ipynb -->
 
 ```{r ob1, echo=FALSE}
 question("What is the relative increase of bodyweight of the mice on high-fat diet compared to the control mice? ",
@@ -206,6 +201,7 @@ Execute all steps necessary for the barplot to show up, then answer the followin
 question("Which major change do you see at phylum level when you compare HFD vs chow diet?",
   answer("Less Bacteroidetes",correct=TRUE),
   answer("More Firmicutes_A",correct = TRUE)
+  answer("More Firmicutes")
 )
 ```
 
@@ -224,7 +220,7 @@ question("What do you see at the family level?",
 ### Coda
 
 
-From the volcano plot select the most significant species. 
+From the volcano plot select the most significant species.
 
 
 ```{r ob5, echo=FALSE}
@@ -237,23 +233,18 @@ question("To which family does it belong?",
 ```
 
 
-### Look up in GTDB 
+<!-- ### Look up in GTDB
 The Species name *UBA7173 sp001689485* may not mean much to you (and to me) but it is actually a full species name from the GTDB database. Go to https://gtdb.ecogenomic.org/ and search for this species.
 
 
-```{r ob6, echo=FALSE}
-message="The 'Genome Category' is MAG so the genome is probably not cultured."
-question("Is the species cultured?",
-  answer("Yes", message=message),
-  answer("No", correct=TRUE,message=message)
-)
-```
 
 
+The links to the genome identifier allow you also to dig deeper, and look what other researchers have found out about this species. E.g. in [this figure](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0181-2/figures/3) from Ormerod *et al.* 2016 you can find the species designated with its strain name `M6`. -->
 
-The links to the genome identifier allow you also to dig deeper, and look what other researchers have found out about this species. E.g. in [this figure](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0181-2/figures/3) from Ormerod *et al.* 2016 you can find the species designated with its strain name `M6`.
+## Functional differences
+
+Which block of Functions are different between the two groups?
 
 ## End
 
 Thank, you very much for participating in the Tutorial.
-
