@@ -14,14 +14,15 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE,
 Load libraries
 
 ```{r, libraries,include=FALSE}
-library(dplyr)
+library(plotly)
+library(heatmaply)
+library(dplyr) # dpyr masks select from plotly
 library(readr)
 library(stringr)
 library(tidyr)
 library(tibble)
 library(ggplot2)
 library(ggbeeswarm)
-library(plotly)
 library(pheatmap)
 library(microbiome)
 library(ape)
@@ -65,14 +66,7 @@ T <- ggtree::read.tree(tree_file)
 T <- full_join(T, rename(Tax,label=user_genome), by = "label")
 ```
 
-<!--
-```{r, tax_Label}
-# node names are stored in T$tip.label.
-Tax <- Tax[order(match(Tax$user_genome, T$tip.label)), ] # sort Tax according to the tree
-stopifnot(all.equal(Tax$user_genome, T$tip.label)) # make sure the sorting worked
-T$tip.label <- Tax$Label
-```
--->
+
 
 ```{r, highlight_tree, fig.height = 10}
 library(phytools)
@@ -168,9 +162,7 @@ kable(topleft(D, c= 10))
 ```{r, relative_abund}
 # calculate relative abundance
 rel_ab <- sweep(D, 1, rowSums(D),`/`)
-```
 
-```{r, calc_most_abund}
 # get most abundant genomes
 counts_per_genome <- data.frame(sums = colSums(rel_ab)) %>%
   rownames_to_column(var = "Sample") %>%
@@ -191,16 +183,19 @@ ggplot(counts_per_genome %>%
 ```{r, barchart}
 level <- 'phylum'
 
+grouping_columns= c("Sample",level)
+grouping_columns <- lapply(grouping_columns, as.symbol)
+
 grouped_data <- rel_ab %>%
   t() %>%
   as.data.frame() %>%
   rownames_to_column(var = "user_genome") %>%
   pivot_longer(cols = -user_genome, names_to = "Sample", values_to = "rel_ab") %>%
   left_join(Tax, by = "user_genome") %>%
-  group_by(Sample, family) %>%
+  group_by_(.dots = grouping_columns) %>%
   summarise(summarized_rel_ab = sum(rel_ab))
 
-ggplot(grouped_data, aes(x = Sample, y = summarized_rel_ab, fill = family)) +
+ggplot(grouped_data, aes_string(x = "Sample", y = "summarized_rel_ab", fill = level)) +
   geom_col() +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90)) +
@@ -252,7 +247,7 @@ hatmap
 
 ```{r,heatmap_interactive2}
 
-library("heatmaply")
+
 
 d_tax= column_to_rownames(Tax,"user_genome")
 
