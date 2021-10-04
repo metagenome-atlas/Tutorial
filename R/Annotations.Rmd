@@ -181,7 +181,7 @@ ggplot(counts_per_genome %>%
 ### Typical bar chart
 
 ```{r, barchart}
-level <- 'phylum'
+level <- 'family'
 
 grouping_columns= c("Sample",level)
 grouping_columns <- lapply(grouping_columns, as.symbol)
