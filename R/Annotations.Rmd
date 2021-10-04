@@ -105,7 +105,7 @@ genome_quality <- read_tsv(quality_file,show_col_types = FALSE) %>%
   mutate(Quality_Score = Completeness - (5*Contamination)) %>%
   left_join(Tax, by = c("Bin Id" = "user_genome")) %>%
   mutate(Name = Label) %>%
-  select(-Label)
+  dplyr::select(-Label)
 ```
 
 ```{r, plot_contam_vs_quality}
@@ -215,7 +215,7 @@ The abundance is calculated as the sum of the relative abundance of all bacteria
 ```{r, load_modules}
 
 kegg_modules= read_tsv(keggmodules_file,col_select = -1)
-module_names= kegg_modules %>% select(c('module','module_name')) %>% distinct()
+module_names= kegg_modules %>% dplyr::select(c('module','module_name')) %>% distinct()
 
 
 kable(head(kegg_modules))
