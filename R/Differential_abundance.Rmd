@@ -240,7 +240,7 @@ kable(Tax %>%
 ```{r, load_modules}
 
 kegg_modules= read_tsv(keggmodules_file,col_select = -1,show_col_types = FALSE)
-module_names= kegg_modules %>% select(c('module','module_name')) %>% distinct()
+module_names= kegg_modules %>% dplyr::select(c('module','module_name')) %>% distinct()
 
 
 ```
