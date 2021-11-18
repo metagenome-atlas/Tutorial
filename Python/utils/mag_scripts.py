@@ -45,7 +45,7 @@ def clr(data, log=np.log2):
     from skbio.stats import composition
 
     # remove columns with all zeros
-    data = data.loc[:, ~(data ==0 ).all()]
+    data = data.loc[:, ~(data == 0).all()]
 
     # dataframe with replaced zeros
     data = pd.DataFrame(
