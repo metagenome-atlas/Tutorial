@@ -1,4 +1,5 @@
 #! /usr/bin/python
+
 import pandas as pd
 import numpy as np
 
@@ -150,8 +151,7 @@ def Grouped_Bar_Plot(
 def MeanGroup_Barplot(
     data,
     grouping_variable,
-    filtervalue=20,
-    mode="fixed",
+    topN=20,
     order=None,
     figsize=(8, 8),
     sp_keywords={},
@@ -162,7 +162,7 @@ def MeanGroup_Barplot(
         order = np.unique(grouping_variable)
 
     Grouped = data.groupby(grouping_variable)
-    refined = minfilter(Grouped.mean(), value=filtervalue, mode=mode)
+    refined = filter_taxa(Grouped.mean(), topN)
     refined = refined.loc[order]
 
     plt.figure(figsize=figsize)

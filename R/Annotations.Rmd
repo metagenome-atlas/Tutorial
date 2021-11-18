@@ -131,7 +131,7 @@ d <- tibble( Sample= colnames(Counts)[-1],
              x=0
              ) %>%
     left_join(read_stats, on = "Sample") %>%
-  mutate(Mapping_rate = Mapped_Reads / Total_Reads *100)
+  mutate(Mapping_rate = Mapped_Reads / (Reads_pe*2+Reads_se) *100)
 
 plt <- ggplot(d, aes(y = Mapping_rate, x=x,text=paste("Sample:",Sample))) +
   ylim(c(0, 100))+

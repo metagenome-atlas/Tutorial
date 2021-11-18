@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import warnings
 
 TAXONMIC_LEVELS = ["kindom", "phylum", "class", "order", "family", "genus", "species"]
 
@@ -36,21 +37,17 @@ def tax2table(Taxonomy_Series, split_character=";", remove_prefix=False):
     return Tax
 
 
-def clr(counts_data, log=np.log2):
+def clr(data, log=np.log2):
     "Convert counts data to centered log ratio with log2. "
     "Zeros are replaced by multiplicative_replacement from scikit-bio. "
     "See wikipedia for centered log ratio."
 
     from skbio.stats import composition
 
-    # TODO: check if count data
-
-    data = counts_data.astype(int)
-
     # remove columns with all zeros
-    data = data.loc[:, ~(data <= 1).all()]
+    data = data.loc[:, ~(data ==0 ).all()]
 
-    # dataframe with replace zeros
+    # dataframe with replaced zeros
     data = pd.DataFrame(
         composition.multiplicative_replacement(data),
         columns=data.columns,
