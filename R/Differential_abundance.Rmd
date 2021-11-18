@@ -116,7 +116,7 @@ In order to analyze the microbiome at the species or genome-level we use composi
     doi: [10.3389/fmicb.2017.02224](https://www.frontiersin.org/articles/10.3389/fmicb.2017.02224).
 
 
-For this, we load the raw counts and use centric log-ratios (CLR) after imputing values for the zeros.
+For this, we transform the abundances with the centric log-ratios (CLR) after imputing values for the zeros.
 
 
 
@@ -126,7 +126,7 @@ For this, we load the raw counts and use centric log-ratios (CLR) after imputing
 data <- transform(rel_ab, transform = "clr")
 ```
 
-### PCA of the robust Aitchison distance
+### PCA of the Aitchison distance
 
 ```{r pca}
 transformed_data <- prcomp(data)
@@ -292,3 +292,9 @@ pheatmap(module_rel_ab, show_colnames = F, annotation_row =dplyr::select(metadat
 
 
 ```
+
+Hover over the heatmap to identify modules that are more abundant in the HF diet.
+
+Go to the [Kegg module webpage](https://www.genome.jp/kegg/module.html) and search for an increased module, e.g. M00165 to visualize where it is.
+
+Alse alternative you can go to the [IPath website](https://pathways.embl.de/ipath3.cgi) 
