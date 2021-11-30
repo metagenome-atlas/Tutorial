@@ -27,6 +27,7 @@ RUN conda config --add channels bioconda
 RUN conda config --add channels conda-forge
 
 # get basic bash tools
+RUN sudo apt-get -y update
 RUN sudo apt-get install -y less nano wget grep
 
 
