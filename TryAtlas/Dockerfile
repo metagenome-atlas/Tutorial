@@ -20,19 +20,24 @@ USER root
 RUN export LC_ALL=en_US.UTF-8
 RUN export LANG=en_US.UTF-8
 
-ENV databaseDir="$HOME/databases"
-
-RUN mkdir $databaseDir
 
 
 # setup miniconda
 RUN conda config --add channels bioconda
 RUN conda config --add channels conda-forge
 
-# RUN conda init
+# get basic bash tools
+RUN sudo apt-get install -y less nano wget grep
 
-# get nano
-RUN mamba install -y nano wget
+
+USER $NB_UID
+
+RUN conda init
+
+ENV databaseDir="$HOME/databases"
+
+RUN mkdir $databaseDir
+
 
 # get example data
 RUN wget --quiet https://zenodo.org/record/3992790/files/test_reads.tar.gz && tar -xzf test_reads.tar.gz && rm -f test_reads.tar.gz
@@ -48,7 +53,6 @@ ENV version="2.8.1"
 ### install atlas
 
 
-# install metagenome-atlas in its own environemnt
 # install metagenome-atlas in its own environemnt
 RUN mamba create -yn adminenv metagenome-atlas=$version
 
@@ -77,4 +81,4 @@ RUN atlas run  -w $WORKING_DIR  binning  --conda-create-envs-only
 ##
 ADD test_atlas.sh /
 RUN chmod +x /test_atlas.sh
-ENV DEMO=" -j 2 --resources mem=8 java_mem=10 "
+ENV DEMO=" -j 2 --resources mem=18 java_mem=20 "
