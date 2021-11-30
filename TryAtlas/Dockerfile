@@ -1,0 +1,80 @@
+FROM jupyter/base-notebook
+
+
+################## METADATA ######################
+LABEL base.image="jupyter/base-notebook"
+LABEL version="$version"
+LABEL software="metagenome-atlas"
+LABEL software.version="2"
+LABEL about.summary="Test metagenome-atlas"
+LABEL about.home="https://github.com/metagenome-atlas/Tutorial"
+LABEL license="BSD-3"
+LABEL about.tags="metagenomics, annotation, snakemake, assembly, genomic-binning, functional-annotation, taxonomic-classifications"
+
+################## MAINTAINER ######################
+MAINTAINER Silas Kieser
+
+# Switch back to root for some install
+
+USER root
+RUN export LC_ALL=en_US.UTF-8
+RUN export LANG=en_US.UTF-8
+
+ENV databaseDir="$HOME/databases"
+
+RUN mkdir $databaseDir
+
+
+# setup miniconda
+RUN conda config --add channels bioconda
+RUN conda config --add channels conda-forge
+
+# RUN conda init
+
+# get nano
+RUN mamba install -y nano wget
+
+# get example data
+RUN wget --quiet https://zenodo.org/record/3992790/files/test_reads.tar.gz && tar -xzf test_reads.tar.gz && rm -f test_reads.tar.gz
+
+RUN echo "> contig_1\nAAAAAAAAAAATTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" > $databaseDir/human_genome.fasta
+
+
+
+
+# download atlas
+ENV version="2.8.1"
+
+### install atlas
+
+
+# install metagenome-atlas in its own environemnt
+# install metagenome-atlas in its own environemnt
+RUN mamba create -yn adminenv metagenome-atlas=$version
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "adminenv", "/bin/bash", "-c"]
+
+RUN atlas --help
+
+# modify atlas code to decrease memory of checkm
+ADD patch.py /
+RUN python /patch.py
+
+#################
+
+ENV WORKING_DIR='/.test/'
+# dryrun
+
+# "run atlas this installs software via conda"
+RUN atlas init -w $WORKING_DIR --db-dir $databaseDir test_reads
+
+
+RUN atlas run all -w $WORKING_DIR --dryrun
+
+RUN atlas run  -w $WORKING_DIR  binning  --conda-create-envs-only
+
+##
+ADD test_atlas.sh /
+RUN chmod +x /test_atlas.sh
+ENV DEMO=" -j 2 --resources mem=8 java_mem=10 "
