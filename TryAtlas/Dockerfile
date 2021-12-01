@@ -32,7 +32,7 @@ RUN sudo apt-get install -y less nano wget grep
 
 
 USER $NB_UID
-
+# doesn't work
 RUN conda init
 
 ENV databaseDir="$HOME/databases"
@@ -76,10 +76,20 @@ RUN atlas init -w $TEST_WORKING_DIR --db-dir $databaseDir test_reads
 
 
 RUN atlas run all -w $TEST_WORKING_DIR --dryrun
-
+RUN atlas run  -w $TEST_WORKING_DIR  qc  --conda-create-envs-only
+RUN atlas run  -w $TEST_WORKING_DIR  assembly  --conda-create-envs-only
 RUN atlas run  -w $TEST_WORKING_DIR  binning  --conda-create-envs-only
 
 ##
+ENV DEMO=" -j 2 --resources mem=18 java_mem=20 "
+
+## add script and make it executable by everyone
+USER root
 ADD test_atlas.sh /
 RUN chmod +x /test_atlas.sh
-ENV DEMO=" -j 2 --resources mem=18 java_mem=20 "
+RUN chmod +x /patch.py
+# remove empty folder
+RUN rmdir $HOME/work
+
+#remove one env to show instalation
+RUN rm -r "$(grep plotly databases/conda_envs/*.yaml | cut -f1 -d'.')"*
