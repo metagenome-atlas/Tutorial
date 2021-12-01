@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
-
+atlas_version=2.8
 
 # databases can be replaced with a shared location
 db_dir=$HOME/databases
@@ -8,9 +8,14 @@ working_dir=/Test_atlas
 
 ls $db_dir
 
-source activate adminenv
+#source activate adminenv
+mamba create -yn testenv metagenome-atlas=$atlas_version
+
+source activate testenv
 
 atlas --version
+
+/patch.py
 
 ## Test
 
@@ -25,9 +30,10 @@ head $working_dir/samples.tsv
 
 echo "run atlas this installs software via conda"
 
+
 atlas run binning  $snakemake_args $snakemake_args $@
 
 
-
+mamba env remove -yn testenv
 
 echo "finished test"
