@@ -68,16 +68,16 @@ RUN python /patch.py
 
 #################
 
-ENV WORKING_DIR='/.test/'
+ENV TEST_WORKING_DIR="$HOME/.test/"
 # dryrun
 
-# "run atlas this installs software via conda"
-RUN atlas init -w $WORKING_DIR --db-dir $databaseDir test_reads
+# run atlas this installs software via conda
+RUN atlas init -w $TEST_WORKING_DIR --db-dir $databaseDir test_reads
 
 
-RUN atlas run all -w $WORKING_DIR --dryrun
+RUN atlas run all -w $TEST_WORKING_DIR --dryrun
 
-RUN atlas run  -w $WORKING_DIR  binning  --conda-create-envs-only
+RUN atlas run  -w $TEST_WORKING_DIR  binning  --conda-create-envs-only
 
 ##
 ADD test_atlas.sh /
