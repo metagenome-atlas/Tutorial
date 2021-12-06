@@ -81,7 +81,7 @@ RUN atlas run  -w $TEST_WORKING_DIR  assembly  --conda-create-envs-only
 RUN atlas run  -w $TEST_WORKING_DIR  binning  --conda-create-envs-only
 
 ##
-ENV DEMO=" -j 2 --resources mem=18 java_mem=20 "
+
 
 ## add script and make it executable by everyone
 USER root
@@ -93,3 +93,5 @@ RUN rmdir $HOME/work
 
 #remove one env to show instalation
 RUN rm -r "$(grep plotly databases/conda_envs/*.yaml | cut -f1 -d'.')"*
+
+ENV DEMO=" --resources mem=3 java_mem=2 --omit-from download_checkm_data -j 2 "

@@ -20,7 +20,7 @@ atlas --version
 ## Test
 
 echo "Run atlas test"
-snakemake_args=" -w $working_dir --resources mem=10 java_mem=10  -j 2"
+snakemake_args=" -w $working_dir $DEMO"
 
 
 atlas init -w $working_dir --db-dir $db_dir $HOME/test_reads

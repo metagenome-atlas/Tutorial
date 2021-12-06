@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-Tag="metagenomeatlas/atlas_tutorial:v2"
+Tag="metagenomeatlas/atlas_tutorial:v3"
 
 docker build . -t atlas_tutorial
 
