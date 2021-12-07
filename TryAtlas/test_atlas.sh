@@ -4,7 +4,7 @@ atlas_version=2.8
 
 # databases can be replaced with a shared location
 db_dir=$HOME/databases
-working_dir=/Test_atlas
+working_dir=$HOME/Test_atlas
 
 ls $db_dir
 
