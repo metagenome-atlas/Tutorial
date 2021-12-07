@@ -1,7 +1,10 @@
 
 
 
-[Binder_Rstudio]: https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/R?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Drstudio%252F%26branch%3Dmaster
+[Binder_Rstudio]: https://rstudio.cloud/project/2975573
+
+<!-- https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/R?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Drstudio%252F%26branch%3Dmaster -->
+
 [Binder_Jupyter]: https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster
 [chat]: https://github.com/metagenome-atlas/Tutorial/issues
 
@@ -13,8 +16,6 @@ This is a tutorial for Metagenome-Atlas. [Metagenome-Atlas](https://metagenome-a
 
 :interrobang: If you have any question or errors [write us][chat].
 
-
-:notes: Do you need some music to work. Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
 
 ![checkmquality](Tutorial/images/quality.svg)
 
@@ -36,6 +37,13 @@ Click on the links below:
 [Rstudio][Binder_Rstudio]          [Jupyter][Binder_Jupyter]
 
 If something doesn't work, [let us know][chat].
+
+## Run the code on your computer
+If you want to run this code on your machine. 
+Download this repo either as zip or with `git clone`. In the directories `Python` and `R` are dedicated scripts to install the necessary packages to run the code. 
+
+
+
 <!--
 [This cool report](http://htmlpreview.github.io/?https://github.com/metagenome-atlas/Tutorial/blob/master/Example/Results/Summary.html):sparkles: shows the most interesting output of Atlas.
 
