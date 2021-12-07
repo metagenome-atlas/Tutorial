@@ -18,7 +18,7 @@ For the second part of the tutorial we made online computing environments availa
 
 <a href="https://rstudio.cloud/project/2975573" target="_blank">Rstudio</a> : You will need to create a Rstudio could accout. Take care to create a free one.
 
-<a href="http://mybinder.org/v2/gh/metagenome-atlas/Tutorial/master?urlpath=lab" target="_blank">Jupyter</a> : The setup can take some minutes ...
+<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Jupyter</a> : The setup can take some minutes ...
 
 
 
