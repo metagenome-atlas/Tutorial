@@ -48,9 +48,10 @@ kable(metadata)
 
 We confirm that the mice on high-fat diet really put more weight on.
 
-```{r plot_metadata, fig.width=3, fig.height=3}
+```{r plot_metadata, fig.width=1, fig.height=1.5}
 ggplot(metadata, aes(x = Diet, y = Body_weight)) +
-   geom_beeswarm() +
+ geom_beeswarm(cex=5) +
+  ylim(10,35)+
   theme_minimal()
 ```
 
@@ -180,7 +181,7 @@ aldex_stats <- aldex_stats %>%
 
 #### heatmap of significant Genomes
 
-```{r heatmap, fig.height=5, fig.width=10}
+```{r heatmap, fig.height=3, fig.width=5}
 # filter to MAG abundances that were significantly different
 sig_data <- data[, aldex_stats[aldex_stats$Pvalue_BH < 0.1, ]$Id] %>%
   as.data.frame() %>%
@@ -227,6 +228,7 @@ ggplot(data %>%
          left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")),
          aes_string(y = genome_of_interest, x = "Diet", fill = "Diet")) +
   geom_boxplot() +
+  geom_beeswarm(cex=5) +
   theme_minimal() +
   scale_fill_manual(values = c(chow = "#00BFC4", HF = "#F8766D"))
 
@@ -268,30 +270,15 @@ module_presence_matrix = module_presence_matrix[, colSums(module_presence_matrix
 hatmap
 ```
 
-
-
 ```{r, module_abundance}
+
 # Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
 stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
 module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
 
-# make a dataframe to use to annotate the heatmap
-annot_df <- data.frame(Sample = colnames(sig_data)) %>%
-  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")) %>%
-  column_to_rownames(var = "Sample") %>%
-  dplyr::select(Diet)
-
-# sort labels by sig_data order
-heatmap_labels <- Tax %>%
-  filter(user_genome %in% rownames(sig_data))
-heatmap_labels <- heatmap_labels[order(match(heatmap_labels$user_genome, rownames(sig_data))), ]
-
-
-pheatmap(module_rel_ab, show_colnames = F, annotation_row =dplyr::select(metadata,"Diet"))
-
-
-
 ```
+
+
 
 ```{r,heatmap_interactive2}
 
@@ -328,6 +315,33 @@ heatmaply(module_rel_ab,
 
 Hover over the heatmap to identify modules that are more abundant in the HF diet.
 
+
+
+```{r, non_interactive_module_abundance}
+# Non interactive plot
+
+# make a dataframe to use to annotate the heatmap
+annot_df <- data.frame(Sample = colnames(sig_data)) %>%
+  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")) %>%
+  column_to_rownames(var = "Sample") %>%
+  dplyr::select(Diet)
+
+# sort labels by sig_data order
+heatmap_labels <- Tax %>%
+  filter(user_genome %in% rownames(sig_data))
+heatmap_labels <- heatmap_labels[order(match(heatmap_labels$user_genome, rownames(sig_data))), ]
+
+
+pheatmap(module_rel_ab, show_colnames = F, annotation_row =dplyr::select(metadata,"Diet"))
+
+
+
+```
+
+
+
+
 Go to the [Kegg module webpage](https://www.genome.jp/kegg/module.html) and search for an increased module, e.g. M00165 to visualize where it is.
+
 
 Alse alternative you can go to the [IPath website](https://pathways.embl.de/ipath3.cgi)
