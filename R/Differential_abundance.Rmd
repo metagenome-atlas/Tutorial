@@ -50,7 +50,7 @@ We confirm that the mice on high-fat diet really put more weight on.
 
 ```{r plot_metadata, fig.width=3, fig.height=3}
 ggplot(metadata, aes(x = Diet, y = Body_weight)) +
-   geom_beeswarm() + 
+   geom_beeswarm() +
   theme_minimal()
 ```
 
@@ -70,7 +70,7 @@ D <- read_tsv(abundance_file, show_col_types = FALSE) %>%
   column_to_rownames(var = "...1") %>%
   as.data.frame()
 # calculate relative abundance
-rel_ab <- sweep(D, 1, rowSums(D),`/`) 
+rel_ab <- sweep(D, 1, rowSums(D),`/`)
 
 # Subset metadata ther is one sample not quantified
 metadata = metadata[rownames(rel_ab),]
@@ -116,7 +116,7 @@ In order to analyze the microbiome at the species or genome-level we use composi
     doi: [10.3389/fmicb.2017.02224](https://www.frontiersin.org/articles/10.3389/fmicb.2017.02224).
 
 
-For this, we load the raw counts and use centric log-ratios (CLR) after imputing values for the zeros.
+For this, we transform the abundances with the centric log-ratios (CLR) after imputing values for the zeros.
 
 
 
@@ -126,7 +126,7 @@ For this, we load the raw counts and use centric log-ratios (CLR) after imputing
 data <- transform(rel_ab, transform = "clr")
 ```
 
-### PCA of the robust Aitchison distance
+### PCA of the Aitchison distance
 
 ```{r pca}
 transformed_data <- prcomp(data,scores=TRUE)
@@ -213,7 +213,7 @@ plt <- ggplot(aldex_stats, aes(x = logFC, y = logP, alpha = logP,
                          label = Label, label2 = Id)) +
   geom_point(color = "#67000d") +
   theme_minimal()
-  
+
 ggplotly(plt) #, tooltip = c("label", "label2"))
 ```
 
@@ -251,10 +251,10 @@ step_coverage_threshold= 0.8
 
 module_step_coverage_matrix = pivot_wider(kegg_modules,  
                                    id_cols = genome,
-                                   names_from = module, 
+                                   names_from = module,
                                    values_from = step_coverage
                                    ) %>%
-                              column_to_rownames("genome") %>% as.matrix() 
+                              column_to_rownames("genome") %>% as.matrix()
 
 module_step_coverage_matrix = module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
 
@@ -292,6 +292,7 @@ pheatmap(module_rel_ab, show_colnames = F, annotation_row =dplyr::select(metadat
 
 
 ```
+
 ```{r,heatmap_interactive2}
 
 
@@ -321,3 +322,10 @@ heatmaply(module_rel_ab,
 
 
 ```
+
+
+Hover over the heatmap to identify modules that are more abundant in the HF diet.
+
+Go to the [Kegg module webpage](https://www.genome.jp/kegg/module.html) and search for an increased module, e.g. M00165 to visualize where it is.
+
+Alse alternative you can go to the [IPath website](https://pathways.embl.de/ipath3.cgi)
