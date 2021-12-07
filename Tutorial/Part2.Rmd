@@ -146,8 +146,8 @@ The Species name *NM07-P-09 sp004793925* may not mean much to you (and to me) bu
 ```{r ob6, echo=FALSE}
 message="Yes, there is a genome from an isolate."
 question("Is the species cultured?",
-  answer("Yes", message=message),
-  answer("No", correct=TRUE,message=message)
+  answer("Yes", correct=TRUE,message=message),
+  answer("No",message=message)
 )
 ```
 

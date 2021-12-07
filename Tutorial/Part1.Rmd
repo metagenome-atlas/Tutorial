@@ -10,19 +10,26 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 ```
+
+
+[server]: http://18.198.246.143:10002
+
+
 ## Intro
-In the first part of the tutorial, you will learn how to install Atlas, init a new project and run it. Everything is done in the command line.
+In the first part of the tutorial, you will 
+1. learn how to install Atlas, 
+2. init a new project and 
+3. run it. 
 
+Everything is done in the command line.
 
-
-Do you need some music to work? Have a look at this [spotify playlist](https://open.spotify.com/playlist/1uJJpcPx752ddZXCtU6oRc?si=sTO-ec95TFqxHviin59M0g) for bioinformaticians.
 
 
 ### Setup
 
 **If you work on Windows don't open this webpage in Microsoft edge, it doesn't display all the interactive part correctly**
 
-1. Connect to the server on this link  http://18.198.190.146:8000/
+1. Connect to the server on this [link][server]
 2. Login with the credentials you received before.
 3. Go to the terminal
 
@@ -35,7 +42,10 @@ It is as if you would connect to the server of your institution.
 
 The only dependency for metagenome atlas is the *conda package manager*. It can easily be installed with the miniconda package.
 
-On the server, we have already installed it. You only need to activate it by running:
+On the server, we have already installed it. 
+
+<!--
+You only need to activate it by running:
 ```{bash, eval=FALSE}
 /opt/miniconda3/bin/conda init
 exec bash
@@ -51,17 +61,17 @@ conda config --add channels conda-forge
 ```
 
 These two channels are community-driven efforts to make many software packages installable as easy as possible.
+-->
 
 
 Different programs need often different versions of python/R or other packages. It can become a nightmare to install different tools with conflicting dependencies. Conda allows you to encapsulate each software into its own *environment*.
 
---> Create a conda environment with to you name, then activate it.
+--> Create an conda environment, then activate it.
 ```{bash eval=F}
-conda create --yes -n yourname
+mamba create --yes -n atlasenv
 ```
 
-
-You should see a `(yourname)` at the beginning of the bash line.
+You should see a `(atlasenv)` at the beginning of the bash line.
 
 ### Install atlas
 
@@ -93,14 +103,14 @@ question("What is the subcommand that you will run to start a new project?",
 ```
 
 
-To start a new project you need the path to the fastq files of your metagenome samples (You analyze all samples together). We have provided you with two samples of test data in the folder `/data/test_reads`.
+To start a new project you need the path to the fastq files of your metagenome samples (You analyze all samples together). We have provided you with two samples of test data in the folder `test_reads`.
 
-The other parameter you should set is the database directory. This should point to a path where you can store the >100GB databases and software installed automatically by metagenome-atlas. Ideally, this is also a shared location with your colleges. For the Tutorial, we will simply use `/data/databases` folder which already exists.
+The other parameter you should set is the database directory. This should point to a path where you can store the >150GB databases and software installed automatically by metagenome-atlas. Ideally, this is also a shared location with your colleges. For the Tutorial, we will simply use `databases` folder which already exists.
 
 --> run the init command:
 
 ```{bash, eval=FALSE}
-atlas init --db-dir /data/databases /data/test_reads
+atlas init --db-dir databases test_reads
 ```
 
 ```{r init, echo=FALSE}
@@ -134,7 +144,7 @@ question("With the default configuration. How much memory would be used maximall
 )
 ```
 
-You can also see that this amount of memory would be needed for 48h with 8 CPUs. When I meant that metagenomics is resource-intensive I was not joking. Luckily, most institutions have a high-performance computing system with allow you to run such calculations. Alternatively, atlas can also be run in the cloud.
+You can also see that this amount of memory would be needed for 48h with 8 CPUs. When I meant that metagenomics is resource-intensive I was not joking. Luckily, most institutions have a high-performance computing system with allow you to run such calculations.
 
 
 If you scroll down to `contaminant_references`, you can already see that the Phix genome is added as a contaminant. The Phix is a virus that is frequently used as a control for sequencing. Even if you haven't used it in your sequencing there is some chance that some reads might swim around in the sequencer.
@@ -149,92 +159,95 @@ First, find out the absolute path to the human genome, then add it to the config
 Adapt the contaminant_references as follows:
 ```
 contaminant_references:
-  PhiX: /data/databases/phiX174_virus.fa
-  human: /data/databases/human_genome.fasta
+  PhiX: /path/to/databases/phiX174_virus.fa
+  human: /oath/to/databases/human_genome.fasta
 ```
-<!--
+
 Don't just copy the snippet above you need to replace `/path/to/` with the correct absolute path. It's the same for both contaminant references.
--->
+
 Pay attention that there are two spaces at the beginning of the line. Finally, save the file.
 
 ## Run atlas
+
+
+
+
 
 ### Dry Run
 
 Before Running the pipeline, which can take more than a day it is always recommended to do a dry-run. This simulates an execution and checks if there are any errors in the config file or elsewhere.
 
 --> Run `atlas run --help` to see how to do a dry-run.
---> Call the run command with the dry-run.
+--> Call the run command with the dry-run option and `assembly` as workflow. Also specify the working directory. 
 
 **In case you missed the dry-run parameter the use `CTR+C` to stop the run.**
 
 The dry-run command takes a while and then it shows a list of all the steps that would be executed.
 
-```{r dry, echo=FALSE}
+```{r steps, echo=FALSE}
 question("How many steps would be executed by atlas?",
   answer("4"),
-  answer("145", correct = TRUE),
+  answer("128", correct = TRUE, message="Remember the number."), #128 for genomes
   answer("174")
 )
 ```
 
-This command runs all the steps in the atlas pipeline for two staples. You can see how it would scale for more samples.
 
-### Profile
+This command runs all the steps in the atlas pipeline for two samples. You can see how it would scale for more samples.
 
-If you run metagenome-atlas on your cluster (or cloud) you should set up a cluster profile, as described in the documentation. For the demo, I made a profile called `Demo`. On a cluster, each step can be automatically submitted to the cluster. In this case, you can run many jobs or steps in parallel. Even when you don't want to submit jobs to the cluster you can run metagenome-atlas on a server with high memory. In this case, atlas can also run many jobs in parallel. The Demo profile limits the memory usage so that one step is executed after the other.
+### Ressources
 
+If you run metagenome-atlas on your cluster you should set up a cluster profile, as described in the documentation. This allows atlas to submitt each step to the cluster while specifying the number of cores and memory, not bad! 
 
-**Important: always run atlas with the `--profile Demo` parameters otherwise the Tutorial server can crash.**
-
-
-To understand better what atlas does we, begin to run only the quality control and assembly sub-workflow (QC + assembly). For your project, you don't need to run QC separately. You can directly run all steps with `atlas run all` from the beginning.
-
+For the demo, we chose a sipler way and run atlas on a single node. If you run atlas on a single node you have to tell him how much memory and how many cores are available. On our server we have 20gb and two cores.
 
 
 --> Run the following command.
 
 ```{bash eval=F}
-atlas run assembly --profile Demo
+atlas run assembly --resources mem=10 java_mem=7 --jobs 2
 ```
 
-
-```{r demoass, echo=FALSE}
-message="The Demo profile adapts the memory requirement to the system."
-question("How much memory are used for any step?",
-  answer("250 GB",message=message),
-  answer("2 GB", correct = TRUE, message=message),
-  answer("60 GB",message=message)
-)
-```
-
-<!--
 ### Automatic installation of software
 
 You should see something like:
 ```{bash, eval=FALSE}
-Creating conda environment /usr/local/envs/atlasenv/lib/python3.6/site-packages/atlas/rules/../envs/required_packages.yaml...
+Creating conda environment /usr/local/envs/atlasenv/lib/python3.6/site-packages/atlas/rules/../envs/report.yaml...
 Downloading and installing remote packages.
 ```
 
 
-In the beginning, atlas installs all the software it needs in conda environments. This can take quite some time but has to be done only once. You can easily run metagenome-atlas in a screen and come back some hours later. But wait -- stay here!  For the tutorial, we have already installed all except one conda environment so the
+In the beginning, atlas installs all the software it needs in conda environments. This can take quite some time but has to be done only once. You can easily run metagenome-atlas on a longrunning cluster job and come back some hours later. But wait -- stay here!  For the tutorial, we have already installed all except one conda environment so the
 
 Once the conda environments are installed atlas will start with the steps of the pipeline.
 
--->
+
+
+## Stop and go
+
+
+You might wonder what happens if the server crashes during the long execution of Atlas.
+
+–> press `CTR + C.`
+
+This simulates a system crash. The pipeline should stop and do some cleanup.
+
+Now, use &#8593; and `Enter` to run the `atlas run assembly` command again. How many steps are now be executed?
+Do you see, that metagenome-atlas can continue to run the pipeline form the where it stopped? There are even checkpoints during the assembly from which it can continue.
+
 
 ## QC + Assembly
-### Reports
 
-While the pipeline is running you can already answer the flowing questions?
+While the pipeline is finishing you can already answer the flowing questions?
 
 The output of the qc, and the assembly sub-workflow are summarized in two reports.
 
 The `reports/QC_report.html` gives a graphical report on the most important numbers.
+
+
 The dataset used for the Tutorial is a very small one, here you can see the [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
 
-
+<!--
 ```{r qcreport2, echo=FALSE}
 message= "Sample F26 has lost many reads during the quality filtering, maybe it would make sense to drop it altogether."
 question("In the bigger run, are all samples of good quality? ",
@@ -242,23 +255,15 @@ question("In the bigger run, are all samples of good quality? ",
   answer("no",message=message, correct = TRUE)
 )
 ```
+-->
 
-Once the assembly sub-workflow is finished, it will again produce a report `reports/assembly_report.html`. You can open [this one](https://metagenome-atlas.readthedocs.io/en/latest/_static/assembly_report.html) until your pipeline has finished.
+### Assembly report
 
-The assembly report shows different statistics about the length and number of the contigs.  
+Once the assembly sub-workflow is finished, it will again produce a report `reports/assembly_report.html`. 
 
-Download the extended statistics at the bottom of the report, and open the text file with Excel or a text editor.
+--> Copy it to your computer and open it with a webbrowser
 
-```{r sizeass, echo=FALSE}
-message="A quart of an E. coli genome! "
-question("What is the longest contig in any sample?",
-  answer("~ 1 Kbp",message=message),
-  answer("~ 1 Mbp", correct = TRUE, message=message),
-  answer("~ 1 Gbp",message=message)
-)
-```
-
-Info: there is also the option to use scaffolding with the spades assembler to combine contigs that can be linked by paired-reads.
+Are you happy with the fraction of assembled reads?
 
 ### Sample specific output files
 There are also many files produced for each sample. Once the assembly workflow is finished try to find the quality-controlled reads (.fastq) for sample1?
@@ -274,72 +279,34 @@ question("How many qc fastq files are there per sample?",
 
 
 
-<!--
-Once the QC sub-workflow has finished, check what files are listed as input to the `qc` rule.
-
-```{bash, eval=FALSE}
-[Wed Nov 25 11:13:45 2020]
-localrule qc:
-    input: sample2/sequence_quality_control/finished_QC, sample1/sequence_quality_control/finished_QC, stats/read_counts.tsv, stats/insert_stats.tsv, stats/read_length_stats.tsv, reports/QC_report.html
-
-```
-This is the main output files of the QC workflow for all samples.
-
--> Try to open the `stats/read_counts.tsv` with the integrated text editor. Which sample has more reads?
--->
-
-
-
-
-
-## Stop and go
-
-
-You might wonder what happens if the server crashes during the long execution of Atlas.
-
-Run the dry run command for binning
-
-```{bash, eval=F}
-atlas run binning --profile Demo
-```
-
---> How many steps would now be executed by atlas? Remember the number
-–> run the command without the dry-run.
-
-Wait until one or two steps have finished then. –> press `CTR + C.`
-
-This simulates a system crash. The pipeline should stop and do some cleanup.
-
-Now run again the dry-run command. How many steps would now be executed by atlas?
-Do you see, that metagenome-atlas can continue to run the pipeline form the where it stopped? There are even checkpoints during the assembly from which it can continue.
-
-
-
 
 ## Binning
 ### Introduction
-Run the binning workflow until the end
-
-```{bash eval=F}
-atlas run binning --profile Demo
-```
-
 
 We try to reconstruct genomes from the metagenome.
 This is done by grouping together contigs which we think belong to the same genome.
 These groups are called **bins**, and if we really think it is a genome then we call it **MAG for metagenome-assembled genome**
 
 
-<!--
 ![](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width=15cm}
 
 *Here is a short animation from a class of Prof. Eren https://merenlab.org/momics/*
--->
+
 
 By default, we use the automatic binners metabat2 and maxbin2 and then a bin refining with DAS-Tool.
 Both binners are based on the sequence composition and the coverage profile in one sample. To get the coverage profile we first need to align the reads to the assembly.
 
-### Bins
+### Run the binning workflow
+
+For the binning workflow we exclude one step which uses > 40GB of memory. 
+
+
+Run the command
+```{bash eval=F}
+atlas run binning --resources mem=10 java_mem=7 --jobs 2 --omit-from download_checkm_data
+```
+
+
 
 Once the pipeline has finished, let's look at the output.
 
@@ -438,15 +405,11 @@ The *genomes* sub-workflow of Atlas combines the binning results from different 
 
 ## End
 
-
-
 Because of the computational and time limits we won't run atlas until the end. It won't any way not be very interesting for this small dataset.  Instead, you will analyze the output of a more interesting project in part 2 of the Tutorial.
 
 
 
 You can no go [Part 2 of the Tutorial](https://metagenome-atlas.shinyapps.io/Part2). On the flowing pages are some extra exercises about the atlas gene-catalog workflow.
-
-
 
 
 
