@@ -31,9 +31,9 @@ Everything is done in the command line.
 
 1. Connect to the server on this [link][server]
 2. Login with the credentials you received before.
-3. Go to the terminal
+3. Click on terminal
 
-![In the upper right corner. Click on new, then Terminal](images/go_to_terminal_jupyter.png)
+![In the upper right corner. Click on new, then Terminal](images/go_to_terminal_jupyter.png){width=4cm}
 
 It is as if you would connect to the server of your institution.
 
@@ -66,10 +66,12 @@ These two channels are community-driven efforts to make many software packages i
 
 Different programs need often different versions of python/R or other packages. It can become a nightmare to install different tools with conflicting dependencies. Conda allows you to encapsulate each software into its own *environment*.
 
---> Create an conda environment, then activate it.
+--> Create an an empty conda environment.
 ```{bash eval=F}
 mamba create --yes -n atlasenv
 ```
+
+Then activate the environment.
 
 You should see a `(atlasenv)` at the beginning of the bash line.
 
@@ -78,7 +80,7 @@ You should see a `(atlasenv)` at the beginning of the bash line.
 Now let's install metagenome-atlas.
 
 ```{r setupa, echo=FALSE}
-question("What is the command to install metagenome-atlas",
+question("How do youinstall metagenome-atlas? I run the command",
   answer("conda install metagenome-atlas",correct = TRUE, message="mamba is a faster alternative to conda, but both work."),
   answer("mamba install metagenome-atlas", correct = TRUE),
   answer("snakemake install metagenome-atlas")
@@ -88,6 +90,7 @@ question("What is the command to install metagenome-atlas",
 --> Run the fastest command to install metagenome-atlas.
 
 
+Run `atlas --version` and make sure you have the version 2.8.1 installed.
 
 ## Initialisation
 ### Start a new project
@@ -107,14 +110,22 @@ To start a new project you need the path to the fastq files of your metagenome s
 
 The other parameter you should set is the database directory. This should point to a path where you can store the >150GB databases and software installed automatically by metagenome-atlas. Ideally, this is also a shared location with your colleges. For the Tutorial, we will simply use `databases` folder which already exists.
 
---> run the init command:
+- run the init command:
 
 ```{bash, eval=FALSE}
-atlas init --db-dir databases test_reads
+atlas init --db-dir databases --working-dir WD  test_reads
 ```
 
+Go into the working directory:
+
+```{bash, eval=FALSE}
+cd WD
+```
+
+
+
 ```{r init, echo=FALSE}
-question("What files did atlas create directory?",
+question("What files did atlas create in the woking directory?",
   answer("test_reads"),
   answer("databases",message="the database folder actually existed before"),
   answer("config.yaml", correct = TRUE),
@@ -129,7 +140,7 @@ question("What files did atlas create directory?",
 
 
 --> Have a look at the `samples.tsv` with `cat samples.tsv`.
-Check if the names of the samples are inferred correctly. Samples should be alphanumeric names and cam be dash delimited. The `BinGroup` parameter can be used to activate co-binning. All samples in the same BinGroup are used mapped against each other. However, as it doesn't make sense to use this feature for less than three samples we don't use it and let the default.
+Check if the names of the samples are inferred correctly. Samples should be alphanumeric names.  The `BinGroup` parameter can be used to activate co-binning. All samples in the same BinGroup are used mapped against each other. However, as it doesn't make sense to use this feature for less than three samples we don't use it and let the default.
 
 Let's check the `config.yaml` file. Open it in the integrated file browser on the jupyter page (The first page you entered after the login). It contains many parameters to configure the pipeline. They are explained in the comments or more in detail in the documentation.
 
@@ -145,6 +156,12 @@ question("With the default configuration. How much memory would be used maximall
 ```
 
 You can also see that this amount of memory would be needed for 48h with 8 CPUs. When I meant that metagenomics is resource-intensive I was not joking. Luckily, most institutions have a high-performance computing system with allow you to run such calculations.
+
+
+For the tutorial we have a small dataset witch requires much less ressources. 
+
+
+- change `mem`, `assembly_mem`, and `large_mem` all to `10` 
 
 
 If you scroll down to `contaminant_references`, you can already see that the Phix genome is added as a contaminant. The Phix is a virus that is frequently used as a control for sequencing. Even if you haven't used it in your sequencing there is some chance that some reads might swim around in the sequencer.
@@ -187,8 +204,8 @@ The dry-run command takes a while and then it shows a list of all the steps that
 ```{r steps, echo=FALSE}
 question("How many steps would be executed by atlas?",
   answer("4"),
-  answer("128", correct = TRUE, message="Remember the number."), #128 for genomes
-  answer("174")
+  answer("71", correct = TRUE, message="Remember the number."), #128 for genomes
+  answer("128")
 )
 ```
 
@@ -196,10 +213,9 @@ question("How many steps would be executed by atlas?",
 This command runs all the steps in the atlas pipeline for two samples. You can see how it would scale for more samples.
 
 ### Ressources
+If you run metagenome-atlas on your cluster you should set up a cluster profile, as described in the documentation. This allows atlas to submitt each step to the cluster while specifying the number of cores and memory, not bad! For more information see the [Documentation.](https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#execue-atlas) 
 
-If you run metagenome-atlas on your cluster you should set up a cluster profile, as described in the documentation. This allows atlas to submitt each step to the cluster while specifying the number of cores and memory, not bad! 
-
-For the demo, we chose a sipler way and run atlas on a single node. If you run atlas on a single node you have to tell him how much memory and how many cores are available. On our server we have 20gb and two cores.
+For the demo, we chose a simpler way and run atlas on a single node. If you run atlas on a single node you have to tell him how much memory and how many cores are available. On our server we have 10gb and two cores.
 
 
 --> Run the following command.
@@ -324,57 +340,31 @@ question("What is the name of the first contig? ",
 
 
 Each binner produces a `cluster_attribution.tsv` which provides the link between contig and bin.
-Have a look at the one from sample 2 produced by both binners, by running:
+Have a look at the one from sample 2 produced by metabat, by running:
 ```{bash eval=F}
-head sample2/binning/*/cluster_attribution.tsv
+head sample2/binning/metabat/cluster_attribution.tsv
 ```
 
 ```{r qbin1, echo=FALSE}
 question("In which bin is the longest contig of sample 2? ",
     answer("sample2_metabat_1",correct=TRUE),
-    answer("sample2_metabat_2"),
-    answer("sample2_maxbin_1",correct=TRUE),
-    answer("sample2_maxbin_2"),
+    answer("sample2_metabat_2",message=message),
     answer("No clue.", message="the longest contig as stated above is 'sample2_0'")
 )
 ```
 
-Maxbin produces also a summary file. Have a look.
-
-```{bash eval=F}
-cat sample2/binning/maxbin/sample2.summary
-```
-
-```{r qbin2, echo=FALSE}
-question("What is the completeness of the worst bin? ",
-  answer("< 90%"),
-  answer("< 60%",correct=TRUE)
-)
-```
 
 ### Bin refining
 
-The DAS Tool takes the predictions of both binners and tries to find a harmonization with the best result, meaning the highest quality. For example: The bin `sample2_metabat_1` and `sample2_maxbin_1` contain both the longest contig `sample2_0` and many others. The DAS tool chooses the better of the two.  For this, the DAS Tool also estimates the quality of the bins.
+The DAS Tool takes the predictions of both binners and tries to find a harmonization with the best result, meaning the highest quality. 
 
-Have a look at the plot in: `sample2/binning/DASTool/sample2_DASTool_scores.pdf`
-
-It shows how DAS tool estimates the quality of both biners and its results.
-
-```{r qbin3, echo=FALSE}
-question("Which binner produces the better results?",
-  answer("metabat",correct=TRUE, message = "This is something we see throughout, e.g. also in the publication of DAS Tool."),
-  answer("maxbin"),
-  answer("DAS tool",message="DAS Tool is actually not a binner, rather a bin refiner.")
-)
-```
+Have a look at the the : `sample2/binning/DASTool/sample2_DASTool.log`
 
 
-```{r qbin4, echo=FALSE}
-question("Is the quality estimate of DAS Tool as bad as the one from maxbin for the lower quality bins?",
-  answer("No, DAS Tool thinks bins are not as bad as maxbin.",correct=TRUE, message = "The reason is they use a different set of marker genes"),
-  answer("Yes, DAS Tool estimates bins are also of low quality.", message = "No, the reason is they use a different set of marker genes")
-)
-```
+Do you see how DASTool treates the bin `sample2_metabat_1`?
+Which bin from maxbin is in competition with this bin? 
+
+
 
 ### Quality assessment
 It is not easy to find a set of marker genes for each genome, especially if the genome belongs to unknown species. And different sets yield different results. Usually, the final quality estimates are made with BUSCO or CheckM, which adapt the marker gene set to better estimate the quality.
@@ -382,15 +372,6 @@ It is not easy to find a set of marker genes for each genome, especially if the 
 Unfortunately, this step cannot be run until the end as the genome quality estimation needs more than 100GB of RAM.
 
 But, you can look [here](https://rawcdn.githack.com/metagenome-atlas/Tutorial/31f89f0bdf476ab34b7e52ebd68ef14e20b9c677/media/bin_report_DASTool.html) at the final output of the binning report.
-
-```{r qbin5, echo=FALSE}
-question("Was the low-quality estimation of maxbin correct at the end? Assuming that the checkM quality estimation in the report is closest to the truth?",
-  answer("maxbin quality estimation was way too low",correct=TRUE, message = "The species in this dataset have very small genomes, this may cause the low-quality estimation."),
-  answer("maxbin quality estimation was ok")
-)
-```
-
-
 
 
 ```{r qbin6, echo=FALSE}
@@ -417,10 +398,8 @@ You can no go [Part 2 of the Tutorial](https://metagenome-atlas.shinyapps.io/Par
 
 ### Gene catalog
 
-
-
 ```{bash eval=F}
-atlas run genecatalog --profile Demo --working-dir workdir
+atlas run genecatalog  --resources mem=10 java_mem=7 --jobs 2 --omit-from gene_subsets
 ```
 
 Have a look at the output of the genecatalog wokflow.
