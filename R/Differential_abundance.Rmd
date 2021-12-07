@@ -317,7 +317,9 @@ for (sample in rownames(annotations))
 
 heatmaply(module_rel_ab,
           custom_hovertext = annotations,
-          showticklabels = c(TRUE,FALSE)
+          showticklabels = c(FALSE,TRUE),
+          row_side_colors = metadata$Diet,
+          colors="RdBu"
           )
 
 
