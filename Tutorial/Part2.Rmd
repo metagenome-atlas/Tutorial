@@ -210,7 +210,7 @@ question("What do you see at the family level?",
   answer("More Lachnospiraceae",correct = TRUE),
   answer("Less Lachnospiraceae"),
   answer("More Lactobacillaceae",correct=TRUE),
-  answer("More Oscillospiraceae",correct = TRUE)
+  answer("More Oscillospiraceae")
 )
 ```
 

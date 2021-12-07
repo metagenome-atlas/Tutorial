@@ -243,7 +243,8 @@ kable(Tax %>%
 
 kegg_modules= read_tsv(keggmodules_file,col_select = -1,show_col_types = FALSE)
 module_names= kegg_modules %>% dplyr::select(c('module','module_name')) %>% distinct()
-
+# convert to dataframe wiht row names
+module_names=  data.frame(row.names= module_names$module, name= module_names$module_name)
 
 ```
 
@@ -294,7 +295,7 @@ for (sample in rownames(annotations))
   for (module in colnames(annotations))
   {
     annotations[sample,module] = paste0("Diet: ",metadata[sample,"Diet"],
-                       "\nPathway: ", module_names[module,"module_name"]
+                       "\nPathway: ", module_names[module,]
                        )
   }
 }
