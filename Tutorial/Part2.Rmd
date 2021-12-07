@@ -219,6 +219,14 @@ question("What do you see at the family level?",
 ### Coda
 
 
+In order to analyze the microbiome at the species or genome-level we use compositional data analysis (CoDa), see more on [Wikipedia](https://en.wikipedia.org/wiki/Compositional_data) and this article:
+
+>Gloor, Gregory B., Jean M. Macklaim, Vera Pawlowsky-Glahn, and Juan J. Egozcue. 2017. “Microbiome Datasets Are  Compositional: And This Is Not Optional.” Frontiers in Microbiology 8 (November). Frontiers: 2224. 
+    doi: [10.3389/fmicb.2017.02224](https://www.frontiersin.org/articles/10.3389/fmicb.2017.02224).
+
+For this, we transform the abundances with the centric log-ratios (CLR) after imputing values for the zeros.
+
+
 From the volcano plot select the most significant species.
 
 
@@ -243,6 +251,24 @@ The links to the genome identifier allow you also to dig deeper, and look what o
 ## Functional differences
 
 Which block of Functions are different between the two groups?
+
+identify one module of interest.
+
+Go to the [Kegg module webpage](https://www.genome.jp/kegg/module.html) and search for it. Visualize it where it is.
+
+
+Now select 3-5 modules that interest you and go to this link.
+
+
+Alse alternative you can go to the [IPath website](https://pathways.embl.de/ipath3.cgi)
+
+Click on `Tools`,  `Direct submission`  and enter the list of modules in the `selection` field. Click on `Submit to interactive inteface`.
+
+Could all module Ids be mapped?
+
+Finally export the plot.
+
+
 
 ## End
 

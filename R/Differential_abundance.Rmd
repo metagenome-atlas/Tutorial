@@ -337,11 +337,3 @@ pheatmap(module_rel_ab, show_colnames = F, annotation_row =dplyr::select(metadat
 
 
 ```
-
-
-
-
-Go to the [Kegg module webpage](https://www.genome.jp/kegg/module.html) and search for an increased module, e.g. M00165 to visualize where it is.
-
-
-Alse alternative you can go to the [IPath website](https://pathways.embl.de/ipath3.cgi)
