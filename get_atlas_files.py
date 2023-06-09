@@ -5,33 +5,7 @@ import yaml
 import paramiko
 import stat
 
-# Define your output directory and base path on server
-output_dir = 'NewExample'
-base_path_server = '/gpfs/home/rdkiesersi1/s/MD'
 
-# Load and parse the yaml file
-with open('atlas_output_files.yaml') as file:
-    file_dict = yaml.safe_load(file)["v2.16"]
-
-# Create an SSH client
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-try:
-    # Connect to the server (replace 'ssh_alias' with your SSH alias)
-    ssh.connect('gate.nihs.ch.nestle.com',username="rdkiesersi1")
-except Exception as e:
-    print(f"Failed to connect to the server: {e}")
-    exit(1)
-
-# Create an SFTP client
-sftp = ssh.open_sftp()
-
-
-
-import os
-import yaml
-import paramiko
 
 # Define your output directory and base path on server
 output_dir = 'NewExample'
@@ -56,42 +30,52 @@ except Exception as e:
 sftp = ssh.open_sftp()
 
 # Function to download files
-def download_file(remote_file_path):
+def download(remote_path):
     # Create full path on server
-    full_remote_path = f"{base_path_server}/{remote_file_path}"
+    full_remote_path = f"{base_path_server}/{remote_path}"
     # Create full local path
-    local_file_path = os.path.join(output_dir, remote_file_path.replace('/', os.sep))
-    local_file_dir = os.path.dirname(local_file_path)
-
-    # Check if the file already exists locally
-    if os.path.exists(local_file_path):
-        print(f"{local_file_path} already exists. Skipping download.")
-        return
+    local_path = os.path.join(output_dir, remote_path.replace('/', os.sep))
 
     try:
-        # Check if the remote file exists
-        sftp.stat(full_remote_path)
+        # Check if the remote path is a file or a directory
+        file_stat = sftp.stat(full_remote_path)
 
-        # Create local directory structure if it doesn't exist
-        os.makedirs(local_file_dir, exist_ok=True)
+        if not stat.S_ISDIR(file_stat.st_mode):  # If it's a file...
+            # Check if the file already exists locally
+            if os.path.exists(local_path):
+                print(f"{local_path} already exists. Skipping download.")
+            else:
+                # Create local directory structure if it doesn't exist
+                os.makedirs(os.path.dirname(local_path), exist_ok=True)
 
-        # Download the file
-        sftp.get(full_remote_path, local_file_path)
+                # Download the file
+                sftp.get(full_remote_path, local_path)
+
+        else:  # If it's a directory...
+            # Create local directory if it doesn't exist
+            os.makedirs(local_path, exist_ok=True)
+
+            # List all files and directories in the remote directory
+            for filename in sftp.listdir(full_remote_path):
+                # Recursively download the file or directory
+                download(f"{remote_path}/{filename}")
+
     except IOError:
         print(f"{full_remote_path} does not exist on the remote server. Skipping download.")
     except Exception as e:
         print(f"Failed to download {full_remote_path}: {e}")
 
 
+
 # Go through the parsed yaml data and download the files
 for key1, value1 in file_dict.items():
     if isinstance(value1, str):
         # It's a direct path, download the file
-        download_file(value1)
+        download(value1)
     elif isinstance(value1, dict):
         # It's a nested dictionary, go deeper
         for _, value2 in value1.items():
-            download_file(value2)
+            download(value2)
 
 
 # Close the connections
