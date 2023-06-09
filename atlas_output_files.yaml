@@ -1,0 +1,59 @@
+# a list of all atlas output files copatible with atlas V 2.13
+
+v2:
+  readcounts: "stats/read_counts.tsv"
+  genomes:
+    taxonomy: "genomes/taxonomy/gtdb_taxonomy.tsv"
+    tree: "genomes/tree/gtdbtk.bac120.nwk"
+    quality: "genomes/checkm/completeness.tsv"
+    counts : "genomes/counts/raw_counts_genomes.tsv"
+    coverage: "genomes/counts/median_coverage_genomes.tsv"
+    keggmodules: "genomes/annotations/dram/kegg_modules.tsv"
+
+v2.13:
+  readcounts: "stats/read_counts.tsv"
+  genomes:
+    taxonomy: "genomes/taxonomy/gtdb_taxonomy.tsv"
+    tree_bacteria: "genomes/tree/gtdbtk.bac120.nwk"
+
+    quality: "genomes/genome_quality.tsv"
+    counts : "genomes/counts/raw_counts_genomes.tsv"
+    coverage: "genomes/counts/median_coverage_genomes.tsv"
+    keggmodules: "genomes/annotations/dram/kegg_modules.tsv"
+
+  genecatalog:
+    coverage: Genecatalog/counts/median_coverage.parquet 
+    counts: Genecatalog/counts/Nmapped_reads.parquet
+    geneinfo: Genecatalog/clustering/orf_info.parquet
+
+v2.16:
+  readcounts: "stats/read_counts.tsv"
+  stats: "stats"
+  reports: "reports"
+  genomes:
+    taxonomy: "genomes/taxonomy/gtdb_taxonomy.tsv"
+    tree_bacteria: "genomes/tree/gtdbtk.bac120.nwk"
+    quality: "genomes/genome_quality.tsv"
+    counts : "genomes/counts/counts_genomes.parquet"
+    coverage: "genomes/counts/median_coverage_genomes.parquet"
+    keggmodules: "genomes/annotations/dram/kegg_modules.tsv"
+    dram: "genomes/annotations/dram/annotations.tsv"
+    dram_report: "genomes/annotations/dram/product.html"
+    dram_xlsx: "genomes/annotations/dram/metabolism_summary.xlsx"
+    gene2genomes: "genomes/annotations/gene2genome.parquet"
+
+  binning: # final binner might be other than vamb
+    similariteis:  Binning/vamb/genome_similarities.parquet
+    bin_info: Binning/vamb/filtered_bin_info.tsv
+    bin2genome: genomes/clustering/allbins2genome.tsv
+
+  genecatalog:
+    coverage_stats: Genecatalog/counts/gene_coverage_stats.parquet
+    coverage: Genecatalog/counts/median_coverage.h5
+    counts: Genecatalog/counts/Nmapped_reads.h5
+    sample_stats: Genecatalog/counts/sample_coverage_stats.tsv
+    geneinfo: Genecatalog/clustering/orf_info.parquet
+    eggnog: Genecatalog/annotations/eggNOG.parquet
+    kegg: Genecatalog/annotations/dram/kegg.parquet
+    cazy: Genecatalog/annotations/dram/cazy.parquet 
+    pfam: Genecatalog/annotations/dram/pfam.parquet
