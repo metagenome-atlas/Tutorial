@@ -1,0 +1,16 @@
+Reads_QC_R1	Reads_QC_R2	Reads_QC_se	Mouse_strain	Unit tag	BinGroup
+ERR675518	ERR675518/sequence_quality_control/ERR675518_QC_R1.fastq.gz	ERR675518/sequence_quality_control/ERR675518_QC_R2.fastq.gz	ERR675518/sequence_quality_control/ERR675518_QC_se.fastq.gz	57/BL6	unit05/06	unit05-1
+ERR675519	ERR675519/sequence_quality_control/ERR675519_QC_R1.fastq.gz	ERR675519/sequence_quality_control/ERR675519_QC_R2.fastq.gz	ERR675519/sequence_quality_control/ERR675519_QC_se.fastq.gz	57/BL6	unit05/06	unit05-1
+ERR675520	ERR675520/sequence_quality_control/ERR675520_QC_R1.fastq.gz	ERR675520/sequence_quality_control/ERR675520_QC_R2.fastq.gz	ERR675520/sequence_quality_control/ERR675520_QC_se.fastq.gz	57/BL6	unit05/06	unit05-2
+ERR675521	ERR675521/sequence_quality_control/ERR675521_QC_R1.fastq.gz	ERR675521/sequence_quality_control/ERR675521_QC_R2.fastq.gz	ERR675521/sequence_quality_control/ERR675521_QC_se.fastq.gz	57/BL6	unit05/06	unit05-2
+ERR675522	ERR675522/sequence_quality_control/ERR675522_QC_R1.fastq.gz	ERR675522/sequence_quality_control/ERR675522_QC_R2.fastq.gz	ERR675522/sequence_quality_control/ERR675522_QC_se.fastq.gz	57/BL6	unit05/06	unit05-3
+ERR675523	ERR675523/sequence_quality_control/ERR675523_QC_R1.fastq.gz	ERR675523/sequence_quality_control/ERR675523_QC_R2.fastq.gz	ERR675523/sequence_quality_control/ERR675523_QC_se.fastq.gz	57/BL6	unit05/06	unit05-3
+ERR675524	ERR675524/sequence_quality_control/ERR675524_QC_R1.fastq.gz	ERR675524/sequence_quality_control/ERR675524_QC_R2.fastq.gz	ERR675524/sequence_quality_control/ERR675524_QC_se.fastq.gz	57/BL6	unit05/06	unit05-4
+ERR675525	ERR675525/sequence_quality_control/ERR675525_QC_R1.fastq.gz	ERR675525/sequence_quality_control/ERR675525_QC_R2.fastq.gz	ERR675525/sequence_quality_control/ERR675525_QC_se.fastq.gz	57/BL6	unit05/06	unit05-4
+ERR675526	ERR675526/sequence_quality_control/ERR675526_QC_R1.fastq.gz	ERR675526/sequence_quality_control/ERR675526_QC_R2.fastq.gz	ERR675526/sequence_quality_control/ERR675526_QC_se.fastq.gz	57/BL6	unit05/06	unit05-5
+ERR675527	ERR675527/sequence_quality_control/ERR675527_QC_R1.fastq.gz	ERR675527/sequence_quality_control/ERR675527_QC_R2.fastq.gz	ERR675527/sequence_quality_control/ERR675527_QC_se.fastq.gz	57/BL6	unit05/06	unit05-5
+ERR675528	ERR675528/sequence_quality_control/ERR675528_QC_R1.fastq.gz	ERR675528/sequence_quality_control/ERR675528_QC_R2.fastq.gz	ERR675528/sequence_quality_control/ERR675528_QC_se.fastq.gz	57/BL6	unit05/06	unit05-6
+ERR675529	ERR675529/sequence_quality_control/ERR675529_QC_R1.fastq.gz	ERR675529/sequence_quality_control/ERR675529_QC_R2.fastq.gz	ERR675529/sequence_quality_control/ERR675529_QC_se.fastq.gz	57/BL6	unit05/06	unit05-6
+ERR675530	ERR675530/sequence_quality_control/ERR675530_QC_R1.fastq.gz	ERR675530/sequence_quality_control/ERR675530_QC_R2.fastq.gz	ERR675530/sequence_quality_control/ERR675530_QC_se.fastq.gz	57/BL6	unit05/06	unit05-7
+ERR675531	ERR675531/sequence_quality_control/ERR675531_QC_R1.fastq.gz	ERR675531/sequence_quality_control/ERR675531_QC_R2.fastq.gz	ERR675531/sequence_quality_control/ERR675531_QC_se.fastq.gz	57/BL6	unit05/06	unit05-7
+ERR675532	ERR675532/sequence_quality_control/ERR675532_QC_R1.fastq.gz	ERR675532/sequence_quality_control/ERR675532_QC_R2.fastq.gz	ERR675532/sequence_quality_control/ERR675532_QC_se.fastq.gz	57/BL6	unit05/06	unit05-7
