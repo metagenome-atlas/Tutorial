@@ -1,0 +1,8 @@
+Name	Completeness_General	Contamination	Completeness_Specific	Completeness_Model_Used	Translation_Table_Used	Coding_Density	Contig_N50	Average_Gene_Length	Genome_Size	GC_Content	Total_Coding_Sequences	Additional_Notes
+SRS1992958_vamb_1046	6.34	0.0	5.59	Neural Network (Specific Model)	11	0.81	4320	208.6951219512195	252458	0.53	328	None
+SRS1992958_vamb_18	81.27	1.71	71.19	Neural Network (Specific Model)	11	0.881	7100	254.48238482384824	2549210	0.4	2952	None
+SRS1992958_vamb_20	9.32	0.0	7.45	Neural Network (Specific Model)	11	0.829	3075	201.11333333333334	325597	0.54	450	None
+SRS1992958_vamb_2394	93.47	0.08	84.94	Neural Network (Specific Model)	11	0.886	79875	308.4481546572935	1779772	0.42	1707	None
+SRS1992958_vamb_370	93.55	0.03	99.6	Neural Network (Specific Model)	11	0.883	169615	331.8678973175656	3905880	0.48	3467	None
+SRS1992958_vamb_615	92.56	0.11	94.42	Neural Network (Specific Model)	11	0.881	181103	316.70362800204396	2107846	0.39	1957	None
+SRS1992958_vamb_664	100.0	51.33	93.57	Neural Network (Specific Model)	11	0.887	33906	309.25595965770174	6835804	0.51	6544	None
