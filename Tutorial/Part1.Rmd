@@ -1,4 +1,5 @@
 ---
+# nolint: line_length_linter.
 title: "Atlas Tutorial Part I"
 output:
   learnr::tutorial:
@@ -75,7 +76,7 @@ On the server, we have already installed it.
 
 #### Configure conda
 
-To have access to all up-to-date bioinformatic packages you should add tell conda too look for them in the *conda-forge* and the *bioconda* channel in addition to the default.
+To have access to all up-to-date bioinformatics packages you should add tell conda too look for them in the *conda-forge* and the *bioconda* channel in addition to the default.
 
 ```{bash eval=F}
 conda config --set channel_priority strict
@@ -107,7 +108,7 @@ Now let's install metagenome-atlas.
 
 ```{r setupa, echo=FALSE}
 question(
-  "How do youinstall metagenome-atlas? I run the command",
+  "How do you install metagenome-atlas? I run the command",
   answer("conda install metagenome-atlas",
     correct = TRUE,
     message = "mamba is a faster alternative to conda, but both work."
@@ -122,7 +123,8 @@ question(
 Run `atlas --version`
 
 
-_Note: The Tutorial was created for version 2.17.1 while it should be no problem for other versions. There might be minor changes._
+_Note: The Tutorial was created for version 2.17.1 while it should be no problem for other versions.
+There might be minor changes._
 
 ## Start a new project
 
@@ -132,7 +134,8 @@ Run `atlas --help`
 question(
   "What is the subcommand that you will run to start a new project?",
   answer("atlas download",
-    message = "All databases and software is installed on the fly. Download is optional."
+    message = "All databases and software is installed on the fly.
+    Download is optional."
   ),
   answer("atlas init",
     correct = TRUE,
@@ -164,7 +167,7 @@ cd WD
 
 ```{r init, echo=FALSE}
 question(
-  "What files did atlas create in the woking directory?",
+  "What files did atlas create in the working directory?",
   answer("test_reads"),
   answer("databases", message = "the database folder actually existed before"),
   answer("config.yaml", correct = TRUE),
@@ -175,7 +178,7 @@ question(
 
 ## Configure
 
-### The smaple table
+### The sample table
 
 ➤ Have a look at the `samples.tsv` with `cat samples.tsv`.
 
@@ -245,7 +248,7 @@ Finally, save the file.
 
 
 
-## Runing the pipline
+## Running the pipeline
 
 ### Dry Run
 
@@ -346,7 +349,8 @@ The data set used for the Tutorial is a very small one, here you can see the [QC
 
 
 ```{r qcreport2, echo=FALSE}
-message <- "Sample SRS1992976 has very fiew final reads. Even more striking is that it started from a high number of inital reads."
+message <- "Sample SRS1992976 has very few final reads.
+Even more striking is that it started from a high number of initial reads."
 question(
   "In the bigger run, are all samples ok? ",
   answer("yes", message = message),
@@ -358,7 +362,8 @@ question(
 ### Low quality samples
 
 ```{r lowq-sample, echo=FALSE}
-message <- "During the conatmination and host removal. Given that the sample comes from a diarrhea patients does this make sense?"
+message <- "During the contamination and host removal.
+Given that the sample comes from a diarrhea patients does this make sense?"
 question(
   "During which stage did the sample SRS1992976 lost most of the reads?",
   answer("raw", message = message),
@@ -371,12 +376,19 @@ question(
 
 
 ```{r lowq-sample2, echo=FALSE}
-message <- "It depends on your project. To remove it you can simply drop the line in the sample.tsv.
-Note: In the current version of atlas low abundant samples that might give no bin results and stop the pipline. In the future it should be easier to exlude samples from binning. But include it in the quantification."
+message <- "It depends on your project.
+To remove it you can simply drop the line in the sample.tsv.
+Note: In the current version of atlas low abundant samples that might give no bin results and stop the pipeline.
+In the future it should be easier to exclude samples from binning.
+But include it in the quantification."
 question(
   "What would you do with the sample?",
-  answer("Keep it, but check it at the end?", message = message, correct = TRUE),
-  answer("Drop it, it doesn't make sense to assemble it?", message = message, correct = TRUE),
+  answer("Keep it, but check it at the end?",
+    message = message, correct = TRUE
+  ),
+  answer("Drop it, it doesn't make sense to assemble it?",
+    message = message, correct = TRUE
+  ),
   answer("I don't know.", message = message, correct = TRUE)
 )
 ```
@@ -392,9 +404,10 @@ The insert size is the length of the DNA fragment sequenced usually from both en
 
 
 ```{r insert-size, echo=FALSE}
-message <- "The insert size is ~225 on average and the read length ~120. 2x 120 >= 225. So the reads cover the insert size. "
+message <- "On average, the insert size is ~225 and the read length ~120.
+2x 120 >= 225. So the reads cover the insert size. "
 question(
-  "On average, do the read pairs overlapp?",
+  "On average, do the read pairs overlap?",
   answer("no", message = message),
   answer("yes", correct = TRUE),
   answer("sometimes", correct = TRUE)
@@ -402,7 +415,7 @@ question(
 ```
 
 ```{r insert-size2, echo=FALSE}
-message <- "Assembly fine or even better when there is a gap between the reads. "
+message <- "Assembly works fine or even betterwhen there is a gap between the reads."
 question(
   "Is this a problem?",
   answer("no", correct = TRUE, message = message),
@@ -410,6 +423,8 @@ question(
 )
 ```
 
+_Note: If you have log reads, you can manually add longer k-mer size for the assembly.
+See the documentation of the specific assemblers. _
 [_Further reading material_](https://www.badgrammargoodsyntax.com/compbio/2018/3/5/compbio-020-reads-fragments-and-inserts-what-you-need-to-know-for-understanding-your-sequencing-data-1)
 
 ### QC reads
@@ -420,7 +435,10 @@ There are also many files produced for each sample.
 Once the qc workflow is finished try to find the quality-controlled reads (.fastq) for sample1?
 
 ```{r qcfastq, echo=FALSE}
-message <- "We have paired-reads. The third file contains the reads that lost their mate during the quality control. There should be only a fiew. They are used for the mapping to the genecatalog but otherwise are not important."
+message <- "We have paired-reads.
+The third file contains the reads that lost their mate during the quality control.
+There should be only a few.
+They are used for the mapping to the gene catalog but otherwise are not important."
 question(
   "How many qc fastq files are there per sample?",
   answer("1", message = message),
@@ -442,6 +460,7 @@ TODO: add report.
 Are you happy with the fraction of assembled reads?
 
 
+
 ```{r assreport, echo=FALSE}
 message <- "Are you suprised that it's not the sample with the least number or reads?"
 
@@ -461,7 +480,7 @@ question(
 
 N50 is a measure for continuity.
 
-The N50-number characterizes how many contigs do you need to contstitute 50% of your assembly (starting from the longest). Hence the lower the better. 
+The N50-number characterizes how many contigs do you need to constitute 50% of your assembly (starting from the longest). Hence the lower the better. 
 
 The N50-length is the length of the contig at the 50%- limit. Meaning 50% of your assembly is that long or longer. Hence the larger the better.  
 
@@ -536,7 +555,7 @@ To get the coverage profile we first need to align the reads to the assembly.
 ## Configure binning
 
 There are many different binner tools. 
-Most binners use coverage information and sequence composi tion to cluster contigs into bins. 
+Most binners use coverage information and sequence composition to cluster contigs into bins. 
 It is even possible to use the coverage information of multiple samples, using `vamb` and or `SemiBin`. This is the recommended binner if you have 20-150 samples. 
 
 Here we will use `metabat` for simplicity. 
@@ -568,7 +587,10 @@ question(
   "What is the name of the first contig? ",
   answer("sample_0"),
   answer("sample2_1"),
-  answer("sample2_0", correct = TRUE, message = "It is also the longest contig in the file.")
+  answer("sample2_0",
+    correct = TRUE,
+    message = "It is also the longest contig in the file."
+  )
 )
 ```
 
@@ -615,13 +637,13 @@ Let's have a look at some of the genomes.
 
 ➤  Go to  `WD/sample2/binning/metabat/bins`
 
-➤  With the atlasenv activated, run `sendsketch.sh protein <binf.asta>`
+➤  With the `atlasenv` activated, run `sendsketch.sh protein <binf.asta>`
 
-sendsketch is a tool from the BBMap package. It predicts proteins from the genome, creates a signature of these proteins and sends them to a server where it is matched against all genomes from NCBI.
+`sendsketch.sh` is a tool from the BBMap package. It predicts proteins from the genome, creates a signature of these proteins and sends them to a server where it is matched against all genomes from NCBI.
 
 The resulting table shows you its hits. 
 
-AAI or Amino acid identity, shows the similarity, Compl and Contam gives an estimation of completeness and contamination for this genome.
+AAI or Amino acid identity, shows the similarity, `Compl` and `Contam` gives an estimation of completeness and contamination for this genome.
 Not bad!?
 
 
@@ -659,7 +681,7 @@ On the flowing pages are some extra exercises about the atlas gene-catalog workf
 atlas run genecatalog --max-mem 0.95 -omit-from gene_subsets
 ```
 
-Have a look at the output of the genecatalog wokflow.
+Have a look at the output of the gene catalog workflow.
 
 ```{bash,eval=FALSE}
 head Genecatalog/gene_catalog.faa
