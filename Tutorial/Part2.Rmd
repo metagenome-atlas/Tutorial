@@ -1,5 +1,6 @@
 ---
-title: "Atlas Tutorial Part II"
+title: "Atlas Output of Mouse Metagenome."
+# nolint: line_length_linter.
 output:
   learnr::tutorial:
     progressive: true
@@ -14,12 +15,18 @@ library(learnr)
 
 ## Setup
 
-For the second part of the tutorial we made online computing environments available. Click on the link of the language you are more familiar with.
+For the second part of the tutorial we made online computing environments available. 
+You will need to create a free Rstudio could account.
 
-<a href="https://rstudio.cloud/project/2975573" target="_blank">Rstudio</a> : You will need to create a Rstudio could accout. Take care to create a free one.
 
-<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Jupyter</a> : The setup can take some minutes ...
+<a href="https://posit.cloud/" target="_blank">Rstudio online</a>
 
+<!--
+There is also a python environment available, but it does not have as much resources as the Rstudio environment.
+
+<a href="https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/Python?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Dlab%252Ftree%252FTutorial%252F%26branch%3Dmaster" target="_blank">Jupyter</a> 
+The setup can take some minutes ...
+-->
 
 
 
@@ -41,12 +48,8 @@ A real metagenome-atlas run can take more than a day. Therefore we have prepared
 
 The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high-fat diet and got obese.
 
+
 The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there.
-
-
-
-
-
 
 
 
@@ -83,7 +86,8 @@ The main goal of atlas is to create metagenome-assembled genomes (MAGs). The fin
 
 
 ```{r q1, echo=FALSE}
-question("How many MAGs are there?",
+question(
+  "How many MAGs are there?",
   answer("14"),
   answer("33", correct = TRUE),
   answer("42"),
@@ -101,11 +105,12 @@ Now we want to analyze the taxonomy of these genomes. The Taxonomy is based on t
 
 
 ```{r q2, echo=FALSE}
-message="Note the phylum Firmicutes was split into 12 sister phyla based on relative divergence."
-question("Which is the phylum with the most genomes?",
+message <- "Note the phylum Firmicutes was split into 12 sister phyla based on relative divergence."
+question(
+  "Which is the phylum with the most genomes?",
   answer("Bacteroidetes (Named 'Bacteroidota' in GTDB to unify the naming of phyla)"),
-  answer("Firmicutes",message=message),
-  answer("Firmicutes_A", correct = TRUE, message=message),
+  answer("Firmicutes", message = message),
+  answer("Firmicutes_A", correct = TRUE, message = message),
   answer("Verrucomicrobiota")
 )
 ```
@@ -113,7 +118,8 @@ question("Which is the phylum with the most genomes?",
 
 
 ```{r q3, echo=FALSE}
-question("How many species are new/unnamed?",
+question(
+  "How many species are new/unnamed?",
   answer("3"),
   answer("10"),
   answer("15", correct = TRUE),
@@ -131,11 +137,12 @@ As already discussed, MAGs are usually not complete or can contain some contamin
 
 
 ```{r q4, echo=FALSE}
-message="Best quality is measured as high Completeness and low Contamination."
-question("Which is the species with the best quality? (Hint: You can zoom in in the interactive figure)",
-  answer("Ligilactobacillus murinus", message=message),
+message <- "Best quality is measured as high Completeness and low Contamination."
+question(
+  "Which is the species with the best quality? (Hint: You can zoom in in the interactive figure)",
+  answer("Ligilactobacillus murinus", message = message),
   answer("NM07-P-09 sp004793925 ", correct = TRUE),
-  answer("Bacteroides intestinalis ", message=message)
+  answer("Bacteroides intestinalis ", message = message)
 )
 ```
 
@@ -144,30 +151,30 @@ The Species name *NM07-P-09 sp004793925* may not mean much to you (and to me) bu
 
 
 ```{r ob6, echo=FALSE}
-message="Yes, there is a genome from an isolate."
-question("Is the species cultured?",
-  answer("Yes", correct=TRUE,message=message),
-  answer("No",message=message)
+message <- "Yes, there is a genome from an isolate even thou it has only a number as name."
+question(
+  "Is the species cultured?",
+  answer("Yes", correct = TRUE, message = message),
+  answer("No", message = message)
 )
 ```
 
 <!-- https://gtdb.ecogenomic.org/genomes?gid=GCF_004793665.1 -->
 
 ```{r n50, echo=FALSE}
-
-question("What are other ways to be sure that the MAG is really a genome?",
+question(
+  "What are other ways to be sure that the MAG is really a genome?",
   answer("If it maps to a reference genome.", correct = T),
   answer("If it was never discovered before"),
-  answer("If it contains all the marker genes that are expected.", message="This is exactly how checkM works, I asked for alternative ways."),
-    answer("If the MAG is as continuous as possible",correct = T)
-
-  )
+  answer("If it contains all the marker genes that are expected.", message = "This is exactly how checkM works, I asked for alternative ways."),
+  answer("If the MAG is as continuous as possible", correct = T)
+)
 ```
 
 ## Quantification
 
 
---> Run the rest of the code and think about the following points.
+➤ Run the rest of the code and think about the following points.
 
 
 * Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? what could be done to improve it?
@@ -185,7 +192,8 @@ question("What are other ways to be sure that the MAG is really a genome?",
 We prepared some code for differential analysis. The goal is to find out which changes are associated with High-fat-diet induced obesity in mice. Open the `Differential_abundance` .Rmd/.ipynb
 
 ```{r ob1, echo=FALSE}
-question("What is the relative increase of bodyweight of the mice on high-fat diet compared to the control mice? ",
+question(
+  "What is the relative increase of bodyweight of the mice on high-fat diet compared to the control mice? ",
   answer("3%"),
   answer("30%"),
   answer("10%", correct = TRUE)
@@ -197,19 +205,21 @@ question("What is the relative increase of bodyweight of the mice on high-fat di
 Execute all steps necessary for the barplot to show up, then answer the following questions.
 
 ```{r ob2, echo=FALSE}
-question("Which major change do you see at phylum level when you compare HFD vs chow diet?",
-  answer("Less Bacteroidetes",correct=TRUE),
-  answer("More Firmicutes_A",correct = TRUE),
+question(
+  "Which major change do you see at phylum level when you compare HFD vs chow diet?",
+  answer("Less Bacteroidetes", correct = TRUE),
+  answer("More Firmicutes_A", correct = TRUE),
   answer("More Firmicutes")
 )
 ```
 
 ```{r ob3, echo=FALSE}
-question("What do you see at the family level?",
-  answer("Less Muribaculaceae",correct=TRUE),
-  answer("More Lachnospiraceae",correct = TRUE),
+question(
+  "What do you see at the family level?",
+  answer("Less Muribaculaceae", correct = TRUE),
+  answer("More Lachnospiraceae", correct = TRUE),
   answer("Less Lachnospiraceae"),
-  answer("More Lactobacillaceae",correct=TRUE),
+  answer("More Lactobacillaceae", correct = TRUE),
   answer("More Oscillospiraceae")
 )
 ```
@@ -231,10 +241,11 @@ From the volcano plot select the most significant species.
 
 
 ```{r ob5, echo=FALSE}
-question("To which family does it belong?",
+question(
+  "To which family does it belong?",
   answer("Lachnospiraceae"),
   answer("Lactobacillaceae"),
-  answer("Muribaculaceae",correct=TRUE),
+  answer("Muribaculaceae", correct = TRUE),
   answer("Oscillospiraceae")
 )
 ```
@@ -260,7 +271,7 @@ Go to the [Kegg module webpage](https://www.genome.jp/kegg/module.html) and sear
 Now select 3-5 modules that interest you and go to this link.
 
 
-Alse alternative you can go to the [IPath website](https://pathways.embl.de/ipath3.cgi)
+As an alternative you can go to the [IPath website](https://pathways.embl.de/ipath3.cgi)
 
 Click on `Tools`,  `Direct submission`  and enter the list of modules in the `selection` field. Click on `Submit to interactive inteface`.
 

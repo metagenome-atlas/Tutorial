@@ -4,17 +4,28 @@ output: html_document
 ---
 
 ```{r, setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
-                      message = FALSE,
-                      warning = FALSE, 
-                      cache = FALSE, include = TRUE)
+knitr::opts_chunk$set(
+  echo = TRUE, eval = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  cache = FALSE, include = TRUE
+)
+```
 
+```{}
+
+# microviz can be installed from this repository
+
+install.packages("microViz",repos = c(
+  microviz = "https://david-barnett.r-universe.dev/",
+  CRAN = "https://cloud.r-project.org"
+))
 ```
 
 Load libraries
 
 ```{r, libraries,include=FALSE}
-library(plotly)
+# library(plotly) # don't load due to import conflicts
 library(heatmaply)
 library(dplyr) # dpyr masks select from plotly
 library(readr)
@@ -24,32 +35,86 @@ library(tibble)
 library(ggplot2)
 library(ggbeeswarm)
 library(pheatmap)
+library(grid)
 library(microbiome)
 library(ape)
 library(vegan)
 library(useful)
 library(kableExtra)
 library(ggtree)
+
+library(arrow)
+library(yaml)
+library(phyloseq)
+
+
+library(microViz)
 ```
 
 Atlas output files are stored in the `Example` folder.
 
-```{r, file_paths}
-atlas_wd_folder = "../Example/"
+```{r}
 
-taxonomy_file = paste0(atlas_wd_folder,"genomes/taxonomy/gtdb_taxonomy.tsv")
-tree_file = paste0(atlas_wd_folder,"genomes/tree/gtdbtk.bac120.nwk")
-quality_file= paste0(atlas_wd_folder,"genomes/checkm/completeness.tsv")
-counts_file= paste0(atlas_wd_folder,"genomes/counts/raw_counts_genomes.tsv")
-abundance_file = paste0(atlas_wd_folder,"genomes/counts/median_coverage_genomes.tsv")
-readstats_file= paste0(atlas_wd_folder,"stats/read_counts.tsv")
-keggmodules_file = paste0(atlas_wd_folder,"genomes/annotations/dram/kegg_modules.tsv")
+
+
+
+data_dir <- "../Example"
+atlas_version <- "v2"
+
+data_dir <- "../DiarrheaExample/"
+atlas_version <- "v2.17"
+
 ```
+
+
+```{r, file_paths}
+
+files <- yaml::yaml.load_file("../atlas_output_files.yaml")[[atlas_version]]
+
+
+
+
+for (key1 in names(files)) {
+  value1 <- files[[key1]]
+  if (is.character(value1)) {
+    # It's a direct path
+    files[[key1]] <- file.path(data_dir, value1)
+  } else if (is.list(value1)) {
+    # It's a nested list, go deeper
+    for (key2 in names(value1)) {
+      value2 <- value1[[key2]]
+      files[[key1]][[key2]] <- file.path(data_dir, value2)
+    }
+  }
+}
+
+
+taxonomy_file <- files[["genomes"]][["taxonomy"]]
+tree_file <- files[["genomes"]][["tree_bacteria"]]
+quality_file <- files[["genomes"]][["quality"]]
+counts_file <- files[["genomes"]][["counts"]]
+abundance_file <- files[["genomes"]][["coverage"]]
+readstats_file <- files[["readcounts"]]
+keggmodules_file <- files[["genomes"]][["keggmodules"]]
+```
+
+
+```{ metadata}
+
+
+metadata= read.csv( file.path(data_dir,"metadata.csv")) 
+
+metadata <- column_to_rownames(metadata,"sample_accession")
+
+head(metadata)
+
+```
+
 
 # Taxonomy
 
 ```{r, read_tax}
-Tax <- read_tsv(taxonomy_file,show_col_types = FALSE)
+Tax <- read_tsv(taxonomy_file, show_col_types = FALSE)
 kable(Tax)
 ```
 
@@ -62,8 +127,8 @@ Tax <- Tax %>%
 ## Draw tree
 
 ```{r, read_newick}
-T <- ggtree::read.tree(tree_file)
-T <- full_join(T, rename(Tax,label=user_genome), by = "label")
+Tree <- ggtree::read.tree(tree_file)
+Tree <- full_join(Tree, dplyr::rename(Tax, label = user_genome), by = "label")
 ```
 
 
@@ -71,29 +136,57 @@ T <- full_join(T, rename(Tax,label=user_genome), by = "label")
 ```{r, highlight_tree, fig.height = 10}
 library(phytools)
 
-tree_plot <- ggtree(T, layout = 'circular') +
-  geom_tiplab(aes(label=Label))
+tree_plot <- ggtree(Tree, layout = "circular") # +
+# geom_tiplab(aes(label=Label))
 
-for (phy in unique(Tax$phylum))
-{
-  phy_tax= Tax %>% filter( phylum == phy)
-  if (dim(phy_tax)[1] >1)
-  {
-    phy_mrca <- findMRCA(T@phylo, phy_tax$user_genome)
-    tree_plot <- tree_plot + geom_cladelabel(phy_mrca,
-                                              label = phy,
-                                              angle=0,
-                                              align=TRUE,
-                                              fontsize=20,
-                                             offset = 0.5,
-                                              offset.text=.1,
-                                              barsize=5,
-                                              )
-  }
+
+
+calculate_angle <- function(node, tree) {
+  # Calculate the angle based on the node position
+  # This is a simplified example and might not work for all trees
+  # The exact calculation would depend on your tree structure
+  angle <- (node / length(tree$tip.label)) * 360
+  return(angle)
 }
 
-tree_plot
-  #geom_highlight(Bacteroidota, fill = "steelblue", extend = 3)
+
+phylum_counts <- table(Tax$phylum)
+phylum_to_label <- names(phylum_counts)[phylum_counts>1]
+
+phylum_colors <- RColorBrewer::brewer.pal(length(phylum_to_label),"Paired") 
+names(phylum_colors) <- phylum_to_label
+
+# alterntive sample(colors(), length(phylum_to_label))
+
+for (phy in phylum_to_label) {
+  phy_tax <- Tax %>% filter(phylum == phy)
+
+    phy_mrca <- findMRCA(Tree@phylo, phy_tax$user_genome)
+
+  
+    # Calculate angle for this phylum label
+    phy_angle <- calculate_angle(phy_mrca, Tree@phylo)
+
+    tree_plot <- tree_plot +
+      geom_cladelabel(
+        node = phy_mrca,
+        label = phy,
+        fontsize = 15,
+        fill = phylum_colors[phy],
+        color = phylum_colors[phy],
+        align = TRUE,
+        offset = 0,
+        offset.text = .1,
+        barsize = 5,
+        angle = "auto",
+        hjust = 0,
+      )
+  
+}
+
+
+
+tree_plot #+geom_highlight(node= phy_mrca, fill = "steelblue", extend = 0)
 ```
 
 
@@ -101,51 +194,24 @@ tree_plot
 # Genome quality
 
 ```{r, read_genome_quality}
-genome_quality <- read_tsv(quality_file,show_col_types = FALSE) %>%
-  mutate(Quality_Score = Completeness - (5*Contamination)) %>%
+genome_quality <- read_tsv(quality_file, show_col_types = FALSE) %>%
+  mutate(Quality_Score = Completeness - (5 * Contamination)) %>%
   left_join(Tax, by = c("Bin Id" = "user_genome")) %>%
   mutate(Name = Label) %>%
   dplyr::select(-Label)
 ```
 
 ```{r, plot_contam_vs_quality}
-plt <- ggplot(genome_quality, aes(x = Contamination, y = Completeness, color = phylum, 
-                                  text =      paste("Bin Id:", `Bin Id`, "\nName",Name,"\nQuality score:", Quality_Score))) +
-  geom_point() + xlab('Contamination [%]') + ylab('Completeness [%]') +
+plt <- ggplot(genome_quality, aes(
+  x = Contamination, y = Completeness, color = phylum,
+  text = paste("Bin Id:", `Bin Id`, "\nName", Name, "\nQuality score:", Quality_Score)
+)) +
+  geom_point() +
+  xlab("Contamination [%]") +
+  ylab("Completeness [%]") +
   theme_minimal()
-ggplotly(plt,tooltip = c('text' ))
-
-
+plotly::ggplotly(plt, tooltip = c("text"))
 ```
-
-# Abundance
-
-## Calculate mapping rate
-
-```{r, mapping_rate, fig.width=1, fig.height=2}
-Counts <- read_tsv(counts_file, show_col_types = FALSE)
-read_stats <-read_tsv(readstats_file, show_col_types = FALSE) %>% filter(Step == "QC" )
-
-d <- tibble( Sample= colnames(Counts)[-1],
-            Mapped_Reads = colSums(Counts[,-1]),
-             x=0
-             ) %>%
-    left_join(read_stats, on = "Sample") %>%
-  mutate(Mapping_rate = Mapped_Reads / (Reads_pe*2+Reads_se) *100)
-
-plt <- ggplot(d, aes(y = Mapping_rate, x=x,text=paste("Sample:",Sample))) +
-  ylim(c(0, 100))+
-  xlim(c(-0.1,0.1)) +
-   geom_beeswarm() + 
-  theme_minimal()
-
-plt
-
-#ggplotly(plt,tooltip = c('text','y' ))
-
-```
-
-
 
 
 ## Relative abundance
@@ -153,58 +219,156 @@ plt
 For the relative abundance, we take the coverage over the genome, not the raw counts. This implicitly normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
 ```{r}
-D <- read_tsv(abundance_file, show_col_types = FALSE) %>%
-  column_to_rownames(var = "...1") %>%
-  as.data.frame()
-kable(topleft(D, c= 10))
+D <- arrow::read_parquet(abundance_file, show_col_types = FALSE) %>%
+  column_to_rownames("index") %>%
+  as.matrix()
+kable(topleft(D, c = 10))
 ```
 
 ```{r, relative_abund}
 # calculate relative abundance
-rel_ab <- sweep(D, 1, rowSums(D),`/`)
+rel_ab <- sweep(D, 1, rowSums(D), `/`)
 
 # get most abundant genomes
 counts_per_genome <- data.frame(sums = colSums(rel_ab)) %>%
-  rownames_to_column(var = "Sample") %>%
-  left_join(Tax, by = c("Sample" = "user_genome")) %>%
+  rownames_to_column(var = "Genome") %>%
+  left_join(Tax, by = c("Genome" = "user_genome")) %>%
   arrange(desc(sums))
 
 
 ggplot(counts_per_genome %>%
-         top_n(sums, n = 10), aes(x = reorder(Label, -sums), y = sums)) +
+  top_n(sums, n = 10), aes(x = reorder(Label, -sums), y = sums)) +
   geom_col() +
   labs(x = "", y = "Abundance [rel_ab]", title = "Most abundant genomes") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90))
 ```
+### Phyloseq 
 
-### Typical bar chart
+```{r phloseq}
 
-```{r, barchart}
-level <- 'family'
 
-grouping_columns= c("Sample",level)
-grouping_columns <- lapply(grouping_columns, as.symbol)
 
-grouped_data <- rel_ab %>%
-  t() %>%
-  as.data.frame() %>%
-  rownames_to_column(var = "user_genome") %>%
-  pivot_longer(cols = -user_genome, names_to = "Sample", values_to = "rel_ab") %>%
-  left_join(Tax, by = "user_genome") %>%
-  group_by_(.dots = grouping_columns) %>%
-  summarise(summarized_rel_ab = sum(rel_ab))
+nw_tree <- ape::read.tree(tree_file)
 
-ggplot(grouped_data, aes_string(x = "Sample", y = "summarized_rel_ab", fill = level)) +
-  geom_col() +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90)) +
-  #scale_fill_manual(values=rep(brewer.pal(5,"Paired"), times=5))
-  scale_fill_manual(values = c("#771155", "#AA4488", "#CC99BB", "#114477", "#4477AA", "#77AADD", "#117777", "#44AAAA", "#77CCCC", "#117744", "#44AA77", "#88CCAA", "#777711", "#AAAA44", "#DDDD77", "#774411", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788"))
+# if you have real metadate the better
+
+if (! exists("metadata")){
+metadata= data.frame(row.names = rownames(rel_ab))
+metadata$group="NoGroup"
+}
+
+
+pseq <- phyloseq(
+  otu_table(rel_ab, taxa_are_rows = FALSE),
+  tax_table(as.matrix(column_to_rownames(Tax, "user_genome"))),
+  phy_tree(nw_tree),
+  sample_data(metadata)
+)
+
+
 
 ```
 
-# Functional annotations
+### Ordination analysis
+
+Here we use the recomended robust Centered log ratio transformation with PCA. This coresponds to a PCoA with Aithison distances.
+
+```{}
+# interactively explore dataset
+
+pseq %>%
+ tax_transform(rank = "Label", trans = "rclr") %>%
+ ord_calc(
+  method = "auto"
+ ) %>% microViz::ord_explore()
+```
+
+
+```{r,fig.width=8}
+
+pseq %>%
+ tax_transform(rank = "Label", trans = "rclr") %>%
+ ord_calc(
+  method = "auto"
+ ) %>% 
+ ord_plot(
+  plot_taxa = 1:3,
+  size = 2
+ )
+
+
+
+```
+
+```{r,fig.width=8}
+
+
+
+pseq %>%
+ tax_transform(rank = "Label", trans = "rclr") %>%
+ ord_calc(
+  method = "auto"
+ ) %>% 
+ ord_plot(
+  plot_taxa = 1:3,
+  colour = "group", fill = "group",
+  size = 2
+ )+
+  stat_ellipse(aes(linetype = group, colour = group), linewidth = 0.3) 
+
+
+
+
+```
+### Typical bar chart
+
+```{r}
+
+pseq %>% comp_barplot(tax_level="genus", facet_by = "group") +
+ coord_flip() +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+
+
+
+```
+
+
+```{r}
+
+cols <- distinct_palette(n = 3, add = NA)
+names(cols) <- unique(samdat_tbl(pseq)$group)
+
+
+
+htmp <- pseq %>%
+  tax_transform("compositional",rank = "genus") %>%
+    tax_filter(min_prevalence = 0.25, prev_detection_threshold = 0.001,use_counts = FALSE)%>%
+  comp_heatmap(
+    grid_col = NA,
+    cluster_rows = FALSE, row_title = NULL,
+    #row_split = 5, #seq_len(ntaxa(ps_get(pseq))),
+    tax_anno = taxAnnotation(
+      Prev. = anno_tax_prev(bar_width = 0.9, size = grid::unit(1, "cm"), border = F)
+    ),
+    sample_anno = sampleAnnotation(
+      # method one
+      group = anno_sample("group"),
+      col = list(group = cols), border = TRUE)
+    
+    
+  )
+htmp %>% ComplexHeatmap::draw(
+  annotation_legend_list = attr(htmp, "AnnoLegends")
+)
+
+
+```
+
+
+
+
+# Functional annotations of genomes
 
 The relative abundance of functional annotations per sample
 
@@ -213,55 +377,65 @@ The abundance is calculated as the sum of the relative abundance of all bacteria
 ## Kegg modules produced by Dram
 
 ```{r, load_modules}
-
-kegg_modules= read_tsv(keggmodules_file,col_select = -1)
-module_names= kegg_modules %>% dplyr::select(c('module','module_name')) %>% distinct()
+kegg_modules <- read_tsv(keggmodules_file, col_select = -1)
+module_names <- kegg_modules %>%
+  dplyr::select(c("module", "module_name")) %>%
+  distinct() %>% column_to_rownames("module")
 
 
 kable(head(kegg_modules))
-
 ```
 
 ```{r, module_presence}
+step_coverage_threshold <- 0.8
 
-step_coverage_threshold= 0.8
+module_step_coverage_matrix <- pivot_wider(kegg_modules,
+  id_cols = genome,
+  names_from = module,
+  values_from = step_coverage
+) %>%
+  column_to_rownames("genome") %>%
+  as.matrix()
 
-module_step_coverage_matrix = pivot_wider(kegg_modules,  
-                                   id_cols = genome,
-                                   names_from = module, 
-                                   values_from = step_coverage
-                                   ) %>%
-                              column_to_rownames("genome") %>% as.matrix() 
+module_step_coverage_matrix <- module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
 
-module_step_coverage_matrix = module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
+setHook("grid.newpage", function() pushViewport(viewport(x=1,y=1,width=0.9, height=0.9, name="vp", just=c("right","top"))), action="prepend")
+hatmap <- pheatmap(module_step_coverage_matrix, show_colnames = F,show_rownames = F)
+setHook("grid.newpage", NULL, "replace")
+grid.text("Modules", y=-0.07, gp=gpar(fontsize=16))
+grid.text("Genomes", x=-0.07, rot=90, gp=gpar(fontsize=16))
 
 
-hatmap<- pheatmap(module_step_coverage_matrix, show_colnames = F)
 
-module_presence_matrix = 1 * (module_step_coverage_matrix>step_coverage_threshold)
+module_presence_matrix <- 1 * (module_step_coverage_matrix > step_coverage_threshold)
 
-module_presence_matrix = module_presence_matrix[, colSums(module_presence_matrix) > 0]
+module_presence_matrix <- module_presence_matrix[, colSums(module_presence_matrix) > 0]
 
 hatmap
 ```
 
+
+
+
+
 ```{r,heatmap_interactive2}
+d_tax <- column_to_rownames(Tax, "user_genome")
 
 
 
-d_tax= column_to_rownames(Tax,"user_genome")
+annotations <- matrix("",nrow = nrow(module_step_coverage_matrix),ncol = ncol(module_step_coverage_matrix))
+colnames(annotations) <-  colnames(module_step_coverage_matrix)
+rownames(annotations) <-  rownames(module_step_coverage_matrix)
 
-
-
-annotations <- module_step_coverage_matrix
 for (genome in rownames(annotations))
 {
   for (module in colnames(annotations))
   {
-    annotations[genome,module] = paste0("Name: ", d_tax[genome,"Label"],
-                       "\nPhylum: ",d_tax[genome,"phylum"],
-                       "\nPathway: ", module_names[module,"module_name"]
-                       )
+    annotations[genome, module] <- paste0(
+      "Name: ", d_tax[genome, "Label"],
+      "\nPhylum: ", d_tax[genome, "phylum"],
+      "\nPathway: ", module_names[module, "module_name"]
+    )
   }
 }
 
@@ -269,22 +443,77 @@ for (genome in rownames(annotations))
 
 
 heatmaply(module_step_coverage_matrix,
+  custom_hovertext = annotations,
+  showticklabels = c(FALSE, FALSE)
+)
+```
+
+### Module abundance
+Calculate Abundance of pathways as the sum of abundance of species where a module is presence. This is equal to the matrix multiplication.
+
+```{r, module_abundance}
+
+
+stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1])
+module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
+
+
+setHook("grid.newpage", function() pushViewport(viewport(x=1,y=1,width=0.9, height=0.9, name="vp", just=c("right","top"))), action="prepend")
+pheatmap(module_rel_ab, show_rownames  = F, show_colnames=F
+         )
+
+setHook("grid.newpage", NULL, "replace")
+grid.text("Modules", y=-0.07, gp=gpar(fontsize=16))
+grid.text("Samples", x=-0.07, rot=90, gp=gpar(fontsize=16))
+```
+
+```{r, heatmap-modules}
+
+annotations <- matrix("",nrow = nrow(module_rel_ab),ncol = ncol(module_rel_ab))
+colnames(annotations) <-  colnames(module_rel_ab)
+rownames(annotations) <-  rownames(module_rel_ab)
+for (sample in rownames(annotations))
+{
+  for (module in colnames(annotations))
+  {
+    annotations[sample,module] = paste0(
+                       "Pathway: ", module_names[module,]
+                       )
+  }
+}
+
+
+
+
+heatmaply(module_rel_ab,
           custom_hovertext = annotations,
-          showticklabels = c(FALSE,FALSE)
+          showticklabels = c(FALSE,FALSE),
+          colors="RdBu"
           )
 
 
 ```
 
 
-```{r, module_abundance}
-# Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
-stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
-module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
+```{r}
 
-pheatmap(module_rel_ab, show_colnames = F)
+
+# get most abundant modules
+abundance_per_module <- data.frame(abundance = colMeans(module_rel_ab)) %>% arrange(desc(abundance))
+abundance_per_module <- cbind(abundance_per_module,module_names[rownames(abundance_per_module),])
+colnames(abundance_per_module) <- c("Average_abundance","Description")
+
+
+
+  
+
+
+ggplot(abundance_per_module, aes(x = Average_abundance)) +
+  geom_histogram() +
+  labs(x = "Average module abundance", y = "counts") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90))
+
+
 
 ```
-
-
-

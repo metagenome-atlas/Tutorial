@@ -1,0 +1,285 @@
+---
+title: "Analyze the genecatalog output of metagenome-atlas"
+output: html_document
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, eval = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  cache = FALSE, include = TRUE
+)
+```
+
+
+
+```
+BiocManager::install("tidybulk")
+
+```
+
+
+```{r, libraries,include=FALSE}
+# library(plotly) # don't load due to import conflicts
+library(heatmaply)
+library(dplyr) # dpyr masks select from plotly
+library(readr)
+library(stringr)
+library(tidyr)
+library(tibble)
+library(ggplot2)
+library(ggbeeswarm)
+library(pheatmap)
+library(grid)
+#library(microbiome)
+#library(ape)
+#library(vegan)
+library(useful)
+library(kableExtra)
+#library(ggtree)
+
+library(rhdf5)
+library(dplyr)
+library(tibble)
+
+library(arrow)
+library(yaml)
+#library(phyloseq)
+
+
+#library(microViz)
+```
+
+Atlas output files are stored in the `Example` folder.
+
+```{r}
+
+
+data_dir <- "../NewExample/"
+atlas_version <- "v2.17"
+
+```
+
+
+```{r, file_paths}
+
+files <- yaml::yaml.load_file("../atlas_output_files.yaml")[[atlas_version]]
+
+
+
+
+for (key1 in names(files)) {
+  value1 <- files[[key1]]
+  if (is.character(value1)) {
+    # It's a direct path
+    files[[key1]] <- file.path(data_dir, value1)
+  } else if (is.list(value1)) {
+    # It's a nested list, go deeper
+    for (key2 in names(value1)) {
+      value2 <- value1[[key2]]
+      files[[key1]][[key2]] <- file.path(data_dir, value2)
+    }
+  }
+}
+
+genecatalog_files <-files[["genecatalog"]]
+
+abundance_file <- genecatalog_files$coverage
+
+
+```
+
+
+```{r metadata}
+
+
+metadata= read.csv( file.path(data_dir,"metadata.csv")) 
+
+metadata <- column_to_rownames(metadata,"sample_accession")
+
+head(metadata)
+
+```
+
+
+
+
+```{r}
+
+
+
+load_subset_of_genes <- function(abundance_file,indexes_of_genes_to_load ){
+
+
+
+# get dimension of data
+
+h5overview= rhdf5::h5ls(abundance_file)
+dim= h5overview[1,"dim"] %>% stringr::str_split(" x ",simplify=T) %>% as.numeric
+cat("Load ",length(indexes_of_genes_to_load), " out of ", dim[1] , " genes\n")
+
+
+data <- rhdf5::h5read(file = abundance_file, name = "data",
+                index = list(indexes_of_genes_to_load, NULL))
+
+# add sample names
+attributes= rhdf5::h5readAttributes(abundance_file, "data")
+colnames(data) <- attributes$sample_names
+
+
+# add gene names (e.g. Gene00001) as rownames
+gene_names = paste0("Gene", formatC(format="d",indexes_of_genes_to_load,flag="0",width=ceiling(log10(max(dim[1])))))
+rownames(data) <- gene_names
+
+return(data)
+}
+
+
+```
+
+
+```{r}
+
+
+# Load gene stats per sample
+
+
+sample_stats <- read.table(genecatalog_files$sample_stats,sep='\t',header=T,row.names=1)
+
+assertthat::assert_that("Sum_coverage" %in% colnames(sample_stats))
+
+# calculate copies per million
+total_covarage <- sample_stats[,"Sum_coverage"]
+names(total_covarage) <- rownames(sample_stats)
+
+
+# Plot the two numeric columns side by side using facet_wrap
+df_melt <- sample_stats %>% select("Sum_coverage",  "Genes_nz_coverage") %>% rename(`Total coverage` = Sum_coverage,`N detected genes` = Genes_nz_coverage) %>% reshape2::melt()
+
+ggplot(df_melt, aes(x = variable, y = value)) +
+  geom_beeswarm(size = 3, alpha = 0.7,cex=5) + 
+  facet_wrap(vars(variable), ncol = 2, scales = "free") +
+  labs(x = NULL, y = NULL)+
+  theme_minimal()
+
+
+
+
+
+
+```
+
+```{r }
+
+
+annotations = read_parquet(genecatalog_files$kegg)
+
+# take a subset to speed up caluclation
+annotations <- annotations[1:1000,]
+
+gene_nrs_with_annotations <- annotations %>% pull("GeneNr")
+
+
+data <-  load_subset_of_genes(abundance_file, gene_nrs_with_annotations)
+
+
+data[1:10,1:5]
+
+```
+
+Normalze gene counts to gene counts per million, which is analogous to transcripts per million.
+
+```{r }
+
+
+gene_gcpm<- data %*% diag(1/total_covarage[colnames(data)]) *1e6
+colnames(gene_gcpm) <- colnames(data)
+
+gene_gcpm[1:5,1:5]
+
+
+```
+
+
+
+
+
+```{r }
+
+
+library(SummarizedExperiment)
+
+
+rownames(annotations) <- NULL
+
+SE= SummarizedExperiment(
+  assays = list(gcpm = data),
+              colData =metadata[colnames(data),],
+              rowData = annotations
+  
+)
+
+
+
+
+
+```
+
+
+
+
+```{r}
+
+library(tidybulk)
+
+
+```
+
+
+
+
+
+
+```{}
+
+# Load full genecatalog matrix, 
+
+data <- h5read(abundance_file, "data")
+
+attributes= h5readAttributes(abundance_file, "data")
+
+colnames(data) <- attributes$sample_names
+
+```
+
+
+
+We only load a subset of genes, here genes that are found in at leas 2 samples
+```{r}
+
+gene_stats <- arrow::read_parquet(genecatalog_files$coverage_stats)
+
+gene_stats["GeneNr"] <- str_sub(gene_stats$GeneName, start = 5) %>% as.integer()
+
+kable(head(gene_stats))
+
+
+non_singleton_genes <- gene_stats %>% filter(Samples_nz_coverage>1) %>%  dplyr::pull(GeneNr)
+
+
+cat("Select",length(non_singleton_genes),"non singleton genes from total", dim(gene_stats)[1],"genes.")
+
+
+
+gene_coverage <- load_subset_of_genes(abundance_file,non_singleton_genes ) 
+
+```
+
+
+
+
+
+
+
+```

@@ -21,6 +21,7 @@ library(microbiome)
 library(ggbeeswarm)
 library(knitr)
 library(ALDEx2)
+library(phyloseq)
 
 ```
 
@@ -48,8 +49,9 @@ kable(metadata)
 
 We confirm that the mice on high-fat diet really put more weight on.
 
-```{r plot_metadata, fig.width=1, fig.height=1.5}
+```{r plot_metadata, fig.height=10mm}
 ggplot(metadata, aes(x = Diet, y = Body_weight)) +
+  geom_boxplot()+
  geom_beeswarm(cex=5) +
   ylim(10,35)+
   theme_minimal()
@@ -78,32 +80,77 @@ metadata = metadata[rownames(rel_ab),]
 
 ```
 
+
+### Phyloseq 
+
+```{r phloseq}
+
+
+nw_tree <- ape::read.tree(tree_file)
+
+
+
+
+pseq <- phyloseq(
+  otu_table(rel_ab, taxa_are_rows = FALSE),
+  tax_table(as.matrix(column_to_rownames(Tax, "user_genome"))),
+  phy_tree(nw_tree),
+  sample_data(metadata)
+)
+
+
+
+```
+
+### Ordination analysis
+
+Here we use the recomended robust Centered log ratio transformation with PCA. This coresponds to a PCoA with Aithison distances.
+
+```{}
+# interactively explore dataset
+
+pseq %>%
+ tax_transform(rank = "Label", trans = "rclr") %>%
+ ord_calc(
+  method = "auto"
+ ) %>% microViz::ord_explore()
+```
+
+
+
+
+```{r,fig.width=8}
+
+
+
+pseq %>%
+ tax_transform(rank = "Label", trans = "rclr") %>%
+ ord_calc(
+  method = "auto"
+ ) %>% 
+ ord_plot(
+  plot_taxa = 1:3,
+  colour = "Diet", fill = "Diet",
+  size = 2
+ )+
+  stat_ellipse(aes( colour = Diet), linewidth = 0.3) 
+
+
+
+
+```
+
+
 ### Bar chart wich group labels
 
+
 ```{r}
-level <- 'phylum'
 
-grouping_columns= c("Sample",level,"Diet")
-grouping_columns <- lapply(grouping_columns, as.symbol)
+pseq %>% comp_barplot(tax_level="phylum", facet_by = "Diet") +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 
-grouped_data <- rel_ab %>%
-  t() %>%
-  as.data.frame() %>%
-  rownames_to_column(var = "user_genome") %>%
-  pivot_longer(cols = -user_genome, names_to = "Sample", values_to = "rel_ab") %>%
-  left_join(Tax, by = "user_genome") %>%
-  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname")) %>%
-  group_by_(.dots = grouping_columns) %>%
-  summarise(summarized_rel_ab = sum(rel_ab))
 
-ggplot(grouped_data, aes_string(x = "Sample", y = "summarized_rel_ab", fill = level)) +
-  geom_col() +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90),
-        axis.text.y = element_blank(),
-        axis.title.y = element_blank()) +
-  facet_wrap(~Diet, scales = "free_x") +
-  scale_fill_manual(values = c("#771155", "#AA4488", "#CC99BB", "#114477", "#4477AA", "#77AADD", "#117777", "#44AAAA", "#77CCCC", "#117744", "#44AA77", "#88CCAA", "#777711", "#AAAA44", "#DDDD77", "#774411", "#AA7744", "#DDAA77", "#771122", "#AA4455", "#DD7788"))
+
 ```
 
 
@@ -121,27 +168,6 @@ For this, we transform the abundances with the centric log-ratios (CLR) after im
 
 
 
-
-```{r}
-# transforme counts with centered log ratio
-data <- transform(rel_ab, transform = "clr")
-```
-
-### PCA of the Aitchison distance
-
-```{r pca}
-transformed_data <- prcomp(data,scores=TRUE)
-
-pca_data <- transformed_data$x %>%
-  as.data.frame() %>%
-  rownames_to_column(var = "Sample") %>%
-  left_join(rownames_to_column(metadata), by = c("Sample" = "rowname"))
-
-ggplot(pca_data, aes(x = PC1, y = PC2, color = Diet)) +
-  geom_point() +
-  theme_minimal() +
-  scale_color_manual(values = c(chow = "#00BFC4", HF = "#F8766D"))
-```
 
 
 
@@ -181,7 +207,7 @@ aldex_stats <- aldex_stats %>%
 
 #### heatmap of significant Genomes
 
-```{r heatmap, fig.height=3, fig.width=5}
+```{r heatmap, fig.height=8cm, fig.width=5cm}
 # filter to MAG abundances that were significantly different
 sig_data <- data[, aldex_stats[aldex_stats$Pvalue_BH < 0.1, ]$Id] %>%
   as.data.frame() %>%
