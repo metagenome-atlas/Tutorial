@@ -5,15 +5,25 @@ import yaml
 import paramiko
 import stat
 
-
+from paramiko import RSAKey
 
 # Define your output directory and base path on server
-output_dir = 'NewExample'
-base_path_server = '/gpfs/home/rdkiesersi1/s/MD'
+output_dir = 'DiarrheaExample'
+atlas_version = "v2.17"
+username = "me"
+server="myserver.server.com"
+base_path_server = '/home/user/my_atlas_run'
+private_key_path = None # "C:/Users/User/.ssh/id_rsa"
 
-# Load and parse the yaml file
-with open('atlas_output_files.yaml') as file:
-    file_dict = yaml.safe_load(file)["v2.16"]
+
+if private_key_path is None:
+
+    mykey = None
+else:
+    mykey = RSAKey(filename=private_key_path)
+
+
+
 
 # Create an SSH client
 ssh = paramiko.SSHClient()
@@ -21,13 +31,15 @@ ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 try:
     # Connect to the server (replace 'ssh_alias' with your SSH alias)
-    ssh.connect('gate.nihs.ch.nestle.com',username="rdkiesersi1")
+    ssh.connect(server,username=username,pkey=mykey)
 except Exception as e:
     print(f"Failed to connect to the server: {e}")
     exit(1)
 
 # Create an SFTP client
 sftp = ssh.open_sftp()
+
+
 
 # Function to download files
 def download(remote_path):
@@ -51,6 +63,8 @@ def download(remote_path):
                 # Download the file
                 sftp.get(full_remote_path, local_path)
 
+                print(f"{local_path} downloaded!")
+
         else:  # If it's a directory...
             # Create local directory if it doesn't exist
             os.makedirs(local_path, exist_ok=True)
@@ -66,6 +80,11 @@ def download(remote_path):
         print(f"Failed to download {full_remote_path}: {e}")
 
 
+
+
+# Load and parse the yaml file
+with open('atlas_output_files.yaml') as file:
+    file_dict = yaml.safe_load(file)[atlas_version]
 
 # Go through the parsed yaml data and download the files
 for key1, value1 in file_dict.items():
