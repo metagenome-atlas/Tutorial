@@ -106,8 +106,12 @@ You should see a `(atlasenv)` at the beginning of the bash line.
 Now let's install metagenome-atlas.
 
 ```{r setupa, echo=FALSE}
-question("How do youinstall metagenome-atlas? I run the command",
-  answer("conda install metagenome-atlas",correct = TRUE, message="mamba is a faster alternative to conda, but both work."),
+question(
+  "How do youinstall metagenome-atlas? I run the command",
+  answer("conda install metagenome-atlas",
+    correct = TRUE,
+    message = "mamba is a faster alternative to conda, but both work."
+  ),
   answer("mamba install metagenome-atlas", correct = TRUE),
   answer("snakemake install metagenome-atlas")
 )
@@ -125,9 +129,15 @@ _Note: The Tutorial was created for version 2.17.1 while it should be no problem
 Run `atlas --help`
 
 ```{r init1, echo=FALSE}
-question("What is the subcommand that you will run to start a new project?",
-  answer("atlas download", message="All databases and software is installed on the fly. Download is optional."),
-  answer("atlas init",correct = TRUE, message = "Run the command with the '--help' to see what attributes you need"),
+question(
+  "What is the subcommand that you will run to start a new project?",
+  answer("atlas download",
+    message = "All databases and software is installed on the fly. Download is optional."
+  ),
+  answer("atlas init",
+    correct = TRUE,
+    message = "Run the command with the '--help' to see what attributes you need"
+  ),
   answer("atlas run")
 )
 ```
@@ -153,12 +163,13 @@ cd WD
 ```
 
 ```{r init, echo=FALSE}
-question("What files did atlas create in the woking directory?",
+question(
+  "What files did atlas create in the woking directory?",
   answer("test_reads"),
-  answer("databases",message="the database folder actually existed before"),
+  answer("databases", message = "the database folder actually existed before"),
   answer("config.yaml", correct = TRUE),
   answer("atlas"),
-  answer("samples.tsv",correct = TRUE)
+  answer("samples.tsv", correct = TRUE)
 )
 ```
 
@@ -186,12 +197,13 @@ It contains many parameters to configure the pipeline.
 They are explained in the comments or more in detail in the documentation.
 
 ```{r config, echo=FALSE}
-message="The 'assembly_memory' uses up to 250GB"
-question("With the default configuration. How much memory would be used maximally? ",
-  answer("250 MB", message="Memory units are in GB"),
-  answer(" 60 GB",message= message),
-  answer("250 GB", correct=T),
-  answer(" 60 MB",message= message)
+message <- "The 'assembly_memory' uses up to 250GB"
+question(
+  "With the default configuration. How much memory would be used maximally? ",
+  answer("250 MB", message = "Memory units are in GB"),
+  answer(" 60 GB", message = message),
+  answer("250 GB", correct = T),
+  answer(" 60 MB", message = message)
 )
 ```
 
@@ -251,10 +263,11 @@ Also specify the working directory.
 The dry-run command takes a while and then it shows a list of all the steps that would be executed.
 
 ```{r steps, echo=FALSE}
-question("How many steps would be executed by atlas?",
+question(
+  "How many steps would be executed by atlas?",
   answer("4"),
-  answer("34", correct = TRUE, message="Remember the number."),#assembly 65
-  answer("133",message = "This is for the 'genomes' workflow.")
+  answer("34", correct = TRUE, message = "Remember the number."), # assembly 65
+  answer("133", message = "This is for the 'genomes' workflow.")
 )
 ```
 
@@ -333,10 +346,11 @@ The data set used for the Tutorial is a very small one, here you can see the [QC
 
 
 ```{r qcreport2, echo=FALSE}
-message= "Sample SRS1992976 has very fiew final reads. Even more striking is that it started from a high number of inital reads."
-question("In the bigger run, are all samples ok? ",
-  answer("yes", message=message),
-  answer("no",message=message, correct = TRUE)
+message <- "Sample SRS1992976 has very fiew final reads. Even more striking is that it started from a high number of inital reads."
+question(
+  "In the bigger run, are all samples ok? ",
+  answer("yes", message = message),
+  answer("no", message = message, correct = TRUE)
 )
 ```
 
@@ -344,25 +358,26 @@ question("In the bigger run, are all samples ok? ",
 ### Low quality samples
 
 ```{r lowq-sample, echo=FALSE}
-message= "During the conatmination and host removal. Given that the sample comes from a diarrhea patients does this make sense?"
-question("During which stage did the sample SRS1992976 lost most of the reads?",
-  answer("raw",message=message),
-  answer("deduplicated",message=message),
-  answer("filtered",message=message),
-  answer("qc",message=message, correct = TRUE)
+message <- "During the conatmination and host removal. Given that the sample comes from a diarrhea patients does this make sense?"
+question(
+  "During which stage did the sample SRS1992976 lost most of the reads?",
+  answer("raw", message = message),
+  answer("deduplicated", message = message),
+  answer("filtered", message = message),
+  answer("qc", message = message, correct = TRUE)
 )
 ```
 
 
 
 ```{r lowq-sample2, echo=FALSE}
-message= "It depends on your project. To remove it you can simply drop the line in the sample.tsv.
+message <- "It depends on your project. To remove it you can simply drop the line in the sample.tsv.
 Note: In the current version of atlas low abundant samples that might give no bin results and stop the pipline. In the future it should be easier to exlude samples from binning. But include it in the quantification."
-question("What would you do with the sample?",
-  answer("Keep it, but check it at the end?",message=message,correct = TRUE),
-  answer("Drop it, it doesn't make sense to assemble it?",message=message,correct = TRUE),
-  answer("I don't know.",message=message,correct = TRUE)
-
+question(
+  "What would you do with the sample?",
+  answer("Keep it, but check it at the end?", message = message, correct = TRUE),
+  answer("Drop it, it doesn't make sense to assemble it?", message = message, correct = TRUE),
+  answer("I don't know.", message = message, correct = TRUE)
 )
 ```
 
@@ -377,22 +392,21 @@ The insert size is the length of the DNA fragment sequenced usually from both en
 
 
 ```{r insert-size, echo=FALSE}
-message= "The insert size is ~225 on average and the read length ~120. 2x 120 >= 225. So the reads cover the insert size. "
-question("On average, do the read pairs overlapp?",
-    answer("no",message=message),
-    answer("yes",correct = TRUE),
-    answer("sometimes",correct = TRUE)
-
+message <- "The insert size is ~225 on average and the read length ~120. 2x 120 >= 225. So the reads cover the insert size. "
+question(
+  "On average, do the read pairs overlapp?",
+  answer("no", message = message),
+  answer("yes", correct = TRUE),
+  answer("sometimes", correct = TRUE)
 )
 ```
 
 ```{r insert-size2, echo=FALSE}
-message= "Assembly fine or even better when there is a gap between the reads. "
-question("Is this a problem?",
-    answer("no",correct = TRUE, message=message),
-    answer("yes",message=message)
-
-
+message <- "Assembly fine or even better when there is a gap between the reads. "
+question(
+  "Is this a problem?",
+  answer("no", correct = TRUE, message = message),
+  answer("yes", message = message)
 )
 ```
 
@@ -406,11 +420,12 @@ There are also many files produced for each sample.
 Once the qc workflow is finished try to find the quality-controlled reads (.fastq) for sample1?
 
 ```{r qcfastq, echo=FALSE}
-message="We have paired-reads. The third file contains the reads that lost their mate during the quality control. There should be only a fiew. They are used for the mapping to the genecatalog but otherwise are not important."
-question("How many qc fastq files are there per sample?",
+message <- "We have paired-reads. The third file contains the reads that lost their mate during the quality control. There should be only a fiew. They are used for the mapping to the genecatalog but otherwise are not important."
+question(
+  "How many qc fastq files are there per sample?",
   answer("1", message = message),
   answer("2", message = message),
-  answer("3",correct = TRUE, message = message)
+  answer("3", correct = TRUE, message = message)
 )
 ```
 
@@ -428,14 +443,15 @@ Are you happy with the fraction of assembled reads?
 
 
 ```{r assreport, echo=FALSE}
-message="Are you suprised that it's not the sample with the least number or reads?"
+message <- "Are you suprised that it's not the sample with the least number or reads?"
 
-wrong_message = paste("The sample with the least Total BP in figure 1.", message)
+wrong_message <- paste("The sample with the least Total BP in figure 1.", message)
 
-question("Which sample has the smalest assembly?",
+question(
+  "Which sample has the smalest assembly?",
   answer("SRS1992976, the sample with the leas reads.", message = wrong_message),
   answer("SRS1993058", message = wrong_message),
-  answer("SRS1992994",correct = TRUE, message = message),
+  answer("SRS1992994", correct = TRUE, message = message),
   answer("SRS1992993", message = wrong_message)
 )
 ```
@@ -455,10 +471,11 @@ There is some confusion in the field but N50 usually refers to the N50-length.
 
 
 ```{r n50, echo=FALSE}
-message="Having a high N50-length is a good sign. As it measures the continuity. However the sample in question has one of the smallest assemblies. So other samples that have much larger assemblies even with less continuity contain more contigs for binning. "
+message <- "Having a high N50-length is a good sign. As it measures the continuity. However the sample in question has one of the smallest assemblies. So other samples that have much larger assemblies even with less continuity contain more contigs for binning. "
 
-question("The sample SRS1992993 has by far the highest N50-length. Is this good or bad?",
-  answer("It is good, the sample with the leas reads.", message = message, correct=T),
+question(
+  "The sample SRS1992993 has by far the highest N50-length. Is this good or bad?",
+  answer("It is good, the sample with the leas reads.", message = message, correct = T),
   answer("It is bad", message = message)
 )
 ```
@@ -469,13 +486,13 @@ question("The sample SRS1992993 has by far the highest N50-length. Is this good 
 N90 is the same as N50 but for 90%. 
 
 ```{r n90, echo=FALSE}
+message <- "All samples have view large and many small contigs, but for this sample it seems to be extreeme."
 
-message="All samples have view large and many small contigs, but for this sample it seems to be extreeme."
 
-
-question("Surprisingly, the sample with the highest N50 has very low N50 length. What does this mean?",
+question(
+  "Surprisingly, the sample with the highest N50 has very low N50 length. What does this mean?",
   answer("It has a very small assembly.", message = message),
-  answer("It has a view long contigs and many small ones.", correct=T, message = message),
+  answer("It has a view long contigs and many small ones.", correct = T, message = message),
   answer("It has very high continuity", message = message)
 )
 ```
@@ -547,10 +564,11 @@ Once the pipeline has finished, let's look at the output.
 First, open the contigs file for sample 2 (.fasta file).
 
 ```{r nsample, echo=FALSE}
-question("What is the name of the first contig? ",
+question(
+  "What is the name of the first contig? ",
   answer("sample_0"),
   answer("sample2_1"),
-  answer("sample2_0",correct = TRUE, message='It is also the longest contig in the file.')
+  answer("sample2_0", correct = TRUE, message = "It is also the longest contig in the file.")
 )
 ```
 
@@ -562,10 +580,11 @@ head sample2/binning/metabat/cluster_attribution.tsv
 ```
 
 ```{r qbin1, echo=FALSE}
-question("In which bin is the longest contig of sample 2? ",
-    answer("sample2_metabat_1",correct=TRUE),
-    answer("sample2_metabat_2",message=message),
-    answer("No clue.", message="the longest contig as stated above is 'sample2_0'")
+question(
+  "In which bin is the longest contig of sample 2? ",
+  answer("sample2_metabat_1", correct = TRUE),
+  answer("sample2_metabat_2", message = message),
+  answer("No clue.", message = "the longest contig as stated above is 'sample2_0'")
 )
 ```
 
@@ -611,9 +630,10 @@ But, you can look [here](https://rawcdn.githack.com/metagenome-atlas/Tutorial/31
 
 
 ```{r qbin6, echo=FALSE}
-question("How many different species are there in both samples? ",
+question(
+  "How many different species are there in both samples? ",
   answer("2"),
-  answer("3",correct=TRUE, message = ),
+  answer("3", correct = TRUE, message = ),
   answer("5", message = "some genomes from sample 1 and 2 belong to the same species")
 )
 ```
