@@ -16,35 +16,40 @@ library(learnr)
 
 ## Intro
 
-In the first part of the tutorial, you will 1.
-learn how to install Atlas, 2.
-init a new project and 3.
-run it.
+In the first part of the tutorial, you will
+
+1. learn how to install Atlas
+2. init a new project
+3. run it.
 
 Everything is done in the command line.
 
-**If you work on Windows don't open this webpage in Microsoft edge, it doesn't display all the interactive part correctly**
+<!--**If you work on Windows don't open this webpage in Microsoft edge, it doesn't display all the interactive part correctly**
+-->
 
-### Setup (codespaces)
 
-0.  You need a GitHub login.
+## Setup 
+
+### Using GitHub codespaces
+
+0.  You need a GitHub metagenome.
 1.  Go to [github.com/codespaces](https://github.com/codespaces) and log in
 2.  Create a new codespaces-environment
    ![Create a new codespaces-environment](images/go_to_codespaces_1.png){width="6cm"}
   - Use 4 processor machine
-  - Create the isntance
+  - Create the instance
 
 You have 15GB storage and 120 core-hours free. I hope you are not already using codespaces intensely.
 
 This opens a visual studio code environment. 
 
-Make shure that the `terminal`is selected in the bottom plane. You can make it bigger. 
+Make sure that the `terminal`is selected in the bottom plane. You can make it bigger. 
 
 
 
 ➤ Run the `setup_codespaces.sh` script in the terminal
 
-
+<!--
 
 ### Setup (binder)
 
@@ -57,8 +62,8 @@ This is an alternative setup, that is simpler but less stable.
 ![Click on new, then Terminal](images/go_to_terminal_jupyter.png){width="6cm"}
 
 It is as if you would connect to the server of your institution.
+-->
 
-## Start
 
 ### Conda
 
@@ -68,7 +73,7 @@ It can easily be installed with the miniconda package.
 On the server, we have already installed it.
 
 
-#### Set-up conda
+#### Configure conda
 
 To have access to all up-to-date bioinformatic packages you should add tell conda too look for them in the *conda-forge* and the *bioconda* channel in addition to the default.
 
@@ -96,7 +101,7 @@ Then activate the environment.
 
 You should see a `(atlasenv)` at the beginning of the bash line.
 
-### Install atlas
+## Install atlas
 
 Now let's install metagenome-atlas.
 
@@ -110,12 +115,12 @@ question("How do youinstall metagenome-atlas? I run the command",
 
 ➤ Run the fastest command to install metagenome-atlas.
 
-Run `atlas --version` and make sure you have the latest version installed.
-![Version](https://anaconda.org/bioconda/metagenome-atlas/badges/version.svg)
+Run `atlas --version`
 
-## Initialisation
 
-### Start a new project
+_Note: The Tutorial was created for version 2.17.1 while it should be no problem for other versions. There might be minor changes._
+
+## Start a new project
 
 Run `atlas --help`
 
@@ -131,11 +136,11 @@ To start a new project you need the path to the fastq files of your metagenome s
 We have provided you with two samples of test data in the folder `test_reads`.
 
 The other parameter you should set is the database directory.
-This should point to a path where you can store the \>150GB databases and software installed automatically by metagenome-atlas.
+This should point to a path where you can store the > 150GB databases and software installed automatically by metagenome-atlas.
 Ideally, this is also a shared location with your colleges.
 For the Tutorial, we will simply use `databases` folder which already exists.
 
--   run the init command:
+➤  run the init command:
 
 ```{bash, eval=FALSE}
 atlas init --db-dir databases --working-dir WD  test_reads
@@ -157,15 +162,22 @@ question("What files did atlas create in the woking directory?",
 )
 ```
 
-### Configure
+## Configure
+
+### The smaple table
 
 ➤ Have a look at the `samples.tsv` with `cat samples.tsv`.
 
 Check if the names of the samples are inferred correctly.
-Samples should be alphanumeric names.
+Samples should be short alphanumeric names starting with a letter.
+
+
 The `BinGroup` parameter can be used to activate co-binning.
 All samples in the same BinGroup are used mapped against each other.
+
 However, as it doesn't make sense to use this feature for less than three samples we don't use it and let the default.
+
+### Modify the config file
 
 Let's check the `config.yaml` file.
 Open it in the integrated file browser. (If you are using the binder: Go back to the landing page to open the file.)
@@ -187,9 +199,10 @@ You can also see that this amount of memory would be needed for 48h with 8 CPUs.
 When I meant that metagenomics is resource-intensive I was not joking.
 Luckily, most institutions have a high-performance computing system with allow you to run such calculations.
 
-For the tutorial we have a small dataset witch requires much less ressources.
+For the tutorial we have a small data set witch requires much less resources.
 
--   change `mem`, `assembly_mem`, and `large_mem` all to `10`
+
+### Set Contaminant references
 
 If you scroll down to `contaminant_references`, you can already see that the Phix genome is added as a contaminant.
 The Phix is a virus that is frequently used as a control for sequencing.
@@ -200,32 +213,37 @@ You should find a `host_genome.fasta` in your database folder.
 
 
 
-First, find out the absolute path to the human genome, then add it to the config file in the section `contaminant_references`.
+First, move the host genome in the database folder, then add it to the config file in the section `contaminant_references`.
 
 
-<!--
 Adapt the contaminant_references as follows:
 
     contaminant_references:
       PhiX: /path/to/databases/phiX174_virus.fa
-      host: /oath/to/databases/host_genome.fasta
+      host: /path/to/databases/host_genome.fasta
 
 Don't just copy the snippet above you need to replace `/path/to/` with the correct absolute path.
 It's the same for both contaminant references.
--->
+
 
 Pay attention that there are two spaces at the beginning of the line.
+
 Finally, save the file.
 
-## Run atlas
+
+
+
+## Runing the pipline
 
 ### Dry Run
 
 Before Running the pipeline, which can take more than a day it is always recommended to do a dry-run.
 This simulates an execution and checks if there are any errors in the config file or elsewhere.
 
-➤ Run `atlas run --help` to see how to do a dry-run.
+➤ Run `atlas run --help` to see how to do a dry-run
+
 ➤ Call the run command with the dry-run option and `qc` as workflow.
+
 Also specify the working directory.
 
 **In case you missed the dry-run parameter the use `CTR+C` to stop the run.**
@@ -243,10 +261,10 @@ question("How many steps would be executed by atlas?",
 This command runs all the steps in the atlas pipeline for two samples.
 You can see how it would scale for more samples.
 
-### Ressources
+### Resource management
 
 If you run metagenome-atlas on your cluster you should set up a cluster profile, as described in the documentation.
-This allows atlas to submitt each step to the cluster while specifying the number of cores and memory, not bad!
+This allows atlas to submit each step to the cluster while specifying the number of cores and memory, not bad!
 For more information see the [Documentation.](https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#execue-atlas)
 
 For the demo, we chose a simpler way and run atlas on a single node.
@@ -282,7 +300,7 @@ For the tutorial, we have already installed all except one conda environment so 
 
 Once the conda environments are installed atlas will start with the steps of the pipeline.
 
-## Stop and go
+### Stop and go
 
 You might wonder what happens if the server crashes during the long execution of Atlas.
 
@@ -296,54 +314,169 @@ How many steps are now be executed?
 Do you see, that metagenome-atlas can continue to run the pipeline form the where it stopped?
 There are even checkpoints during the assembly from which it can continue.
 
-## Run assembly
+## Run the Assembly workflow
 
-➤ If the qc  workflow is not finished. rpess `CTR + C.` 
+➤ If the QC  workflow is not finished. press `CTR + C.` 
 
-➤ And then run the assembly workflow.
+➤ And then run the assembly workflow. 
 
-### QC + Assembly Reports
+
+## QC report
 
 While the pipeline is finishing you can already answer the flowing questions?
 
-The output of the qc, and the assembly sub-workflow are summarized in two reports.
-
 The `reports/QC_report.html` gives a graphical report on the most important numbers.
 
-The dataset used for the Tutorial is a very small one, here you can see the [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
+The data set used for the Tutorial is a very small one, here you can see the [QC report](https://metagenome-atlas.readthedocs.io/en/latest/_static/QC_report.html) of a bigger run.
 
-TODO: change reports here
+<!-- TODO: change reports here -->
 
-<!--
+
 ```{r qcreport2, echo=FALSE}
-message= "Sample F26 has lost many reads during the quality filtering, maybe it would make sense to drop it altogether."
-question("In the bigger run, are all samples of good quality? ",
+message= "Sample SRS1992976 has very fiew final reads. Even more striking is that it started from a high number of inital reads."
+question("In the bigger run, are all samples ok? ",
   answer("yes", message=message),
   answer("no",message=message, correct = TRUE)
 )
 ```
--->
 
 
-### Assembly report
+### Low quality samples
 
-Once the assembly sub-workflow is finished, it will again produce a report `reports/assembly_report.html`.
+```{r lowq-sample, echo=FALSE}
+message= "During the conatmination and host removal. Given that the sample comes from a diarrhea patients does this make sense?"
+question("During which stage did the sample SRS1992976 lost most of the reads?",
+  answer("raw",message=message),
+  answer("deduplicated",message=message),
+  answer("filtered",message=message),
+  answer("qc",message=message, correct = TRUE)
+)
+```
 
-➤ Copy it to your computer and open it with a web browser
 
-Are you happy with the fraction of assembled reads?
 
-### Sample specific output files
+```{r lowq-sample2, echo=FALSE}
+message= "It depends on your project. To remove it you can simply drop the line in the sample.tsv.
+Note: In the current version of atlas low abundant samples that might give no bin results and stop the pipline. In the future it should be easier to exlude samples from binning. But include it in the quantification."
+question("What would you do with the sample?",
+  answer("Keep it, but check it at the end?",message=message,correct = TRUE),
+  answer("Drop it, it doesn't make sense to assemble it?",message=message,correct = TRUE),
+  answer("I don't know.",message=message,correct = TRUE)
+
+)
+```
+
+
+### Insert size
+
+The qc report, shows you also the insert size and the read lengths for each sample.
+The insert size is the length of the DNA fragment sequenced usually from both ends.
+
+![](images/readlength.jpg)
+
+
+
+```{r insert-size, echo=FALSE}
+message= "The insert size is ~225 on average and the read length ~120. 2x 120 >= 225. So the reads cover the insert size. "
+question("On average, do the read pairs overlapp?",
+    answer("no",message=message),
+    answer("yes",correct = TRUE),
+    answer("sometimes",correct = TRUE)
+
+)
+```
+
+```{r insert-size2, echo=FALSE}
+message= "Assembly fine or even better when there is a gap between the reads. "
+question("Is this a problem?",
+    answer("no",correct = TRUE, message=message),
+    answer("yes",message=message)
+
+
+)
+```
+
+[_Further reading material_](https://www.badgrammargoodsyntax.com/compbio/2018/3/5/compbio-020-reads-fragments-and-inserts-what-you-need-to-know-for-understanding-your-sequencing-data-1)
+
+### QC reads
+
+Once the QC workflow is finished you can look at the sample specific files.
 
 There are also many files produced for each sample.
-Once the assembly workflow is finished try to find the quality-controlled reads (.fastq) for sample1?
+Once the qc workflow is finished try to find the quality-controlled reads (.fastq) for sample1?
 
 ```{r qcfastq, echo=FALSE}
-message="We have paired-reads. The third file contains the reads that lost their mate during the equality control. They are seamlessly integrated in the pipeline."
+message="We have paired-reads. The third file contains the reads that lost their mate during the quality control. There should be only a fiew. They are used for the mapping to the genecatalog but otherwise are not important."
 question("How many qc fastq files are there per sample?",
   answer("1", message = message),
   answer("2", message = message),
   answer("3",correct = TRUE, message = message)
+)
+```
+
+
+
+
+## Assembly report
+
+Let's look at the assembly report of the same (larger) dataset. 
+
+TODO: add report.
+
+
+Are you happy with the fraction of assembled reads?
+
+
+```{r assreport, echo=FALSE}
+message="Are you suprised that it's not the sample with the least number or reads?"
+
+wrong_message = paste("The sample with the least Total BP in figure 1.", message)
+
+question("Which sample has the smalest assembly?",
+  answer("SRS1992976, the sample with the leas reads.", message = wrong_message),
+  answer("SRS1993058", message = wrong_message),
+  answer("SRS1992994",correct = TRUE, message = message),
+  answer("SRS1992993", message = wrong_message)
+)
+```
+
+
+### N50
+
+N50 is a measure for continuity.
+
+The N50-number characterizes how many contigs do you need to contstitute 50% of your assembly (starting from the longest). Hence the lower the better. 
+
+The N50-length is the length of the contig at the 50%- limit. Meaning 50% of your assembly is that long or longer. Hence the larger the better.  
+
+There is some confusion in the field but N50 usually refers to the N50-length.
+
+
+
+
+```{r n50, echo=FALSE}
+message="Having a high N50-length is a good sign. As it measures the continuity. However the sample in question has one of the smallest assemblies. So other samples that have much larger assemblies even with less continuity contain more contigs for binning. "
+
+question("The sample SRS1992993 has by far the highest N50-length. Is this good or bad?",
+  answer("It is good, the sample with the leas reads.", message = message, correct=T),
+  answer("It is bad", message = message)
+)
+```
+
+
+### N90
+
+N90 is the same as N50 but for 90%. 
+
+```{r n90, echo=FALSE}
+
+message="All samples have view large and many small contigs, but for this sample it seems to be extreeme."
+
+
+question("Surprisingly, the sample with the highest N50 has very low N50 length. What does this mean?",
+  answer("It has a very small assembly.", message = message),
+  answer("It has a view long contigs and many small ones.", correct=T, message = message),
+  answer("It has very high continuity", message = message)
 )
 ```
 
@@ -358,7 +491,7 @@ samtools index sequence_alignment/sample2.bam
 samtools faidx sample2_contigs.fasta
 
 
-impor genome,
+import genome,
 import track
 
 -->
@@ -368,15 +501,12 @@ import track
 
 ## Binning
 
-### Introduction
 
-We try to reconstruct genomes from the metagenome.
+Once the assembly is finished, we try to reconstruct genomes from the metagenome.
 This is done by grouping together contigs which we think belong to the same genome.
 These groups are called **bins**, and if we really think it is a genome then we call it **MAG for metagenome-assembled genome**
 
-![](https://merenlab.org/momics/03-reconstructing-genomes-from-metagenomes.gif){width="15cm"}
 
-*Here is a short animation from a class of Prof. Eren <https://merenlab.org/momics/>*
 
 <!--By default, we use the automatic binners metabat2 and maxbin2 and then a bin refining with DAS-Tool.
 Both binners are based on the sequence composition and the coverage profile in one sample.
@@ -386,10 +516,10 @@ To get the coverage profile we first need to align the reads to the assembly.
 
 
 
-### Configure binning
+## Configure binning
 
-There are many different binner tools, as explained in the class. 
-Most binners use coverage information and sequence composition to cluster contigs into bins. 
+There are many different binner tools. 
+Most binners use coverage information and sequence composi tion to cluster contigs into bins. 
 It is even possible to use the coverage information of multiple samples, using `vamb` and or `SemiBin`. This is the recommended binner if you have 20-150 samples. 
 
 Here we will use `metabat` for simplicity. 
@@ -400,7 +530,7 @@ To configure this
 - set `final_binner: metabat`
 - Also set `filter_chimieric_bins: false` for the tutorial.
 
-### Run the binning workflow
+## Run the binning workflow
 
 For the binning workflow we exclude one step which uses a lot of of memory.
 
@@ -409,6 +539,8 @@ Run the command
 ```{bash eval=F}
 atlas run binning --max-mem=0.95 --omit-from checkm2_download_db
 ```
+
+## Binning output
 
 Once the pipeline has finished, let's look at the output.
 
@@ -445,19 +577,25 @@ The DAS Tool takes the predictions of both binners and tries to find a harmoniza
 
 Have a look at the the : `sample2/binning/DASTool/sample2_DASTool.log`
 
-Do you see how DASTool treates the bin `sample2_metabat_1`?
+Do you see how DASTool treats the bin `sample2_metabat_1`?
 Which bin from maxbin is in competition with this bin?
 
 -->
 
+
+
+
 ### Quality assessment
 
-Usually the pipeline would continue and asses the genome completeness and contamination using Checkm2.
+Usually the pipeline would continue and asses the genome completeness and contamination using CheckM2.
 Unfortunately, this step cannot be run as it requires the download of a database.
+
+## Investigate the bins
 
 Let's have a look at some of the genomes.
 
 ➤  Go to  `WD/sample2/binning/metabat/bins`
+
 ➤  With the atlasenv activated, run `sendsketch.sh protein <binf.asta>`
 
 sendsketch is a tool from the BBMap package. It predicts proteins from the genome, creates a signature of these proteins and sends them to a server where it is matched against all genomes from NCBI.
@@ -479,7 +617,6 @@ question("How many different species are there in both samples? ",
   answer("5", message = "some genomes from sample 1 and 2 belong to the same species")
 )
 ```
-
 
 -->
 The *genomes* sub-workflow of Atlas combines the binning results from different samples and produces a non-redundant set of MAGs.

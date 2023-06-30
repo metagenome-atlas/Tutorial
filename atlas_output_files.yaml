@@ -27,9 +27,9 @@ v2.13:
     geneinfo: Genecatalog/clustering/orf_info.parquet
 
 v2.16:
-  readcounts: "stats/read_counts.tsv"
   stats: "stats"
   reports: "reports"
+  readcounts: "stats/read_counts.tsv"
   genomes:
     taxonomy: "genomes/taxonomy/gtdb_taxonomy.tsv"
     tree_bacteria: "genomes/tree/gtdbtk.bac120.nwk"
@@ -41,11 +41,22 @@ v2.16:
     dram_report: "genomes/annotations/dram/product.html"
     dram_xlsx: "genomes/annotations/dram/metabolism_summary.xlsx"
     gene2genomes: "genomes/annotations/gene2genome.parquet"
-
-  binning: # final binner might be other than vamb
-    similariteis:  Binning/vamb/genome_similarities.parquet
-    bin_info: Binning/vamb/filtered_bin_info.tsv
     bin2genome: genomes/clustering/allbins2genome.tsv
+
+  vamb: # final binner might be other than vamb
+    similarities:  Binning/vamb/genome_similarities.parquet
+    bin_info: Binning/vamb/filtered_bin_info.tsv
+
+  
+  dastool: # final binner might be other than vamb
+    similarities:  Binning/DASTool/genome_similarities.parquet
+    bin_info: Binning/DASTool/filtered_bin_info.tsv
+
+
+  semibin: # final binner might be other than vamb
+    similarities:  Binning/SemiBin/genome_similarities.parquet
+    bin_info: Binning/SemiBin/filtered_bin_info.tsv
+    
 
   genecatalog:
     coverage_stats: Genecatalog/counts/gene_coverage_stats.parquet
@@ -57,3 +68,52 @@ v2.16:
     kegg: Genecatalog/annotations/dram/kegg.parquet
     cazy: Genecatalog/annotations/dram/cazy.parquet 
     pfam: Genecatalog/annotations/dram/pfam.parquet
+
+
+v2.17:
+  stats: "stats"
+  reports: "reports"
+  readcounts: "stats/read_counts.tsv"
+  genomes:
+    taxonomy: "genomes/taxonomy/gtdb_taxonomy.tsv"
+    tree_bacteria: "genomes/tree/gtdbtk.bac120.nwk"
+    quality: "genomes/genome_quality.tsv"
+    counts : "genomes/counts/counts_genomes.parquet"
+    coverage: "genomes/counts/median_coverage_genomes.parquet"
+    keggmodules: "genomes/annotations/dram/kegg_modules.tsv"
+    dram: "genomes/annotations/dram/annotations.tsv"
+    dram_report: "genomes/annotations/dram/distil/product.html"
+    dram_xlsx: "genomes/annotations/dram/distil/metabolism_summary.xlsx"
+    gene2genomes: "genomes/annotations/gene2genome.parquet"
+    bin2genome: genomes/clustering/allbins2genome.tsv
+
+  vamb: # final binner might be other than vamb
+    similarities:  Binning/vamb/genome_similarities.parquet
+    bin_info: Binning/vamb/bin_info.tsv
+    bin2species: Binning/vamb/bins2species.tsv
+
+  
+  dastool: # final binner might be other than vamb
+    similarities:  Binning/DASTool/genome_similarities.parquet
+    bin_info: Binning/DASTool/bin_info.tsv
+    bin2species: Binning/DASTool/bins2species.tsv
+
+  semibin: # final binner might be other than vamb
+    similarities:  Binning/SemiBin/genome_similarities.parquet
+    bin_info: Binning/SemiBin/bin_info.tsv
+    bin2species: Binning/SemiBin/bins2species.tsv
+    
+
+  genecatalog:
+    coverage_stats: Genecatalog/counts/gene_coverage_stats.parquet
+    coverage: Genecatalog/counts/median_coverage.h5
+    counts: Genecatalog/counts/Nmapped_reads.h5
+    sample_stats: Genecatalog/counts/sample_coverage_stats.tsv
+    geneinfo: Genecatalog/clustering/orf_info.parquet
+    eggnog: Genecatalog/annotations/eggNOG.parquet
+    kegg: Genecatalog/annotations/dram/kegg.parquet
+    cazy: Genecatalog/annotations/dram/cazy.parquet 
+    pfam: Genecatalog/annotations/dram/pfam.parquet
+
+  strains: "strains/comparison/output"
+  strains_pdf: "strains/comparison/figures"
