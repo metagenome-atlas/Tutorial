@@ -46,16 +46,19 @@ v2.16:
   vamb: # final binner might be other than vamb
     similarities:  Binning/vamb/genome_similarities.parquet
     bin_info: Binning/vamb/filtered_bin_info.tsv
+    report: reports/bin_report_vamb.html
 
   
   dastool: # final binner might be other than vamb
     similarities:  Binning/DASTool/genome_similarities.parquet
     bin_info: Binning/DASTool/filtered_bin_info.tsv
+    report: reports/bin_report_DASTool.html
 
 
   semibin: # final binner might be other than vamb
     similarities:  Binning/SemiBin/genome_similarities.parquet
     bin_info: Binning/SemiBin/filtered_bin_info.tsv
+    report: reports/bin_report_SemiBin.html
     
 
   genecatalog:
@@ -71,6 +74,8 @@ v2.16:
 
 
 v2.17:
+  config: "config.yaml"
+  sampletable: "samples.tsv"
   stats: "stats"
   reports: "reports"
   readcounts: "stats/read_counts.tsv"
@@ -91,17 +96,20 @@ v2.17:
     similarities:  Binning/vamb/genome_similarities.parquet
     bin_info: Binning/vamb/bin_info.tsv
     bin2species: Binning/vamb/bins2species.tsv
+    report: reports/bin_report_vamb.html
 
   
   dastool: # final binner might be other than vamb
     similarities:  Binning/DASTool/genome_similarities.parquet
     bin_info: Binning/DASTool/bin_info.tsv
     bin2species: Binning/DASTool/bins2species.tsv
+    report: reports/bin_report_DASTool.html
 
   semibin: # final binner might be other than vamb
     similarities:  Binning/SemiBin/genome_similarities.parquet
     bin_info: Binning/SemiBin/bin_info.tsv
     bin2species: Binning/SemiBin/bins2species.tsv
+    report: reports/bin_report_SemiBin.html
     
 
   genecatalog:
