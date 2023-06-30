@@ -114,7 +114,8 @@ question(
     message = "mamba is a faster alternative to conda, but both work."
   ),
   answer("mamba install metagenome-atlas", correct = TRUE),
-  answer("snakemake install metagenome-atlas")
+  answer("snakemake install metagenome-atlas"),
+  type="single"
 )
 ```
 
@@ -389,7 +390,7 @@ question(
   answer("Drop it, it doesn't make sense to assemble it?",
     message = message, correct = TRUE
   ),
-  answer("I don't know.", message = message, correct = TRUE)
+  type="single"
 )
 ```
 
@@ -404,13 +405,15 @@ The insert size is the length of the DNA fragment sequenced usually from both en
 
 
 ```{r insert-size, echo=FALSE}
-message <- "On average, the insert size is ~225 and the read length ~120.
-2x 120 >= 225. So the reads cover the insert size. "
+
 question(
   "On average, do the read pairs overlap?",
-  answer("no", message = message),
+  answer("no"),
   answer("yes", correct = TRUE),
-  answer("sometimes", correct = TRUE)
+  answer("sometimes", correct = TRUE),
+message = "On average, the insert size is ~225 and the read length ~120.
+2x 120 >= 225. So the reads cover the insert size. ", 
+type="single"
 )
 ```
 
@@ -441,9 +444,10 @@ There should be only a few.
 They are used for the mapping to the gene catalog but otherwise are not important."
 question(
   "How many qc fastq files are there per sample?",
-  answer("1", message = message),
-  answer("2", message = message),
-  answer("3", correct = TRUE, message = message)
+  answer("1"),
+  answer("2"),
+  answer("3", correct = TRUE),
+  message = message
 )
 ```
 
