@@ -12,14 +12,29 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{}
+
+```{r install}
+# Installing practical
+
+
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+
+
+bioconductor_packages <- c("phyloseq", "microbiome", "ComplexHeatmap", "ggtree")
+BiocManager::install(setdiff(bioconductor_packages, rownames(installed.packages())), update = F)
+
+
 
 # microviz can be installed from this repository
 
-install.packages("microViz",repos = c(
-  microviz = "https://david-barnett.r-universe.dev/",
-  CRAN = "https://cloud.r-project.org"
-))
+if (!requireNamespace("microViz", quietly = TRUE)) {
+  install.packages("microViz", repos = c(
+    microviz = "https://david-barnett.r-universe.dev/",
+    CRAN = "https://cloud.r-project.org"
+  ))
+}
 ```
 
 Load libraries
@@ -54,21 +69,15 @@ library(microViz)
 Atlas output files are stored in the `Example` folder.
 
 ```{r}
-
-
-
-
 data_dir <- "../Example"
 atlas_version <- "v2"
 
 data_dir <- "../DiarrheaExample/"
 atlas_version <- "v2.17"
-
 ```
 
 
 ```{r, file_paths}
-
 files <- yaml::yaml.load_file("../atlas_output_files.yaml")[[atlas_version]]
 
 
@@ -151,9 +160,9 @@ calculate_angle <- function(node, tree) {
 
 
 phylum_counts <- table(Tax$phylum)
-phylum_to_label <- names(phylum_counts)[phylum_counts>1]
+phylum_to_label <- names(phylum_counts)[phylum_counts > 1]
 
-phylum_colors <- RColorBrewer::brewer.pal(length(phylum_to_label),"Paired") 
+phylum_colors <- RColorBrewer::brewer.pal(length(phylum_to_label), "Paired")
 names(phylum_colors) <- phylum_to_label
 
 # alterntive sample(colors(), length(phylum_to_label))
@@ -161,27 +170,26 @@ names(phylum_colors) <- phylum_to_label
 for (phy in phylum_to_label) {
   phy_tax <- Tax %>% filter(phylum == phy)
 
-    phy_mrca <- findMRCA(Tree@phylo, phy_tax$user_genome)
+  phy_mrca <- findMRCA(Tree@phylo, phy_tax$user_genome)
 
-  
-    # Calculate angle for this phylum label
-    phy_angle <- calculate_angle(phy_mrca, Tree@phylo)
 
-    tree_plot <- tree_plot +
-      geom_cladelabel(
-        node = phy_mrca,
-        label = phy,
-        fontsize = 15,
-        fill = phylum_colors[phy],
-        color = phylum_colors[phy],
-        align = TRUE,
-        offset = 0,
-        offset.text = .1,
-        barsize = 5,
-        angle = "auto",
-        hjust = 0,
-      )
-  
+  # Calculate angle for this phylum label
+  phy_angle <- calculate_angle(phy_mrca, Tree@phylo)
+
+  tree_plot <- tree_plot +
+    geom_cladelabel(
+      node = phy_mrca,
+      label = phy,
+      fontsize = 15,
+      fill = phylum_colors[phy],
+      color = phylum_colors[phy],
+      align = TRUE,
+      offset = 0,
+      offset.text = .1,
+      barsize = 5,
+      angle = "auto",
+      hjust = 0,
+    )
 }
 
 
@@ -246,16 +254,13 @@ ggplot(counts_per_genome %>%
 ### Phyloseq 
 
 ```{r phloseq}
-
-
-
 nw_tree <- ape::read.tree(tree_file)
 
 # if you have real metadate the better
 
-if (! exists("metadata")){
-metadata= data.frame(row.names = rownames(rel_ab))
-metadata$group="NoGroup"
+if (!exists("metadata")) {
+  metadata <- data.frame(row.names = rownames(rel_ab))
+  metadata$group <- "NoGroup"
 }
 
 
@@ -265,9 +270,6 @@ pseq <- phyloseq(
   phy_tree(nw_tree),
   sample_data(metadata)
 )
-
-
-
 ```
 
 ### Ordination analysis
@@ -286,83 +288,64 @@ pseq %>%
 
 
 ```{r,fig.width=8}
-
 pseq %>%
- tax_transform(rank = "Label", trans = "rclr") %>%
- ord_calc(
-  method = "auto"
- ) %>% 
- ord_plot(
-  plot_taxa = 1:3,
-  size = 2
- )
-
-
-
+  tax_transform(rank = "Label", trans = "rclr") %>%
+  ord_calc(
+    method = "auto"
+  ) %>%
+  ord_plot(
+    plot_taxa = 1:3,
+    size = 2
+  )
 ```
 
 ```{r,fig.width=8}
-
-
-
 pseq %>%
- tax_transform(rank = "Label", trans = "rclr") %>%
- ord_calc(
-  method = "auto"
- ) %>% 
- ord_plot(
-  plot_taxa = 1:3,
-  colour = "group", fill = "group",
-  size = 2
- )+
-  stat_ellipse(aes(linetype = group, colour = group), linewidth = 0.3) 
-
-
-
-
+  tax_transform(rank = "Label", trans = "rclr") %>%
+  ord_calc(
+    method = "auto"
+  ) %>%
+  ord_plot(
+    plot_taxa = 1:3,
+    colour = "group", fill = "group",
+    size = 2
+  ) +
+  stat_ellipse(aes(linetype = group, colour = group), linewidth = 0.3)
 ```
 ### Typical bar chart
 
 ```{r}
-
-pseq %>% comp_barplot(tax_level="genus", facet_by = "group") +
- coord_flip() +
+pseq %>% comp_barplot(tax_level = "genus", facet_by = "group") +
+  coord_flip() +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
-
-
-
 ```
 
 
 ```{r}
-
 cols <- distinct_palette(n = 3, add = NA)
 names(cols) <- unique(samdat_tbl(pseq)$group)
 
 
 
 htmp <- pseq %>%
-  tax_transform("compositional",rank = "genus") %>%
-    tax_filter(min_prevalence = 0.25, prev_detection_threshold = 0.001,use_counts = FALSE)%>%
+  tax_transform("compositional", rank = "genus") %>%
+  tax_filter(min_prevalence = 0.25, prev_detection_threshold = 0.001, use_counts = FALSE) %>%
   comp_heatmap(
     grid_col = NA,
     cluster_rows = FALSE, row_title = NULL,
-    #row_split = 5, #seq_len(ntaxa(ps_get(pseq))),
+    # row_split = 5, #seq_len(ntaxa(ps_get(pseq))),
     tax_anno = taxAnnotation(
       Prev. = anno_tax_prev(bar_width = 0.9, size = grid::unit(1, "cm"), border = F)
     ),
     sample_anno = sampleAnnotation(
       # method one
       group = anno_sample("group"),
-      col = list(group = cols), border = TRUE)
-    
-    
+      col = list(group = cols), border = TRUE
+    )
   )
 htmp %>% ComplexHeatmap::draw(
   annotation_legend_list = attr(htmp, "AnnoLegends")
 )
-
-
 ```
 
 
@@ -380,7 +363,8 @@ The abundance is calculated as the sum of the relative abundance of all bacteria
 kegg_modules <- read_tsv(keggmodules_file, col_select = -1)
 module_names <- kegg_modules %>%
   dplyr::select(c("module", "module_name")) %>%
-  distinct() %>% column_to_rownames("module")
+  distinct() %>%
+  column_to_rownames("module")
 
 
 kable(head(kegg_modules))
@@ -399,11 +383,11 @@ module_step_coverage_matrix <- pivot_wider(kegg_modules,
 
 module_step_coverage_matrix <- module_step_coverage_matrix[, colSums(module_step_coverage_matrix) > 0]
 
-setHook("grid.newpage", function() pushViewport(viewport(x=1,y=1,width=0.9, height=0.9, name="vp", just=c("right","top"))), action="prepend")
-hatmap <- pheatmap(module_step_coverage_matrix, show_colnames = F,show_rownames = F)
+setHook("grid.newpage", function() pushViewport(viewport(x = 1, y = 1, width = 0.9, height = 0.9, name = "vp", just = c("right", "top"))), action = "prepend")
+hatmap <- pheatmap(module_step_coverage_matrix, show_colnames = F, show_rownames = F)
 setHook("grid.newpage", NULL, "replace")
-grid.text("Modules", y=-0.07, gp=gpar(fontsize=16))
-grid.text("Genomes", x=-0.07, rot=90, gp=gpar(fontsize=16))
+grid.text("Modules", y = -0.07, gp = gpar(fontsize = 16))
+grid.text("Genomes", x = -0.07, rot = 90, gp = gpar(fontsize = 16))
 
 
 
@@ -423,9 +407,9 @@ d_tax <- column_to_rownames(Tax, "user_genome")
 
 
 
-annotations <- matrix("",nrow = nrow(module_step_coverage_matrix),ncol = ncol(module_step_coverage_matrix))
-colnames(annotations) <-  colnames(module_step_coverage_matrix)
-rownames(annotations) <-  rownames(module_step_coverage_matrix)
+annotations <- matrix("", nrow = nrow(module_step_coverage_matrix), ncol = ncol(module_step_coverage_matrix))
+colnames(annotations) <- colnames(module_step_coverage_matrix)
+rownames(annotations) <- rownames(module_step_coverage_matrix)
 
 for (genome in rownames(annotations))
 {
@@ -452,33 +436,29 @@ heatmaply(module_step_coverage_matrix,
 Calculate Abundance of pathways as the sum of abundance of species where a module is presence. This is equal to the matrix multiplication.
 
 ```{r, module_abundance}
-
-
 stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1])
 module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
 
 
-setHook("grid.newpage", function() pushViewport(viewport(x=1,y=1,width=0.9, height=0.9, name="vp", just=c("right","top"))), action="prepend")
-pheatmap(module_rel_ab, show_rownames  = F, show_colnames=F
-         )
+setHook("grid.newpage", function() pushViewport(viewport(x = 1, y = 1, width = 0.9, height = 0.9, name = "vp", just = c("right", "top"))), action = "prepend")
+pheatmap(module_rel_ab, show_rownames = F, show_colnames = F)
 
 setHook("grid.newpage", NULL, "replace")
-grid.text("Modules", y=-0.07, gp=gpar(fontsize=16))
-grid.text("Samples", x=-0.07, rot=90, gp=gpar(fontsize=16))
+grid.text("Modules", y = -0.07, gp = gpar(fontsize = 16))
+grid.text("Samples", x = -0.07, rot = 90, gp = gpar(fontsize = 16))
 ```
 
 ```{r, heatmap-modules}
-
-annotations <- matrix("",nrow = nrow(module_rel_ab),ncol = ncol(module_rel_ab))
-colnames(annotations) <-  colnames(module_rel_ab)
-rownames(annotations) <-  rownames(module_rel_ab)
+annotations <- matrix("", nrow = nrow(module_rel_ab), ncol = ncol(module_rel_ab))
+colnames(annotations) <- colnames(module_rel_ab)
+rownames(annotations) <- rownames(module_rel_ab)
 for (sample in rownames(annotations))
 {
   for (module in colnames(annotations))
   {
-    annotations[sample,module] = paste0(
-                       "Pathway: ", module_names[module,]
-                       )
+    annotations[sample, module] <- paste0(
+      "Pathway: ", module_names[module, ]
+    )
   }
 }
 
@@ -486,26 +466,22 @@ for (sample in rownames(annotations))
 
 
 heatmaply(module_rel_ab,
-          custom_hovertext = annotations,
-          showticklabels = c(FALSE,FALSE),
-          colors="RdBu"
-          )
-
-
+  custom_hovertext = annotations,
+  showticklabels = c(FALSE, FALSE),
+  colors = "RdBu"
+)
 ```
 
 
 ```{r}
-
-
 # get most abundant modules
 abundance_per_module <- data.frame(abundance = colMeans(module_rel_ab)) %>% arrange(desc(abundance))
-abundance_per_module <- cbind(abundance_per_module,module_names[rownames(abundance_per_module),])
-colnames(abundance_per_module) <- c("Average_abundance","Description")
+abundance_per_module <- cbind(abundance_per_module, module_names[rownames(abundance_per_module), ])
+colnames(abundance_per_module) <- c("Average_abundance", "Description")
 
 
 
-  
+
 
 
 ggplot(abundance_per_module, aes(x = Average_abundance)) +
@@ -513,7 +489,4 @@ ggplot(abundance_per_module, aes(x = Average_abundance)) +
   labs(x = "Average module abundance", y = "counts") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90))
-
-
-
 ```
