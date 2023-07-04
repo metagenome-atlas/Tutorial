@@ -221,7 +221,7 @@ ggplotly(plt) #, tooltip = c("label", "label2"))
 
 
 ```{r}
-genome_of_interest = 'MAG10'
+genome_of_interest = 'MAG25'
 ggplot(data %>%
          as.data.frame %>%
          rownames_to_column(var = "Sample") %>%

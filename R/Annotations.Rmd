@@ -59,14 +59,13 @@ Tax <- Tax %>%
   mutate(Label = ifelse(is.na(species) & is.na(genus), paste0(family, " ", user_genome), species)) %>%
   mutate(Label = ifelse(is.na(Label), paste0(genus, " ", user_genome), Label))
 ```
+
 ## Draw tree
 
 ```{r, read_newick}
 T <- ggtree::read.tree(tree_file)
 T <- full_join(T, rename(Tax,label=user_genome), by = "label")
 ```
-
-
 
 ```{r, highlight_tree, fig.height = 10}
 library(phytools)
@@ -95,8 +94,6 @@ for (phy in unique(Tax$phylum))
 tree_plot
   #geom_highlight(Bacteroidota, fill = "steelblue", extend = 3)
 ```
-
-
 
 # Genome quality
 
@@ -144,9 +141,6 @@ plt
 #ggplotly(plt,tooltip = c('text','y' ))
 
 ```
-
-
-
 
 ## Relative abundance
 
@@ -276,7 +270,6 @@ heatmaply(module_step_coverage_matrix,
 
 ```
 
-
 ```{r, module_abundance}
 # Sum of rel_ab for all species where a module is presence is equel to the matrix multiplication
 stopifnot(dim(rel_ab)[2] == dim(module_presence_matrix)[1]  )
@@ -285,6 +278,3 @@ module_rel_ab <- as.matrix(rel_ab) %*% module_presence_matrix
 pheatmap(module_rel_ab, show_colnames = F)
 
 ```
-
-
-
