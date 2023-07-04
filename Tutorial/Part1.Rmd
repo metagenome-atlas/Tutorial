@@ -115,7 +115,7 @@ question(
   ),
   answer("mamba install metagenome-atlas", correct = TRUE),
   answer("snakemake install metagenome-atlas"),
-  type="single"
+  type = "single"
 )
 ```
 
@@ -390,7 +390,7 @@ question(
   answer("Drop it, it doesn't make sense to assemble it?",
     message = message, correct = TRUE
   ),
-  type="single"
+  type = "single"
 )
 ```
 
@@ -405,15 +405,14 @@ The insert size is the length of the DNA fragment sequenced usually from both en
 
 
 ```{r insert-size, echo=FALSE}
-
 question(
   "On average, do the read pairs overlap?",
   answer("no"),
   answer("yes", correct = TRUE),
   answer("sometimes", correct = TRUE),
-message = "On average, the insert size is ~225 and the read length ~120.
-2x 120 >= 225. So the reads cover the insert size. ", 
-type="single"
+  message = "On average, the insert size is ~225 and the read length ~120.
+2x 120 >= 225. So the reads cover the insert size. ",
+  type = "single"
 )
 ```
 
@@ -456,9 +455,8 @@ question(
 
 ## Assembly report
 
-Let's look at the assembly report of the same (larger) dataset. 
+Let's look at the [assembly report](https://metagenome-atlas.readthedocs.io/en/latest/_static/assembly_report.html) of the same (larger) dataset. 
 
-TODO: add report.
 
 
 Are you happy with the fraction of assembled reads?
@@ -615,8 +613,11 @@ question(
 ```
 
 
-<!--
-### Bin refining
+
+### Bin refining (optional)
+
+➤ set `final_binner: DASTool` and run the binning workflow again.
+
 
 The DAS Tool takes the predictions of both binners and tries to find a harmonization with the best result, meaning the highest quality.
 
@@ -625,7 +626,7 @@ Have a look at the the : `sample2/binning/DASTool/sample2_DASTool.log`
 Do you see how DASTool treats the bin `sample2_metabat_1`?
 Which bin from maxbin is in competition with this bin?
 
--->
+
 
 
 
@@ -641,14 +642,16 @@ Let's have a look at some of the genomes.
 
 ➤  Go to  `WD/sample2/binning/metabat/bins`
 
-➤  With the `atlasenv` activated, run `sendsketch.sh protein <binf.asta>`
+➤  With the `atlasenv` activated, run `sendsketch.sh protein <bin.fasta>`
 
 `sendsketch.sh` is a tool from the BBMap package. It predicts proteins from the genome, creates a signature of these proteins and sends them to a server where it is matched against all genomes from NCBI.
 
 The resulting table shows you its hits. 
 
 AAI or Amino acid identity, shows the similarity, `Compl` and `Contam` gives an estimation of completeness and contamination for this genome.
-Not bad!?
+
+
+
 
 
 <!--
@@ -665,10 +668,12 @@ question(
 ```
 
 -->
+
+## End
+
 The *genomes* sub-workflow of Atlas combines the binning results from different samples and produces a non-redundant set of MAGs.
 The workflow also quantifies the genomes in all the samples and annotates them with a better taxonomy.
 
-## End
 
 Because of the computational and time limits we won't run atlas until the end.
 It won't any way not be very interesting for this small dataset.
