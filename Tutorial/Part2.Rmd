@@ -44,7 +44,8 @@ You should find a navigation plane in Rstudio/Jupyter lab.
 ## Introduction
 
 
-A real metagenome-atlas run can take more than a day. Therefore we have prepared for you some output of a previous run. We are going to look at the main output files and then do some statistical analysis on the output.
+A real metagenome-atlas run can take more than a day. Therefore we have prepared for you some output of a previous run.
+We are going to look at the main output files and then do some statistical analysis on the output.
 
 The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high-fat diet and got obese.
 
