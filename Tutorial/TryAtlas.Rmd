@@ -1,6 +1,6 @@
 ---
 # nolint: line_length_linter.
-title: "Atlas Tutorial Part I"
+title: "Run atlas"
 output:
   learnr::tutorial:
     progressive: true
@@ -23,32 +23,47 @@ In the first part of the tutorial, you will
 2. init a new project
 3. run it.
 
-Everything is done in the command line.
-
 <!--**If you work on Windows don't open this webpage in Microsoft edge, it doesn't display all the interactive part correctly**
 -->
 
+_Note: The Tutorial was created for version 2.17.1 while it should be no problem for other versions.
+There might be minor changes._
 
 ## Setup 
 
+
+For the tutorial we will use GitHub codespaces as a server.
+If you have acess to the cluster of your institution, with the conda-package manager installed might want to try to do the tutorial there.
+
+
 ### Using GitHub codespaces
 
-0.  You need a GitHub metagenome.
+0.  You need a GitHub username.
 1.  Go to [github.com/codespaces](https://github.com/codespaces) and log in
-2.  Create a new codespaces-environment
-   ![Create a new codespaces-environment](images/go_to_codespaces_1.png){width="6cm"}
+2.  Create a new codespaces
+   ![Create a new codespaces](images/go_to_codespaces_1.png){width="6cm"}
+
+  - Type `metagenome-atlas/Tryitout` as the name for the repo and select it
   - Use 4 processor machine
   - Create the instance
 
-You have 15GB storage and 120 core-hours free. I hope you are not already using codespaces intensely.
+You have 15 GB storage and 120 core-hours free. I hope you are not already using codespaces intensely.
 
-This opens a visual studio code environment. 
+This opens a visual studio code environment (My favorite interface at the moment). 
 
-Make sure that the `terminal`is selected in the bottom plane. You can make it bigger. 
+Make sure that the `terminal` is selected in the bottom plane. 
+
+➤ Make it bigger. 
+
+### Run the setup script
+
+➤ Run `./setup_codespaces.sh` in the terminal
+
+This script installs mamba and sets some conda channels.
+If you do it on your cluster have a look at the [documentation](https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html)
 
 
 
-➤ Run the `setup_codespaces.sh` script in the terminal
 
 <!--
 
@@ -63,7 +78,7 @@ This is an alternative setup, that is simpler but less stable.
 ![Click on new, then Terminal](images/go_to_terminal_jupyter.png){width="6cm"}
 
 It is as if you would connect to the server of your institution.
--->
+
 
 
 ### Conda
@@ -72,7 +87,9 @@ The only dependency for metagenome atlas is the *conda package manager*.
 It can easily be installed with the miniconda package.
 
 On the server, we have already installed it.
+-->
 
+<!--
 
 #### Configure conda
 
@@ -92,6 +109,8 @@ Different programs need often different versions of python/R or other packages.
 It can become a nightmare to install different tools with conflicting dependencies.
 Conda allows you to encapsulate each software into its own *environment*.
 
+
+
 ➤ Create an an empty conda environment.
 
 ```{bash eval=F}
@@ -102,6 +121,7 @@ Then activate the environment.
 
 You should see a `(atlasenv)` at the beginning of the bash line.
 
+-->
 ## Install atlas
 
 Now let's install metagenome-atlas.
@@ -121,11 +141,12 @@ question(
 
 ➤ Run the fastest command to install metagenome-atlas.
 
+
+
 Run `atlas --version`
 
+_Note: It is a good practice to install each tool in it's own conda environment, but to simplify the tutorial we don't do it._
 
-_Note: The Tutorial was created for version 2.17.1 while it should be no problem for other versions.
-There might be minor changes._
 
 ## Start a new project
 
@@ -413,7 +434,7 @@ While waiting for the binning workflow to finish, let's have a look at the [outp
 
 
 
-## Binning output
+## Assembly output
 
 Once the pipeline has finished, let's look at the output.
 
@@ -431,6 +452,91 @@ question(
 )
 ```
 
+Search for `NN` in the contigs file.
+
+```{r nnn, echo=FALSE}
+question("Is the fact that you find regions with 'NNN's a good or a bad sign?",
+  type = "single",
+  answer("It's a good sign", correct = FALSE),
+  answer("It's a bad sign", correct = TRUE),
+  message = "The NNs signify that the assembler could not resolve the sequence in this region correctly.
+But on the other hand it was able to create a 'scaffold' including the region."
+)
+```
+
+## Assembly Graph (optional)
+
+### Open the assembly graph
+
+➤ Download the assembly graph of sample 2 `sample2/assembly/assembly_graph_with_scaffolds.gfa` 
+
+➤ Install [Bandage](https://rrwick.github.io/Bandage/) a program to view the assembly graph.
+
+➤ Open Bandage and click on load graph.
+
+➤ Click on `Draw graph`.
+
+
+### Play with the assembly graph
+
+➤ In Graph display options select `Colour by depth`
+
+The difference in red indicate the depth of coverage of the contigs.
+
+➤ Click on one contig to show the length and depth of coverage coverage.
+
+
+### Visualize continuity
+
+➤ In Graph display options select `Colour by continuity`
+
+➤ Click on a node part of a connected graph.
+
+➤ Click on `Determine continuity` to highlight sequences which are connected to the selected one.
+
+
+### Visualize contigs
+
+
+In codespaces open the file `sample2/assembly/scaffolds.paths`.
+
+It looks something like this:
+
+```
+NODE_1_length_303598_cov_37.988980
+35749-,15085+,29607-,48777+,63803-,56803-,25473-,63803-,2597+,48777+,63803-,56803-,
+```
+
+➤ Copy all the numbers on the second line 
+
+➤ Past them in Bandage in the `Find node` field on the top right.
+
+➤ Click on `Find node(s)`
+
+This highlights all the sequences part of the first scaffold/contig.
+
+➤ With the mouse drag the highlighted nodes to the side. 
+
+Check the Depth of several nodes. Do you see a pattern?
+
+
+### Genomes in the assembly graph
+
+```{r graph, echo=FALSE}
+question("How many genomes do you expect in this metagenome?",
+  type = "single",
+  answer("2", correct = TRUE),
+  answer("3", correct = TRUE),
+  answer("4", correct = FALSE),
+  answer("I don't know how one even get one genome from this.", correct = TRUE),
+  message = "We will see what the binner says."
+)
+```
+
+
+## Binning output
+
+
 Each binner produces a `cluster_attribution.tsv` which provides the link between contig and bin.
 Have a look at the one from sample 2 produced by metabat, by running:
 
@@ -442,8 +548,9 @@ head sample2/binning/metabat/cluster_attribution.tsv
 question(
   "In which bin is the longest contig of sample 2? ",
   answer("sample2_metabat_1", correct = TRUE),
-  answer("sample2_metabat_2", message = message),
-  answer("No clue.", message = "the longest contig as stated above is 'sample2_0'")
+  answer("sample2_metabat_2"),
+  answer("No clue."),
+  message = "the longest contig as stated above is 'sample2_0'"
 )
 ```
 
@@ -459,7 +566,7 @@ Let's have a look at some of the genomes.
 
 ➤  Go to  `WD/sample2/binning/metabat/bins`
 
-➤  With the `atlasenv` activated, run `sendsketch.sh protein <bin.fasta>`
+➤  Run `sendsketch.sh protein <bin.fasta>`
 
 `sendsketch.sh` is a tool from the BBMap package. It predicts proteins from the genome, creates a signature of these proteins and sends them to a server where it is matched against all genomes from NCBI.
 
@@ -500,6 +607,7 @@ You can no go [Part 2 of the Tutorial](https://metagenome-atlas.shinyapps.io/Par
 On the flowing pages are some extra exercises about the atlas gene-catalog workflow.
 
 ## Extra
+
 
 ### Bin refining 
 
