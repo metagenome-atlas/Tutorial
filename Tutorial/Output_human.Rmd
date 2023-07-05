@@ -1,4 +1,5 @@
 ---
+# nolint: line_length_linter.
 title: "Atlas Output of Mouse Metagenome."
 # nolint: line_length_linter.
 output:
@@ -121,7 +122,7 @@ message <- "Are you suprised that it's not the sample with the least number or r
 wrong_message <- paste("The sample with the least Total BP in figure 1.", message)
 
 question(
-    "Which sample has the smalest assembly?",
+    "Which sample has the smallest assembly?",
     answer("SRS1992976, the sample with the leas reads.", message = wrong_message),
     answer("SRS1993058", message = wrong_message),
     answer("SRS1992994", correct = TRUE, message = message),
@@ -136,7 +137,8 @@ N50 is a measure for continuity.
 
 The N50-number characterizes how many contigs do you need to constitute 50% of your assembly (starting from the longest). Hence the lower the better. 
 
-The N50-length is the length of the contig at the 50%- limit. Meaning 50% of your assembly is that long or longer. Hence the larger the better.  
+The N50-length is the length of the contig at the 50%- limit.
+Meaning 50% of your assembly is that long or longer. Hence the larger the better.  
 
 There is some confusion in the field but N50 usually refers to the N50-length.
 
@@ -144,7 +146,9 @@ There is some confusion in the field but N50 usually refers to the N50-length.
 
 
 ```{r n50, echo=FALSE}
-message <- "Having a high N50-length is a good sign. As it measures the continuity. However the sample in question has one of the smallest assemblies. So other samples that have much larger assemblies even with less continuity contain more contigs for binning. "
+message <- "Having a high N50-length is a good sign. As it measures the continuity.
+However the sample in question has one of the smallest assemblies.
+So other samples that have much larger assemblies even with less continuity contain more contigs for binning. "
 
 question(
     "The sample SRS1992993 has by far the highest N50-length. Is this good or bad?",
@@ -159,11 +163,11 @@ question(
 N90 is the same as N50 but for 90%. 
 
 ```{r n90, echo=FALSE}
-message <- "All samples have view large and many small contigs, but for this sample it seems to be extreeme."
+message <- "All samples have view large and many small contigs, but for this sample it seems to be extreme."
 
 
 question(
-    "Surprisingly, the sample with the highest N50 has very low N50 length. What does this mean?",
+    "Surprisingly, the sample with the highest N50 has very low N90 length. What does this mean?",
     answer("It has a very small assembly.", message = message),
     answer("It has a view long contigs and many small ones.", correct = T, message = message),
     answer("It has very high continuity", message = message)
@@ -192,11 +196,10 @@ However the official definition contains more.
 
 ➤ Ask the AI the same question. 
 
-### Additional metrics
+### Official definitions
 
-Obviously, in publication we stick to the official definition and we use other words like 'near coplete' genomes for the MAGS that
-have >90% completeness and less 5% contamination. 
-
+Obviously, in publication we stick to the official definition and we use other words like 'near complete' 
+or 'Good quality' genomes for the MAGS that have >90% completeness and less 5% contamination. 
 
 
 ```{r neglect, echo=FALSE}
@@ -208,6 +211,21 @@ question("Can you imagine why whe neglect the criteria for the presence of t-RNA
 ```
 
 
+
+### Quality score
+
+In atlas I define a quality score:
+
+$$ \text{Quality score} = \text{Completeness} - 5 \times \text{Contamination} $$
+
+This allows me to have a linear scale to sort the MAGs by quality.
+
+Hence Quality score > 50 is a bit more stringent than 50% completeness and <10% contamination.
+Hence Quality score > 90 is a bit more stringent than the good quality genomes.
+
+
+
+### Additional metrics
 
 ```{r quality, echo=FALSE}
 question(
@@ -225,7 +243,7 @@ question(
 ## Compare binners
 Open the two bin reports.
 
-[DASTool](https://metagenome-atlas.readthedocs.io/en/latest/_static/bin_report_dastool.html) and
+[DASTool](https://metagenome-atlas.readthedocs.io/en/latest/_static/bin_report_DASTool.html) and
 [Vamb](https://metagenome-atlas.readthedocs.io/en/latest/_static/bin_report_vamb.html) in two tabs.
 
 
