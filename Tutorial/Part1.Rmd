@@ -12,7 +12,7 @@ library(learnr)
 ```
 
 
-[server]: http://18.198.246.143:10002
+[server]: https://hackmd.io/@zCQfVLJCR4-tHbSGgncxSA/S1dUCV6KF#Tutorial-Part-1
 
 
 ## Intro
