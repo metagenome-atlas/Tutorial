@@ -292,7 +292,7 @@ The coloring should change according to the bins.
 Deactivate any node labeling (There are too many labels).
 
 
-Does the colorig make sense? 
+Does the coloring make sense? 
 What about the purple nodes?
 What are the colors of the circular nodes?
 
