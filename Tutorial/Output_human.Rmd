@@ -189,6 +189,11 @@ However the official definition contains more.
 
 ➤ Use ChatGPT, Bing or Google to find the official definition of a high quality MAG or at least the paper that should contain the definition.
 
+### Use ChatGPT to find the definition
+
+For me Google didn't give a different answer than the "in offical definition" above.
+
+Let's look in the paper using AI.
 
 ➤ Copy the url to the pdf of the paper
 
@@ -255,8 +260,43 @@ Which binner is better and why?
 
 
 
+## Look at the assembly graph.
 
 
+In the [Example data](https://github.com/metagenome-atlas/Tutorial/tree/master/DiarrheaExample/SRS1992958/assembly)
+i have the assembly graph of a real human sample. You can also download it and open it with [Bandage](https://rrwick.github.io/Bandage/).
+
+
+
+```{r circular}
+question("Do you see some exeptional nodes?",
+    answer("Yes", correct = TRUE),
+    answer("No"),
+    message = "There are circular nodes."
+)
+```
+
+## circular nodes
+
+➤ Click on them, and check the coverage information. 
+
+## Bin information
+
+I prepared a mapping file from graph nodes to contigs to the binds.
+
+Click on open CSV and choose the file `SRS1992958/assembly/Node_info.csv`
+
+
+The coloring should change according to the bins. 
+
+Deactivate any node labeling (There are too many labels).
+
+
+Does the colorig make sense? 
+What about the purple nodes?
+What are the colors of the circular nodes?
+
+## End
 
 <!--
 
