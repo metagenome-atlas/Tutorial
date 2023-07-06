@@ -304,14 +304,18 @@ ordination %>%
   stat_ellipse(aes(linetype = .data[[group_variable]], colour = .data[[group_variable]]), linewidth = 0.3)
 ```
 
+### Interactive ordination
 
-```{r interactive-ord}
-# Interactive ordination
+Run this command in the console
+``` r
+
 microViz::ord_explore(pseq)
 
-# click on stop on the right side to interrupt the interactive ordination.
 
 ```
+click on stop sign on the toè right side to interrupt the interactive ordination.
+
+
 
 ### Typical bar chart
 
