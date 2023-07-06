@@ -1,5 +1,5 @@
 ---
-title: "Atlas Output of Mouse Metagenome."
+title: "Atlas Output."
 # nolint: line_length_linter.
 output:
   learnr::tutorial:
@@ -19,7 +19,7 @@ For the second part of the tutorial we made online computing environments availa
 You will need to create a free Rstudio could account.
 
 
-<a href="https://posit.cloud/" target="_blank">Rstudio online</a>
+<a href="https://posit.cloud/content/6178419" target="_blank">Rstudio online</a>
 
 <!--
 There is also a python environment available, but it does not have as much resources as the Rstudio environment.
@@ -50,7 +50,16 @@ We are going to look at the main output files and then do some statistical analy
 The output is based on 15 samples from mice fecal samples from the project PRJEB7759. 8 of them were fed a high-fat diet and got obese.
 
 
-The code is in the `R` or in the `Python` directory depending on your user interface. The output of the atlas run is in the `Example` folder. Go there.
+![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
+
+
+
+I prepared some R code that can be found in the `R`subdirectory. 
+There is also `Python` code but it is has less features and it is not up to date.
+
+The output of the atlas run is in the `MouseExample` folder. Go there.
+
+
 
 
 
@@ -81,9 +90,21 @@ I put only the result from one sample online, named `ERR675519`.
 The main goal of atlas is to create metagenome-assembled genomes (MAGs). The final set of non-redundant genomes are in the folder `genomes/genomes`.
 
 
-* Open the `Annotations` `.Rmd` or `.ipynb.`
+* Open the `R/Mouse_example.Rmd`
 
 * Run the code chunks/cells to answer the following questions.
+
+
+```{r ob1, echo=FALSE}
+question(
+  "What is the relative increase of bodyweight of the mice on high-fat diet compared to the control mice? ",
+  answer("3%"),
+  answer("30%"),
+  answer("10%", correct = TRUE)
+)
+```
+
+
 
 
 ```{r q1, echo=FALSE}
@@ -95,6 +116,9 @@ question(
   answer("26")
 )
 ```
+
+
+
 
 
 ## Taxonomy
@@ -172,34 +196,77 @@ question(
 )
 ```
 
-## Quantification
+#
 
 
+<!--
 ➤ Run the rest of the code and think about the following points.
 
 
-* Quantification is based on mapping the reads to the genomes using bbmap. Do you think the mapping rate is good? what could be done to improve it?
-
-
 *  We use the median coverage over the genomes to calculate the relative abundance. What is the most abundant species in these metagenomes?
+-->
 
-* What are conserved functions among the genomes? Do you see trends by phylum? Can you distinguish genomes fromt he *Firmicutes_A* and *Firmicutes* phyla?
+## Statistical analysis
 
+We use the package [microViz](https://david-barnett.github.io/microViz/), which I find very feature-complete and easy to use. 
+
+
+### Compositional data analysis
+
+Compositional data analysis (CoDa) Is one of the most used data-analysis frameworks used from microbiome analysis. 
+
+
+If you never have heard of "Aitchison distance" or "CoDa" I reccomend you to read.
+
+[Ch 5 of my thesis](https://silask.github.io/post/phd-thesis/Thesis_Silas_Kieser.pdf).
+
+
+### Ordination
+
+We start by doing an ordination. We use the Aitchison distance to calculate a PC*o*A which corresponds to doing a PCA with centered-log ratio transformed abundance. 
+
+The advantage of using a PCA (Principal component analysis), compared to a PCoA (Principal coordinate analysis) is that you can easily plot a bi-plot showing the species/taxa important for creating the difference for the groups. 
+
+
+```{r pca, echo=FALSE}
+question(
+  "In which group is Bacteroides intestinalis associated (increased)?",
+  answer("HFD", message = "The line is pointing towards the HFD group, so it is increased in the HFD group"),
+  answer("Chow", correct = TRUE)
+)
+```
+
+```{r pca2, echo=FALSE}
+question(
+  "The species associated the most strongly with the HFD group is part of which phylum?",
+  answer("Bacteroidota"),
+  answer("Firmicutes_A", correct = TRUE),
+  answer("Firmicutes"),
+  answer("Verrucomicrobiota")
+)
+```
+
+### Interactive ordination
+
+MicroViz has a feature to explore interactive the dataset.
+
+➤ Run the cell with interactive ordination.
+
+- Select rank `genus` and transformation `clr`
+-  Select color by `Diet`
+-  Select some nodes with the Lasso.
+
+
+➤ Explore the dataset like this
+
+![Annimation](https://david-barnett.github.io/microViz/articles/web-only/images/20210429_ord_explore_x175.gif)
+
+
+➤ To stop the interactive display you need to click on the  'stop' button in the code cell. 
 
 ## Differential abundance
 
-![Picture of obese mice](https://upload.wikimedia.org/wikipedia/commons/0/0b/Fatmouse.jpg)
 
-We prepared some code for differential analysis. The goal is to find out which changes are associated with High-fat-diet induced obesity in mice. Open the `Differential_abundance` .Rmd/.ipynb
-
-```{r ob1, echo=FALSE}
-question(
-  "What is the relative increase of bodyweight of the mice on high-fat diet compared to the control mice? ",
-  answer("3%"),
-  answer("30%"),
-  answer("10%", correct = TRUE)
-)
-```
 
 ### Relative abundance
 
@@ -213,6 +280,9 @@ question(
   answer("More Firmicutes")
 )
 ```
+
+
+➤ Change the lrank of the plot
 
 ```{r ob3, echo=FALSE}
 question(
@@ -262,6 +332,17 @@ The links to the genome identifier allow you also to dig deeper, and look what o
 
 ## Functional differences
 
+### Functions per genome
+
+First we show a heatmap with Kegg modules present/absent per genome.
+
+* What are conserved functions among the genomes? Do you see trends by phylum? Can you distinguish genomes from the *Firmicutes_A* and *Firmicutes* phyla?
+
+### Abundance of functions
+
+We calculate the relative abundance of a pathway as the sum of all the species that contain the pathway.
+
+
 Which block of Functions are different between the two groups?
 
 identify one module of interest.
@@ -285,3 +366,14 @@ Finally export the plot.
 ## End
 
 Thank, you very much for participating in the Tutorial.
+
+Don't forget to fill in the feedback form.
+
+
+## Extra
+
+You can look at the R/Human_example.Rmd
+
+At the R/Analyze_genecatalog.Rmd
+
+Or also the strain data is available in the DiarrheaExample.

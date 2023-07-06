@@ -68,44 +68,66 @@ library(tidytree)# overwrites tree from phyloseq
 library(microViz)
 ```
 
-Atlas output files from version 2 are stored in the `MouseExample` folder.
+Atlas output files from version 2.17 are stored in the `DiarrheaExample` folder.
+
 
 ```{r}
-atlas_wd_folder <- "../MouseExample/"
 
-taxonomy_file <- paste0(atlas_wd_folder, "genomes/taxonomy/gtdb_taxonomy.tsv")
-tree_file <- paste0(atlas_wd_folder, "genomes/tree/gtdbtk.bac120.nwk")
-quality_file <- paste0(atlas_wd_folder, "genomes/checkm/completeness.tsv")
-counts_file <- paste0(atlas_wd_folder, "genomes/counts/raw_counts_genomes.tsv")
-abundance_file <- paste0(atlas_wd_folder, "genomes/counts/median_coverage_genomes.tsv")
-readstats_file <- paste0(atlas_wd_folder, "stats/read_counts.tsv")
-keggmodules_file <- paste0(atlas_wd_folder, "genomes/annotations/dram/kegg_modules.tsv")
+data_dir <- "../DiarrheaExample/"
+atlas_version <- "v2.17"
+
+
+
+files <- yaml::yaml.load_file("../atlas_output_files.yaml")[[atlas_version]]
+
+
+
+
+for (key1 in names(files)) {
+  value1 <- files[[key1]]
+  if (is.character(value1)) {
+    # It's a direct path
+    files[[key1]] <- file.path(data_dir, value1)
+  } else if (is.list(value1)) {
+    # It's a nested list, go deeper
+    for (key2 in names(value1)) {
+      value2 <- value1[[key2]]
+      files[[key1]][[key2]] <- file.path(data_dir, value2)
+    }
+  }
+}
+
+
+taxonomy_file <- files[["genomes"]][["taxonomy"]]
+tree_file <- files[["genomes"]][["tree_bacteria"]]
+quality_file <- files[["genomes"]][["quality"]]
+counts_file <- files[["genomes"]][["counts"]]
+abundance_file <- files[["genomes"]][["coverage"]]
+readstats_file <- files[["readcounts"]]
+keggmodules_file <- files[["genomes"]][["keggmodules"]]
 ```
+
 
 
 ### Load metadata 
 ```{r}
-metadata <- read.table(file.path(atlas_wd_folder, "metadata.txt"), sep = "\t", header = TRUE, row.names = "X")
-
-metadata<- metadata[c("Diet","Body_weight")]
+metadata <- read.csv(file.path(data_dir, "metadata.csv"), 
+                     header = TRUE,row.names = "sample_accession")
 
 head(metadata)
 
-group_variable <- "Diet"
+metadata<- metadata[c("group","sample_name","Diagnosis")]
+metadata %>%
+  dplyr::mutate(across(where(is.character), as.factor)) %>%
+  skimr::skim()
 
+group_variable <- "group"
+
+kable(metadata)
 
 ```         
 
-
-We confirm that the mice on high-fat diet really put more weight on.
-
-```{r plot_metadata, fig.height=10mm}
-ggplot(metadata, aes(x = Diet, y = Body_weight)) +
-  geom_boxplot() +
-  geom_beeswarm(cex = 5) +
-  ylim(10, 35) +
-  theme_minimal()
-```
+Where MD stands for diarrhea with malnourished, HC healthy control and AD, acute diarrhea.
 
 # Load Atlas output
 
@@ -134,7 +156,7 @@ Tree <- full_join(Tree, dplyr::rename(Tax, label = user_genome), by = "label")
 ```{r, highlight_tree, fig.height = 10,fig.width=13}
 library(phytools)
 
-tree_plot <- ggtree(Tree, layout = "daylight") # +
+tree_plot <- ggtree(Tree, layout = "circular") # +
 # geom_tiplab(aes(label=Label))
 
 
@@ -203,9 +225,10 @@ For the relative abundance, we take the coverage over the genome, not the raw co
 This implicitly normalizes for genome size. The coverage is calculated as the median of the coverage values calculated in 1kb blocks.
 
 ```{r}
-D <- read_tsv(abundance_file, show_col_types = FALSE) %>%
-  column_to_rownames("...1") %>%
+D <- arrow::read_parquet(abundance_file, show_col_types = FALSE) %>%
+  column_to_rownames("index") %>%
   as.matrix()
+
 kable(topleft(D, c = 10))
 
 # calculate relative abundance
@@ -266,7 +289,7 @@ This corresponds to a PCoA with Aithison distances.
 
 ```{r,fig.width=5,dpi=200}
 ordination <- pseq %>%
-  tax_transform(rank = "species", trans = "rclr") %>%
+  tax_transform(rank = "genus", trans = "rclr") %>%
   ord_calc(
     method = "auto"
   ) 
@@ -275,10 +298,10 @@ ordination <- pseq %>%
 ordination %>%
   ord_plot(
     plot_taxa = 1:3,
-    colour = "Diet", fill = "Diet",
+    colour = group_variable, fill = group_variable,
     size = 2
   ) +
-  stat_ellipse(aes(linetype = Diet, colour = Diet), linewidth = 0.3)
+  stat_ellipse(aes(linetype = .data[[group_variable]], colour = .data[[group_variable]]), linewidth = 0.3)
 ```
 
 
@@ -292,8 +315,8 @@ microViz::ord_explore(pseq)
 
 ### Typical bar chart
 
-```{r}
-pseq %>% comp_barplot(tax_level = "phylum", facet_by = "Diet") +
+```{r,fig.width=8}
+pseq %>% comp_barplot(tax_level = "genus", facet_by = group_variable) +
   coord_flip() +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
 ```
@@ -301,8 +324,10 @@ pseq %>% comp_barplot(tax_level = "phylum", facet_by = "Diet") +
 
 Heatmap
 ```{r}
-cols <- distinct_palette(n = 2, add = NA)
-names(cols) <- unique(samdat_tbl(pseq)$Diet)
+
+unique_groups = unique(samdat_tbl(pseq) %>% pull(group_variable))
+cols <- distinct_palette(n = length(unique_groups), add = NA)
+names(cols) <- unique_groups
 
 
 
@@ -319,7 +344,7 @@ htmp <- pseq %>%
     ),
     sample_anno = sampleAnnotation(
       # method one
-      group = anno_sample("Diet"),
+      group = anno_sample(group_variable),
       col = list(group = cols), border = TRUE
     )
   )
@@ -331,6 +356,9 @@ htmp %>% ComplexHeatmap::draw(
 # Statistical models
 
 Use linear models on CLR transformed data on all taxonimic levels. 
+
+
+By default this compares the HC vs acute diarreha and md vs accute diarrhea. 
 
 ```{r}
 
@@ -367,10 +395,15 @@ lm_stats %>% taxatree_stats_get()
 
 
 plot_data <- lm_stats %>% taxatree_stats_get() %>%
-  filter(rank=="species" & term=="DietHF") %>%
-  dplyr::arrange(estimate)
+  filter(rank=="species") 
 
-ggplot(plot_data, aes(y = reorder(taxon, estimate), x=estimate)) + 
+
+sig_taxa = plot_data %>% filter(p.adj.BH.rank<0.1) %>% pull(taxon) %>% unique()
+
+plot_data %>% filter(taxon %in% sig_taxa) -> plot_data
+
+
+ggplot(plot_data, aes(y = reorder(taxon, estimate), x=estimate,color=term)) + 
   geom_point(size=2) + 
   geom_errorbar(aes(xmin = conf.low, 
                     xmax = conf.high),
@@ -380,27 +413,34 @@ ggplot(plot_data, aes(y = reorder(taxon, estimate), x=estimate)) +
   
 ```
 
-```{r tax-tree-plot, fig.width=10, fig.height=5.5, dpi=300}
-
-
-lm_stats %>%
-  taxatree_label(
-  rank == "phylum" | rank == "family" ,
-    p.adj.BH.rank < 0.1
-  ) %>%
-  taxatree_plots(
+```{r tax-tree-plot-both,  fig.width=10, fig.height=5.5, dpi=300}
+sig_trees <- lm_stats %>%
+   taxatree_plots(
         #node_size_range = c(1, 3), var_renamer = toupper,
      sig_stat = "p.adj.BH.rank",
   sig_threshold = 0.1,
-  ) %>%
-  .[[1]] %>% # show only the first plot
-  taxatree_plot_labels(
-    taxon_renamer = function(x)  stringr::str_remove(x, "[pfgsL]: "),
-    fun = ggrepel::geom_label_repel, x_nudge = 0.1, hjust = 0.5, size = 4
+  )%>%
+  patchwork::wrap_plots(
+    nrow = 2, guides = "collect"
   )
 
 
+key <- taxatree_plotkey(
+  data = lm_stats,
+  taxon_renamer = function(x) stringr::str_remove(x, "[pfgsL]: "),
+  # 2 lines of conditions below, for filtering taxa to be labelled
+  rank == "phylum" | rank == "genus" & p.adj.BH.rank <0.1,
+) +
+  # add a bit more space for the longer labels by expanding the x axis
+  scale_x_continuous(expand = expansion(mult = 0.2))
+
+panel <- patchwork::wrap_plots(key, sig_trees, nrow = 1, widths = 8:7)
+
+
+
+panel
 ```
+
 
 
 
@@ -519,7 +559,7 @@ for (sample in rownames(annotations))
 heatmaply(module_rel_ab,
   custom_hovertext = annotations,
   showticklabels = c(FALSE, FALSE),
-  row_side_colors= list(Diet= metadata[rownames(module_rel_ab),"Diet"]),
+  row_side_colors= list(Group= metadata[rownames(module_rel_ab),group_variable]),
   colors = "RdBu"
 )
 ```
