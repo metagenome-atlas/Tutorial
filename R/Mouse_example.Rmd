@@ -3,14 +3,7 @@ title: "Analyze the output of metagenome-atlas"
 output: html_document
 ---
 
-```{r, setup, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE, eval = TRUE,
-  message = FALSE,
-  warning = FALSE,
-  cache = FALSE, include = TRUE
-)
-```
+
 
 # Installing tools
 
@@ -36,6 +29,15 @@ if (!requireNamespace("microViz", quietly = TRUE)) {
     CRAN = "https://cloud.r-project.org"
   ))
 }
+```
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, eval = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  cache = FALSE, include = TRUE
+)
 ```
 
 Load libraries
