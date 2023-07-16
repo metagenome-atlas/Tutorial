@@ -33,7 +33,8 @@ If you have access to the cluster of your institution, with the conda-package ma
 1.  You need a GitHub username.
 2.  Go to [github.com/codespaces](https://github.com/codespaces) and log in
 3.  Create a new codespaces
-   ![Create a new codespaces](Tutoruak/images/go_to_codespaces_1.png){width="6cm"}
+
+   ![Create a new codespaces](Tutorial/images/go_to_codespaces_1.png)
 
   - Type `metagenome-atlas/Tryitout` as the name for the repo and select it
   - Use 4 processor machine
@@ -59,7 +60,9 @@ If you do it on your cluster have a look at the [documentation](https://metageno
 0. Create a free Rstudio cloud account [here](https://posit.cloud/plans/free).
 1. Open this [Rstudio online](https://posit.cloud/content/6178419) environment in a new tab.
 2. Click on Git then Pull Branches at the center top of the screen.
-   ![Pull Branches](Tutorial/images/rstudio_git_pull.png){width="6cm"}
+
+
+![Pull Branches](Tutorial/images/rstudio_git_pull.png)
 
 
 
@@ -74,7 +77,7 @@ We prepared an interactive Rmarkdown with the code for differential analysis.
 :sparkles: Follow this link to the [interactive tutorial](https://metagenome-atlas.shinyapps.io/Part2).
 
 
-[Only reports](https://metagenome-atlas.shinyapps.io/Output_human)
+Here is an other Tutorial based on human samples with [only the reports](https://metagenome-atlas.shinyapps.io/Output_human)
 
 <!--
 
