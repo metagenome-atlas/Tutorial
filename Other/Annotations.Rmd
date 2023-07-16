@@ -274,7 +274,7 @@ pseq <- phyloseq(
 
 ### Ordination analysis
 
-Here we use the recomended robust Centered log ratio transformation with PCA. This coresponds to a PCoA with Aithison distances.
+Here we use the recomended robust Centered log ratio transformation with PCA. This coresponds to a PCoA with Aitchison distances.
 
 ```{}
 # interactively explore dataset

@@ -285,7 +285,7 @@ microViz::phyloseq_validate(pseq)
 ### Ordination analysis
 
 Here we use the recommended robust Centered log ratio transformation with PCA.
-This corresponds to a PCoA with Aithison distances.
+This corresponds to a PCoA with Aitchison distances.
 
 
 

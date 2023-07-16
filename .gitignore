@@ -18,3 +18,5 @@ media/heatmap.jpg
 
 
 .vscode
+.connection_details.yaml
+*.code-workspace

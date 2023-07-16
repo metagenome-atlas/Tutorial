@@ -64,7 +64,7 @@ library(ggtree)
 library(arrow)
 library(yaml)
 library(phyloseq)
-library(tidytree)# overwrites tree from phyloseq
+library(tidytree) # overwrites tree from phyloseq
 
 
 library(microViz)
@@ -89,13 +89,11 @@ keggmodules_file <- paste0(atlas_wd_folder, "genomes/annotations/dram/kegg_modul
 ```{r}
 metadata <- read.table(file.path(atlas_wd_folder, "metadata.txt"), sep = "\t", header = TRUE, row.names = "X")
 
-metadata<- metadata[c("Diet","Body_weight")]
+metadata <- metadata[c("Diet", "Body_weight")]
 
 head(metadata)
 
 group_variable <- "Diet"
-
-
 ```         
 
 
@@ -123,7 +121,7 @@ kable(Tax)
 Tax <- Tax %>%
   mutate(Label = ifelse(is.na(species) & is.na(genus), paste0(family, " ", user_genome), species)) %>%
   mutate(Label = ifelse(is.na(Label), paste0(genus, " ", user_genome), Label)) %>%
-  mutate(species = Label, Label=NULL) 
+  mutate(species = Label, Label = NULL)
 ```
 
 ## Draw tree
@@ -262,7 +260,7 @@ microViz::phyloseq_validate(pseq)
 ### Ordination analysis
 
 Here we use the recommended robust Centered log ratio transformation with PCA.
-This corresponds to a PCoA with Aithison distances.
+This corresponds to a PCoA with Aitchison distances.
 
 
 
@@ -271,7 +269,7 @@ ordination <- pseq %>%
   tax_transform(rank = "species", trans = "rclr") %>%
   ord_calc(
     method = "auto"
-  ) 
+  )
 
 
 ordination %>%
@@ -340,73 +338,68 @@ htmp %>% ComplexHeatmap::draw(
 Use linear models on CLR transformed data on all taxonimic levels. 
 
 ```{r}
-
 lm_models <- pseq %>%
   tax_agg(rank = "species") %>%
   tax_prepend_ranks() %>%
   # Filtering
   tax_filter(min_prevalence = 0.1, undetected = 0, use_counts = FALSE) %>%
   tax_transform(
-    trans = "clr", chain = TRUE, zero_replace = "halfmin",rank="species"
+    trans = "clr", chain = TRUE, zero_replace = "halfmin", rank = "species"
   ) %>%
   taxatree_models(
     type = lm,
-    ranks =  NULL,# uses every rank available except the first
+    ranks = NULL, # uses every rank available except the first
     variables = c(group_variable),
-    #use_future =TRUE # paralellize
+    # use_future =TRUE # paralellize
   )
 
 
 
 # get stats and correct P values
-lm_stats <- taxatree_models2stats(lm_models,    conf.int = TRUE, conf.level = 0.95)
-lm_stats <-  taxatree_stats_p_adjust(
+lm_stats <- taxatree_models2stats(lm_models, conf.int = TRUE, conf.level = 0.95)
+lm_stats <- taxatree_stats_p_adjust(
   data = lm_stats, method = "BH", grouping = "rank"
-  )
+)
 
 # lm_Stats is a phyloseq like object
 
 lm_stats %>% taxatree_stats_get()
-  
 ```
 
 ```{r, fig.width=5, fig.height=7}
-
-
-plot_data <- lm_stats %>% taxatree_stats_get() %>%
-  filter(rank=="species" & term=="DietHF") %>%
+plot_data <- lm_stats %>%
+  taxatree_stats_get() %>%
+  filter(rank == "species" & term == "DietHF") %>%
   dplyr::arrange(estimate)
 
-ggplot(plot_data, aes(y = reorder(taxon, estimate), x=estimate)) + 
-  geom_point(size=2) + 
-  geom_errorbar(aes(xmin = conf.low, 
-                    xmax = conf.high),
-                width = .2) +
-  geom_vline(xintercept = 0, linetype = "dashed") 
-  
-  
+ggplot(plot_data, aes(y = reorder(taxon, estimate), x = estimate)) +
+  geom_point(size = 2) +
+  geom_errorbar(
+    aes(
+      xmin = conf.low,
+      xmax = conf.high
+    ),
+    width = .2
+  ) +
+  geom_vline(xintercept = 0, linetype = "dashed")
 ```
 
 ```{r tax-tree-plot, fig.width=10, fig.height=5.5, dpi=300}
-
-
 lm_stats %>%
   taxatree_label(
-  rank == "phylum" | rank == "family" ,
+    rank == "phylum" | rank == "family",
     p.adj.BH.rank < 0.1
   ) %>%
   taxatree_plots(
-        #node_size_range = c(1, 3), var_renamer = toupper,
-     sig_stat = "p.adj.BH.rank",
-  sig_threshold = 0.1,
+    # node_size_range = c(1, 3), var_renamer = toupper,
+    sig_stat = "p.adj.BH.rank",
+    sig_threshold = 0.1,
   ) %>%
   .[[1]] %>% # show only the first plot
   taxatree_plot_labels(
-    taxon_renamer = function(x)  stringr::str_remove(x, "[pfgsL]: "),
+    taxon_renamer = function(x) stringr::str_remove(x, "[pfgsL]: "),
     fun = ggrepel::geom_label_repel, x_nudge = 0.1, hjust = 0.5, size = 4
   )
-
-
 ```
 
 
@@ -484,7 +477,7 @@ for (genome in rownames(annotations))
 
 heatmaply(module_step_coverage_matrix,
   custom_hovertext = annotations,
-  row_side_colors = list(Phylum= d_tax[rownames(module_step_coverage_matrix),"phylum"] ),
+  row_side_colors = list(Phylum = d_tax[rownames(module_step_coverage_matrix), "phylum"]),
   showticklabels = c(FALSE, FALSE)
 )
 ```
@@ -526,7 +519,7 @@ for (sample in rownames(annotations))
 heatmaply(module_rel_ab,
   custom_hovertext = annotations,
   showticklabels = c(FALSE, FALSE),
-  row_side_colors= list(Diet= metadata[rownames(module_rel_ab),"Diet"]),
+  row_side_colors = list(Diet = metadata[rownames(module_rel_ab), "Diet"]),
   colors = "RdBu"
 )
 ```
