@@ -25,6 +25,8 @@
 - Part 1b: [Closer look at the reports](https://metagenome-atlas.shinyapps.io/Output_human)
 - Part 2: [Analyse the output of metagenome-atlas](https://metagenome-atlas.shinyapps.io/Part2) 
 
+If you have a long error message don't write them in the chat. [Write an isue][chat].
+
 ### Slides
 Slides will be posted on https://silask.github.io/talk/tutorial-at-the-ismb-2023/
 
