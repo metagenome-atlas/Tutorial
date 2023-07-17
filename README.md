@@ -1,6 +1,3 @@
-
-
-
 [Binder_Rstudio]: https://rstudio.cloud/project/2975573
 
 <!-- https://mybinder.org/v2/gh/metagenome-atlas/BinderTutorial/R?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fmetagenome-atlas%252FTutorial%26urlpath%3Drstudio%252F%26branch%3Dmaster -->
@@ -9,7 +6,46 @@
 [chat]: https://github.com/metagenome-atlas/Tutorial/issues
 
 
-# Metagenome-Atlas Tutorial
+
+
+# ISMB 2023 Tutorial
+
+
+### Particpants To-Do list
+
+- [ ] [Setup](https://github.com/metagenome-atlas/Tutorial/blob/master/Setup.md) at the beginning of the course.
+- [ ] Fill in the [ISMB Feedback form](https://docs.google.com/forms/d/e/1FAIpQLSf_0RTzbDDMYLoB6sshSJ_uKtbTrC1xESEknfIexsdboh7lHA/viewform) at the end of the course.
+
+
+### Links to interactive Tutorials
+
+- Part 1: [Run a metagenome analysis with tree commands](https://metagenome-atlas.shinyapps.io/TryAtlas)
+- Part 1b: [Closer look at the reports](https://metagenome-atlas.shinyapps.io/Output_human)
+- Part 2: [Analyse the output of metagenome-atlas](https://metagenome-atlas.shinyapps.io/Part2) 
+
+### Slides
+Slides will be posted on https://silask.github.io/talk/tutorial-at-the-ismb-2023/
+
+### Instructors
+
+- [Silas Kieser](https://silask.github.io/) @silask
+- [Matija Tričković](https://www.linkedin.com/in/trickovicmatija) @trickovicmatija
+
+### Times
+
+**Part 1**: Monday, July 17 (14:00 – 18:00 CEST)
+
+**Part 2**: Tuesday, July 18 (14:00 – 18:00 CEST)
+
+
+
+
+
+
+
+
+
+# General Metagenome-Atlas Tutorial
 
 This is a tutorial for Metagenome-Atlas. [Metagenome-Atlas](https://metagenome-atlas.github.io/) is an easy-to-use pipeline for analyzing metagenomic data. It handles all steps from QC, Assembly, Binning, to Annotation.
 
