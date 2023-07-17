@@ -11,15 +11,15 @@
 # ISMB 2023 Tutorial
 
 
-### Particpants To-Do list
-#### At the beginning
+## Particpants To-Do list
+**At the beginning**
 - [ ] Open the [Mentimeter webpage](https://www.menti.com/almxgknfw2bg)
 - [ ] Do the [Setup](https://github.com/metagenome-atlas/Tutorial/blob/master/Setup.md)
-#### At the end
+**At the end**
 - [ ] Fill in the [ISMB Feedback form](https://docs.google.com/forms/d/e/1FAIpQLSf_0RTzbDDMYLoB6sshSJ_uKtbTrC1xESEknfIexsdboh7lHA/viewform) at the end of the course.
 
 
-### Links to interactive Tutorials
+## Links to interactive Tutorials
 
 - Part 1: [Run a metagenome analysis with tree commands](https://metagenome-atlas.shinyapps.io/TryAtlas)
 - Part 1b: [Closer look at the reports](https://metagenome-atlas.shinyapps.io/Output_human)
@@ -27,19 +27,42 @@
 
 If you have a long error message don't write them in the chat. [Write an isue][chat].
 
-### Slides
-Slides will be posted on https://silask.github.io/talk/tutorial-at-the-ismb-2023/
 
-### Instructors
-
-- [Silas Kieser](https://silask.github.io/) @silask
-- [Matija Tričković](https://www.linkedin.com/in/trickovicmatija) @trickovicmatija
-
-### Times
+## Times
 
 **Part 1**: Monday, July 17 (14:00 – 18:00 CEST)
 
 **Part 2**: Tuesday, July 18 (14:00 – 18:00 CEST)
+
+|  CEST |                 | Day 1                                                   |
+|-------|-----------------|---------------------------------------------------------|
+| 14:00 |                 | Hello and setup (see to-do list above)                  |
+| 14:15 |                 | Objectives                                              |
+| 14:30 | Lecture         | Introduction Metagenomic                                |
+| 14:45 | Lecture         | Overview reference-based or assembly-based metagenomics |
+| 15:00 | Lecture         | Q & A                                                   |
+| 15:15 | Tutorial        | Tutorial part 1                                         |
+| 15:30 | Tutorial        |                                                         |
+| 15:45 | Tutorial        |                                                         |
+| 16:00 | **Break**       |                                                         |
+| 16:15 |                 |                                                         |
+| 16:30 | Tutorial        | Solution to tutorial                                    |
+| 16:45 | Lecture         | Assembly                                                |
+| 17:00 | Guided Tutorial | Assembly graph                                          |
+| 17:15 | Tutorial        | Tutorial part 1                                         |
+| 17:30 | Tutorial        |                                                         |
+| 17:45 | Lecture         | Example of a study with Atlas                           |
+| 18:00 | End             |                                                         |
+
+## Slides
+Slides will be posted on https://silask.github.io/talk/tutorial-at-the-ismb-2023/
+
+## Instructors
+
+- [Silas Kieser](https://silask.github.io/) @silask
+- [Matija Tričković](https://www.linkedin.com/in/trickovicmatija) @trickovicmatija
+
+
 
 # General Metagenome-Atlas Tutorial
 
