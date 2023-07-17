@@ -12,8 +12,10 @@
 
 
 ### Particpants To-Do list
-
-- [ ] [Setup](https://github.com/metagenome-atlas/Tutorial/blob/master/Setup.md) at the beginning of the course.
+#### At the beginning
+- [ ] Open the [Mentimeter webpage](https://www.menti.com/almxgknfw2bg)
+- [ ] Do the [Setup](https://github.com/metagenome-atlas/Tutorial/blob/master/Setup.md)
+#### At the end
 - [ ] Fill in the [ISMB Feedback form](https://docs.google.com/forms/d/e/1FAIpQLSf_0RTzbDDMYLoB6sshSJ_uKtbTrC1xESEknfIexsdboh7lHA/viewform) at the end of the course.
 
 
@@ -36,14 +38,6 @@ Slides will be posted on https://silask.github.io/talk/tutorial-at-the-ismb-2023
 **Part 1**: Monday, July 17 (14:00 – 18:00 CEST)
 
 **Part 2**: Tuesday, July 18 (14:00 – 18:00 CEST)
-
-
-
-
-
-
-
-
 
 # General Metagenome-Atlas Tutorial
 
