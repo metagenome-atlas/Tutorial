@@ -23,19 +23,19 @@
 
 - Part 1: [Run a metagenome analysis with tree commands](https://metagenome-atlas.shinyapps.io/TryAtlas)
 - Part 1b: [Look at the assembly graph](https://metagenome-atlas.shinyapps.io/Output_human/#section-look-at-the-assembly-graph.)
-- Part 2: [Analyse the output of metagenome-atlas](https://metagenome-atlas.shinyapps.io/Part2) 
+- **Part 2a**: [Disuss with AI about binning ](https://metagenome-atlas.shinyapps.io/Output_human/#section-quality-metrics)
+- **Part 2b**: [Analyse the output of metagenome-atlas](https://metagenome-atlas.shinyapps.io/Part2) 
 
 If you have a long error message don't write them in the chat. [Write an isue][chat].
 
 
 ## Times
-
+<!--
 **Part 1**: Monday, July 17 (14:00 – 18:00 CEST)
 
-**Part 2**: Tuesday, July 18 (14:00 – 18:00 CEST)
 
-|  CEST |                 | Day 1                                                   |
-|-------|-----------------|---------------------------------------------------------|
+| CEST  |                 | Day 1                                                   |
+| ----- | --------------- | ------------------------------------------------------- |
 | 14:00 |                 | Hello and setup (see to-do list above)                  |
 | 14:15 |                 | Objectives                                              |
 | 14:30 | Lecture         | Introduction Metagenomic                                |
@@ -53,6 +53,9 @@ If you have a long error message don't write them in the chat. [Write an isue][c
 | 17:30 | Tutorial        |                                                         |
 | 17:45 | Lecture         | Example of a study with Atlas                           |
 | 18:00 | End             |                                                         |
+-->
+
+**Part 2**: Tuesday, July 18 (14:00 – 18:00 CEST)
 
 ## Slides
 Slides will be posted on https://silask.github.io/talk/tutorial-at-the-ismb-2023/

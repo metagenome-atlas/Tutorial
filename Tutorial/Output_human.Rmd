@@ -1,6 +1,6 @@
 ---
 # nolint: line_length_linter.
-title: "Atlas Output of Mouse Metagenome."
+title: "Atlas Output of Human Metagenome."
 # nolint: line_length_linter.
 output:
   learnr::tutorial:
@@ -268,7 +268,7 @@ i have the assembly graph of a real human sample. You can also download it and o
 
 
 
-```{r circular}
+```{r circular, echo=FALSE}
 question("Do you see some exeptional nodes?",
     answer("Yes", correct = TRUE),
     answer("No"),
