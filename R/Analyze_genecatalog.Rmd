@@ -32,12 +32,10 @@ library(ggplot2)
 library(ggbeeswarm)
 library(pheatmap)
 library(grid)
-#library(microbiome)
-#library(ape)
-#library(vegan)
+
 library(useful)
 library(kableExtra)
-#library(ggtree)
+
 
 library(rhdf5)
 library(dplyr)
@@ -45,24 +43,15 @@ library(tibble)
 
 library(arrow)
 library(yaml)
-#library(phyloseq)
-
-
-#library(microViz)
+library(SummarizedExperiment)
 ```
 
-Atlas output files are stored in the `Example` folder.
-
-```{r}
-
-
-data_dir <- "../NewExample/"
-atlas_version <- "v2.17"
-
-```
-
+Atlas output files are stored in the `DiarrheaExample` folder.
 
 ```{r, file_paths}
+
+data_dir <- "../DiarrheaExample/"
+atlas_version <- "v2.17"
 
 files <- yaml::yaml.load_file("../atlas_output_files.yaml")[[atlas_version]]
 
@@ -88,6 +77,7 @@ genecatalog_files <-files[["genecatalog"]]
 abundance_file <- genecatalog_files$coverage
 
 
+
 ```
 
 
@@ -103,7 +93,44 @@ head(metadata)
 ```
 
 
+```{r}
 
+# Load gene stats per sample
+
+
+sample_stats <- read.table(genecatalog_files$sample_stats,sep='\t',header=T,row.names=1) 
+
+assertthat::assert_that("Sum_coverage" %in% colnames(sample_stats))
+
+head(sample_stats)
+
+```
+
+
+```{r, mapping_rate, fig.width=2.5, fig.height=4}
+
+read_stats<-read_tsv( files[["readcounts"]], show_col_types = FALSE) %>% 
+  filter(Step == "QC" ) %>% mutate(Total_reads= Reads_pe  *2 +Reads_se) %>% .[,c("Sample","Total_reads","Reads_pe","Reads_se")]
+
+read_stats <- read_stats %>% left_join( rownames_to_column(sample_stats,"Sample") ) %>% 
+  mutate(Mapping_rate= Total_counts / Total_reads *100)
+
+read_stats[,"x"]="Genecatalog"
+
+plt <- ggplot(read_stats, aes(y = Mapping_rate, x=x,text=paste("Sample:",Sample))) +
+  ylim(c(50, 100))+
+  #xlim(c(-0.1,0.1)) +
+  labs(x=NULL)+
+   geom_beeswarm(cex = 2,size=2) + 
+  theme_minimal()
+
+print(plt)
+
+#ggplotly(plt,tooltip = c('text','y' ))
+
+
+
+```
 
 ```{r}
 
@@ -142,12 +169,7 @@ return(data)
 ```{r}
 
 
-# Load gene stats per sample
 
-
-sample_stats <- read.table(genecatalog_files$sample_stats,sep='\t',header=T,row.names=1)
-
-assertthat::assert_that("Sum_coverage" %in% colnames(sample_stats))
 
 # calculate copies per million
 total_covarage <- sample_stats[,"Sum_coverage"]
@@ -208,7 +230,8 @@ gene_gcpm[1:5,1:5]
 ```{r }
 
 
-library(SummarizedExperiment)
+
+
 
 
 rownames(annotations) <- NULL
@@ -224,18 +247,13 @@ SE= SummarizedExperiment(
 
 
 
+
 ```
 
 
-
-
-```{r}
-
+```{}
 library(tidybulk)
-
-
 ```
-
 
 
 
