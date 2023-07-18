@@ -57,6 +57,26 @@ If you have a long error message don't write them in the chat. [Write an isue][c
 
 **Part 2**: Tuesday, July 18 (14:00 – 18:00 CEST)
 
+| CEST  | Day 2    |                                     |
+|-------|----------|-------------------------------------|
+| 14:00 | Lecture  | History of binning                  |
+| 14:15 | Lecture  | Functional and taxonomic annotation |
+| 14:30 | Tutorial | Tutorial  Binning                   |
+| 14:45 | Tutorial |                                     |
+| 15:00 | Tutorial |                                     |
+| 15:15 | Tutorial |                                     |
+| 15:30 | Lecture  | Strains and Genes                   |
+| 15:45 | Break    |                                     |
+| 16:00 | Break    |                                     |
+| 16:15 | Tutorial |                                     |
+| 16:30 | Tutorial |                                     |
+| 16:45 | Lecture  | Example of a study with Atlas       |
+| 17:00 | Tutorial |                                     |
+| 17:15 |          |                                     |
+| 17:30 |          |                                     |
+| 17:45 |          | End                                 |
+| 18:00 |          |                                     |
+
 ## Slides
 Slides will be posted on https://silask.github.io/talk/tutorial-at-the-ismb-2023/
 
