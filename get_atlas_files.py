@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import os
 import yaml
@@ -7,13 +7,44 @@ import stat
 
 from paramiko import RSAKey
 
-# Define your output directory and base path on server
-output_dir = 'DiarrheaExample'
-atlas_version = "v2.17"
-username = "me"
-server="myserver.server.com"
-base_path_server = '/home/user/my_atlas_run'
-private_key_path = None # "C:/Users/User/.ssh/id_rsa"
+
+connection_details_file=".connection_details.yaml"
+
+default_values = {
+    "output_dir": 'atlas_data',
+    "atlas_version": "v2.17",
+    "username": "me",
+    "server":"myserver.server.com",
+    "base_path_server": '/home/user/my_atlas_run',
+    "private_key_path": None # "C:/Users/User/.ssh/id_rsa"
+}
+
+
+
+
+
+if os.path.exists(connection_details_file):
+
+    with open(connection_details_file) as file:
+        connection_dict = yaml.safe_load(file)
+    
+    # load all values as variables in the current namespace
+    for key, value in connection_dict.items():
+
+        print(f'{key} = "{value}"')
+        exec(f'{key} = value')
+
+else:
+    # ask for the values via the command line and store them in the connection details file, propose default values
+
+    with open(connection_details_file, 'w') as file:
+        yaml.dump(default_values, file)
+
+    print(f"Please fill in the connection details in the file {connection_details_file} and run the script again.")
+    exit(1)
+
+    
+
 
 
 if private_key_path is None:
