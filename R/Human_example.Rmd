@@ -76,6 +76,8 @@ Atlas output files from version 2.17 are stored in the `DiarrheaExample` folder.
 ```{r}
 
 data_dir <- "../DiarrheaExample/"
+
+
 atlas_version <- "v2.17"
 
 
@@ -369,18 +371,16 @@ By default this compares the HC vs acute diarreha and md vs accute diarrhea.
 ```{r}
 
 lm_models <- pseq %>%
-  tax_agg(rank = "species") %>%
-  tax_prepend_ranks() %>%
+#  tax_agg(rank = "species") %>%
+#  tax_prepend_ranks() %>%
   # Filtering
   tax_filter(min_prevalence = 0.1, undetected = 0, use_counts = FALSE) %>%
-  tax_transform(
-    trans = "clr", chain = TRUE, zero_replace = "halfmin",rank="species"
-  ) %>%
   taxatree_models(
     type = lm,
+    trans = "clr", trans_args = list(zero_replace = "halfmin"),
     ranks =  NULL,# uses every rank available except the first
     variables = c(group_variable),
-    #use_future =TRUE # paralellize
+    use_future =TRUE # paralellize
   )
 
 

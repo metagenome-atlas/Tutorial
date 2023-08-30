@@ -339,15 +339,13 @@ Use linear models on CLR transformed data on all taxonimic levels.
 
 ```{r}
 lm_models <- pseq %>%
-  tax_agg(rank = "species") %>%
-  tax_prepend_ranks() %>%
+  # tax_agg(rank = "species") %>%
+  # tax_prepend_ranks() %>%
   # Filtering
   tax_filter(min_prevalence = 0.1, undetected = 0, use_counts = FALSE) %>%
-  tax_transform(
-    trans = "clr", chain = TRUE, zero_replace = "halfmin", rank = "species"
-  ) %>%
   taxatree_models(
     type = lm,
+     trans = "clr", trans_args = list(zero_replace = "halfmin"),
     ranks = NULL, # uses every rank available except the first
     variables = c(group_variable),
     # use_future =TRUE # paralellize
