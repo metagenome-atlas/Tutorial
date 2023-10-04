@@ -32,10 +32,9 @@ library(ggplot2)
 library(ggbeeswarm)
 library(pheatmap)
 library(grid)
-
+# library(vegan)
 library(useful)
 library(kableExtra)
-
 
 library(rhdf5)
 library(dplyr)
@@ -72,24 +71,20 @@ for (key1 in names(files)) {
   }
 }
 
-genecatalog_files <-files[["genecatalog"]]
+genecatalog_files <- files[["genecatalog"]]
 
 abundance_file <- genecatalog_files$coverage
-
-
-
 ```
 
 
 ```{r metadata}
 
 
-metadata= read.csv( file.path(data_dir,"metadata.csv")) 
+metadata <- read.csv(file.path(data_dir, "metadata.csv"))
 
-metadata <- column_to_rownames(metadata,"sample_accession")
+metadata <- column_to_rownames(metadata, "sample_accession")
 
 head(metadata)
-
 ```
 
 
@@ -98,129 +93,127 @@ head(metadata)
 # Load gene stats per sample
 
 
-sample_stats <- read.table(genecatalog_files$sample_stats,sep='\t',header=T,row.names=1) 
+sample_stats <- read.table(genecatalog_files$sample_stats, sep = "\t", header = T, row.names = 1)
 
 assertthat::assert_that("Sum_coverage" %in% colnames(sample_stats))
 
 head(sample_stats)
-
 ```
 
 
 ```{r, mapping_rate, fig.width=2.5, fig.height=4}
 
-read_stats<-read_tsv( files[["readcounts"]], show_col_types = FALSE) %>% 
-  filter(Step == "QC" ) %>% mutate(Total_reads= Reads_pe  *2 +Reads_se) %>% .[,c("Sample","Total_reads","Reads_pe","Reads_se")]
+read_stats <- read_tsv(files[["readcounts"]], show_col_types = FALSE) %>%
+  filter(Step == "QC") %>%
+  mutate(Total_reads = Reads_pe * 2 + Reads_se) %>%
+  .[, c("Sample", "Total_reads", "Reads_pe", "Reads_se")]
 
-read_stats <- read_stats %>% left_join( rownames_to_column(sample_stats,"Sample") ) %>% 
-  mutate(Mapping_rate= Total_counts / Total_reads *100)
+read_stats <- read_stats %>%
+  left_join(rownames_to_column(sample_stats, "Sample")) %>%
+  mutate(Mapping_rate = Total_counts / Total_reads * 100)
 
-read_stats[,"x"]="Genecatalog"
+read_stats[, "x"] <- "Genecatalog"
 
-plt <- ggplot(read_stats, aes(y = Mapping_rate, x=x,text=paste("Sample:",Sample))) +
-  ylim(c(50, 100))+
-  #xlim(c(-0.1,0.1)) +
-  labs(x=NULL)+
-   geom_beeswarm(cex = 2,size=2) + 
+plt <- ggplot(read_stats, aes(y = Mapping_rate, x = x, text = paste("Sample:", Sample))) +
+  ylim(c(50, 100)) +
+  # xlim(c(-0.1,0.1)) +
+  labs(x = NULL) +
+  geom_beeswarm(cex = 2, size = 2) +
   theme_minimal()
 
 print(plt)
 
-#ggplotly(plt,tooltip = c('text','y' ))
-
-
-
+# ggplotly(plt,tooltip = c('text','y' ))
 ```
 
 ```{r}
 
 
 
-load_subset_of_genes <- function(abundance_file,indexes_of_genes_to_load ){
+load_subset_of_genes <- function(abundance_file, indexes_of_genes_to_load) {
 
 
 
-# get dimension of data
+  # get dimension of data
 
-h5overview= rhdf5::h5ls(abundance_file)
-dim= h5overview[1,"dim"] %>% stringr::str_split(" x ",simplify=T) %>% as.numeric
-cat("Load ",length(indexes_of_genes_to_load), " out of ", dim[1] , " genes\n")
-
-
-data <- rhdf5::h5read(file = abundance_file, name = "data",
-                index = list(indexes_of_genes_to_load, NULL))
-
-# add sample names
-attributes= rhdf5::h5readAttributes(abundance_file, "data")
-colnames(data) <- attributes$sample_names
+  h5overview <- rhdf5::h5ls(abundance_file)
+  dim <- h5overview[1, "dim"] %>%
+    stringr::str_split(" x ", simplify = T) %>%
+    as.numeric()
+  cat("Load ", length(indexes_of_genes_to_load), " out of ", dim[1], " genes\n")
 
 
-# add gene names (e.g. Gene00001) as rownames
-gene_names = paste0("Gene", formatC(format="d",indexes_of_genes_to_load,flag="0",width=ceiling(log10(max(dim[1])))))
-rownames(data) <- gene_names
+  data <- rhdf5::h5read(
+    file = abundance_file, name = "data",
+    index = list(indexes_of_genes_to_load, NULL)
+  )
 
-return(data)
+  # add sample names
+  attributes <- rhdf5::h5readAttributes(abundance_file, "data")
+  colnames(data) <- attributes$sample_names
+
+
+  # add gene names (e.g. Gene00001) as rownames
+  gene_names <- paste0("Gene", formatC(format = "d", indexes_of_genes_to_load, flag = "0", width = ceiling(log10(max(dim[1])))))
+  rownames(data) <- gene_names
+
+  return(data)
 }
-
-
 ```
 
 
 ```{r}
 
 
+# Load gene stats per sample
 
 
 # calculate copies per million
-total_covarage <- sample_stats[,"Sum_coverage"]
+total_covarage <- sample_stats[, "Sum_coverage"]
 names(total_covarage) <- rownames(sample_stats)
 
 
 # Plot the two numeric columns side by side using facet_wrap
-df_melt <- sample_stats %>% select("Sum_coverage",  "Genes_nz_coverage") %>% rename(`Total coverage` = Sum_coverage,`N detected genes` = Genes_nz_coverage) %>% reshape2::melt()
+df_melt <- sample_stats %>%
+  select(all_of(c("Sum_coverage", "Genes_nz_coverage"))) %>%
+  # rename(`Total coverage` = Sum_coverage)  , `N detected genes` = Genes_nz_coverage) %>%
+  reshape2::melt()
 
 ggplot(df_melt, aes(x = variable, y = value)) +
-  geom_beeswarm(size = 3, alpha = 0.7,cex=5) + 
+  geom_beeswarm(size = 3, alpha = 0.7, cex = 5) +
   facet_wrap(vars(variable), ncol = 2, scales = "free") +
-  labs(x = NULL, y = NULL)+
+  labs(x = NULL, y = NULL) +
   theme_minimal()
-
-
-
-
-
-
 ```
 
 ```{r }
 
 
-annotations = read_parquet(genecatalog_files$kegg)
+annotations <- read_parquet(genecatalog_files$kegg)
 
-# take a subset to speed up caluclation
-annotations <- annotations[1:1000,]
+# take a subset to speed up caluclation !!!! remove this line
+annotations <- annotations[1:1000, ]
 
 gene_nrs_with_annotations <- annotations %>% pull("GeneNr")
 
 
-data <-  load_subset_of_genes(abundance_file, gene_nrs_with_annotations)
+data <- load_subset_of_genes(abundance_file, gene_nrs_with_annotations)
 
 
-data[1:10,1:5]
-
+data[1:10, 1:5]
 ```
 
 Normalze gene counts to gene counts per million, which is analogous to transcripts per million.
 
+Alternative ways to normalze would be to normalize to single copy genes. 
+
 ```{r }
 
 
-gene_gcpm<- data %*% diag(1/total_covarage[colnames(data)]) *1e6
+gene_gcpm <- data %*% diag(1 / total_covarage[colnames(data)]) * 1e6
 colnames(gene_gcpm) <- colnames(data)
 
-gene_gcpm[1:5,1:5]
-
-
+gene_gcpm[1:5, 1:5]
 ```
 
 
@@ -230,24 +223,13 @@ gene_gcpm[1:5,1:5]
 ```{r }
 
 
-
-
-
-
 rownames(annotations) <- NULL
 
-SE= SummarizedExperiment(
+SE <- SummarizedExperiment(
   assays = list(gcpm = data),
-              colData =metadata[colnames(data),],
-              rowData = annotations
-  
+  colData = metadata[colnames(data), ],
+  rowData = annotations
 )
-
-
-
-
-
-
 ```
 
 
@@ -278,26 +260,22 @@ We only load a subset of genes, here genes that are found in at leas 2 samples
 
 gene_stats <- arrow::read_parquet(genecatalog_files$coverage_stats)
 
+# renmove "Gene" from the gene name to get only the GeneNr
 gene_stats["GeneNr"] <- str_sub(gene_stats$GeneName, start = 5) %>% as.integer()
 
 kable(head(gene_stats))
 
 
-non_singleton_genes <- gene_stats %>% filter(Samples_nz_coverage>1) %>%  dplyr::pull(GeneNr)
+non_singleton_genes <- gene_stats %>%
+  filter(Samples_nz_coverage > 1) %>%
+  dplyr::pull(GeneNr)
 
 
-cat("Select",length(non_singleton_genes),"non singleton genes from total", dim(gene_stats)[1],"genes.")
+cat("Select", length(non_singleton_genes), "non singleton genes from total", dim(gene_stats)[1], "genes.")
 
 
 
-gene_coverage <- load_subset_of_genes(abundance_file,non_singleton_genes ) 
-
+gene_coverage <- load_subset_of_genes(abundance_file, non_singleton_genes)
 ```
 
 
-
-
-
-
-
-```
