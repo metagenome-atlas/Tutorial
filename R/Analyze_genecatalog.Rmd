@@ -274,11 +274,22 @@ non_singleton_genes <- gene_stats %>%
   dplyr::pull(GeneNr)
 
 
+# take a subset to speed up caluclation !!!! remove this line
+non_singleton_genes <- non_singleton_genes[1:1000]
+
+
 cat("Select", length(non_singleton_genes), "non singleton genes from total", dim(gene_stats)[1], "genes.")
 
 
 
 gene_coverage <- load_subset_of_genes(abundance_file, non_singleton_genes)
+```
+
+
+```{r}
+shannon_diversity <- vegan::diversity(t(gene_coverage), index = "shannon")
+
+hist(shannon_diversity)
 ```
 
 
