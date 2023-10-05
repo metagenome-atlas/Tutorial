@@ -206,6 +206,9 @@ data[1:10, 1:5]
 Normalze gene counts to gene counts per million, which is analogous to transcripts per million.
 
 Alternative ways to normalze would be to normalize to single copy genes. 
+Example the one from [MuSiCC](https://github.com/borenstein-lab/MUSiCC/blob/master/musicc/data/uscg_76_kegg_min_2313.lst)
+
+MUSiCC: A marker genes based framework for metagenomic normalization and accurate profiling of gene abundances in the microbiome. Ohad Manor and Elhanan Borenstein. Genome Biology
 
 ```{r }
 
