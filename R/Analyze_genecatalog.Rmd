@@ -115,13 +115,13 @@ Nsamples <- dim[2]
 cat("The genecatalog contains", Ngenes, "genes and", Nsamples, "samples.\n")
 ```
 
-Because the dimesnons of the genecatalog are huge (even more so with more samples) but
+Because the dimensnons of the genecatalog are huge (even more so with more samples) but
 many genes are detected only in a subset of samples,
 I optimized the datafile to allow for fast loading of a subset of the data.
 
 However we still want information from all the genes.
 The file `r genecatalog_files$sample_stats` contains stats per sample of the genecatalog.
-Escpecially the number of genes that are detected in each sample and the total coverage which we will use for normalization.
+Especially the number of genes that are detected in each sample and the total coverage which we will use for normalization.
 
 Similarly the file `r gene_catalog_files$gene_stats` contains stats per gene, e.g. the number of samples in which the gene is detected.
 
@@ -279,7 +279,7 @@ print(plt)
 # ggplotly(plt,tooltip = c('text','y' ))
 ```
 
-# Load abunance of a subset of genes 
+# Load abundance of a subset of genes 
 
 One could load the whole gene catalog like this:
 
@@ -391,7 +391,7 @@ MUSiCC: A marker genes based framework for metagenomic normalization and accurat
 
 ```{r }
 
-
+# This is a complex, but efficient way of deviding each column by the total coverage of the sample and multiplying with 1Million
 gene_gcpm <- gene_coverage %*% diag(1 / total_covarage[colnames(gene_coverage)]) * 1e6
 colnames(gene_gcpm) <- colnames(gene_coverage)
 
