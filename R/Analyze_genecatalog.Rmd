@@ -408,12 +408,16 @@ write_delim(as.data.frame(gene_gcpm),
 
 
 ```{r}
-rm(gene_coverage,gene_gcpm,gene_stats)
+rm(gene_coverage, gene_gcpm, gene_stats)
 gc()
 ```
 
 ## 2. Load only genes with annotations
+Here we load KEGG annotations.
+As alternative one can load the cazy annotation. 
 
+However, CAZy has multiple annotations per gene.
+I need to write a function how to deal with this.
 
 ```{r }
 
@@ -446,9 +450,8 @@ colnames(annotated_genes_gcpm) <- colnames(data)
 rm(data)
 annotated_genes_gcpm[1:5, 1:5]
 ```
-
-As genes can have multiple annotations we need to create a matrix with genes as columns and annotations as rows
-
+In theory, genes can have multiple annotations we need to create a matrix with genes as columns and annotations as rows
+KEGG annotations seem to be unique.
 
 ```{r}
 
@@ -460,17 +463,15 @@ annotation_matrix <- Matrix::sparseMatrix(
   i = match(annotations$ko_id, ko_ids),
   j = match(annotations$GeneName, gene_names_with_annotations),
   x = 1,
-  dims = c(length(ko_ids),length(gene_names_with_annotations))
+  dims = c(length(ko_ids), length(gene_names_with_annotations))
 )
 
 colnames(annotation_matrix) <- gene_names_with_annotations
 rownames(annotation_matrix) <- ko_ids
 
- annotation_matrix[1:5,1:5]
+annotation_matrix[1:5, 1:5]
 
 cat(" Genes have max ", max(colSums(annotation_matrix)), " annotations.\n")
-
-
 ```
 
 
@@ -486,7 +487,7 @@ assertthat::assert_that(all(colnames(annotation_matrix) == rownames(annotated_ge
 # multiply gene coverage with annotation matrix,
 annotation_cpm <- annotation_matrix %*% annotated_genes_gcpm
 
-annotation_cpm = as.matrix(annotation_cpm)
+annotation_cpm <- as.matrix(annotation_cpm)
 
 annotation_cpm[1:5, 1:5]
 ```
