@@ -115,9 +115,9 @@ Nsamples <- dim[2]
 cat("The genecatalog contains", Ngenes, "genes and", Nsamples, "samples.\n")
 ```
 
-Because the dimensnons of the genecatalog are huge (even more so with more samples) but
+Because the dimensions of the genecatalog are huge (even more so with more samples) but
 many genes are detected only in a subset of samples,
-I optimized the datafile to allow for fast loading of a subset of the data.
+I optimized the file format to allow for fast loading of a subset of the data.
 
 However we still want information from all the genes.
 The file `r genecatalog_files$sample_stats` contains stats per sample of the genecatalog.
@@ -131,7 +131,9 @@ Let's first look at the stats per sample.
 
 ```{r}
 
-sample_stats <- read.table(genecatalog_files$sample_stats, sep = "\t", header = T, row.names = 1)
+sample_stats <- read.table(genecatalog_files$sample_stats,
+  sep = "\t", header = T, row.names = 1
+)
 
 # check that we have expected column names
 assertthat::assert_that("Sum_coverage" %in% colnames(sample_stats))
@@ -300,7 +302,7 @@ colnames(data) <- attributes$sample_names
 
 
 but usually only a subset of genes is of interest.
-The folowing code allows to load only subset of genes.
+The following code allows to load only subset of genes.
 
 
 I see two ways to subset the genes:
@@ -371,7 +373,7 @@ gene_coverage <- load_subset_of_genes(abundance_file, filtered_genes)
 gene_coverage[1:5, 1:5]
 ```
 
-Lets calculate the shannon diversity of the genes. 
+Lets calculate the Shannon diversity of the genes. 
 ```{r}
 shannon_diversity <- vegan::diversity(t(gene_coverage), index = "shannon")
 
@@ -382,9 +384,9 @@ hist(shannon_diversity)
 ## Normalisation
 
 
-Normalze gene counts to **gene counts per million**, which is analogous to transcripts per million.
+Normalize gene counts to **gene counts per million**, which is analogous to transcripts per million.
 
-Alternative ways to normalze would be to normalize to single copy genes. 
+Alternative ways to normalize would be to normalize to single copy genes. 
 Example the one from [MuSiCC](https://github.com/borenstein-lab/MUSiCC/blob/master/musicc/data/uscg_76_kegg_min_2313.lst)
 
 MUSiCC: A marker genes based framework for metagenomic normalization and accurate profiling of gene abundances in the microbiome. Ohad Manor and Elhanan Borenstein. Genome Biology
@@ -507,8 +509,7 @@ heatmap(log_annoation_cpm,
 
 
 
-
-# Integrate them in a SummarizedExperiment object
+## Integrate them in a SummarizedExperiment object
 
 ```{r }
 
