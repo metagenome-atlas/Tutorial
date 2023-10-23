@@ -362,7 +362,7 @@ filtered_genes <- gene_stats %>%
 
 
 # take a subset to speed up caluclation !!!! remove this line
-filtered_genes <- filtered_genes[1:1000]
+# filtered_genes <- filtered_genes[1:1000]
 
 
 cat("Select", length(filtered_genes), " genes.\n")
@@ -406,6 +406,12 @@ write_delim(as.data.frame(gene_gcpm),
 ```
 
 
+
+```{r}
+rm(gene_coverage,gene_gcpm,gene_stats)
+gc()
+```
+
 ## 2. Load only genes with annotations
 
 
@@ -416,7 +422,7 @@ annotations <- read_parquet(genecatalog_files$kegg)
 annotations["GeneName"] <- GeneNr2GeneName(annotations$GeneNr)
 
 # take a subset to speed up caluclation !!!! remove this line
-annotations <- annotations[1:1000, ]
+# annotations <- annotations[1:1000, ]
 
 gene_nrs_with_annotations <- annotations %>%
   pull("GeneNr") %>%
@@ -433,48 +439,56 @@ data[1:10, 1:5]
 ```{r }
 # Normalize
 
-annoated_genes_gcpm <- data %*% diag(1 / total_covarage[colnames(data)]) * 1e6
-colnames(annoated_genes_gcpm) <- colnames(data)
+annotated_genes_gcpm <- data %*% diag(1 / total_covarage[colnames(data)]) * 1e6
+colnames(annotated_genes_gcpm) <- colnames(data)
 
-annoated_genes_gcpm[1:5, 1:5]
+
+rm(data)
+annotated_genes_gcpm[1:5, 1:5]
 ```
 
-As genes can have multiple annotations we need to create a matrix with genes as rows and annotations as columns.
-```{r }
-
-# a matrix with gene rn x ko_id
-
-annotation_matrix <- annotations[c("GeneName", "ko_id")] %>%
-  mutate(Present = 1) %>%
-  pivot_wider(
-    names_from = ko_id,
-    values_from = Present,
-    # values_fn = list(Present = sum), # if you want to take into acount multiple mapping
-    values_fill = 0
-  ) %>%
-  column_to_rownames("GeneName") %>%
-  as.matrix() %>%
-  t()
+As genes can have multiple annotations we need to create a matrix with genes as columns and annotations as rows
 
 
+```{r}
+
+# Create a binary annotation matrix
+gene_names_with_annotations <- unique(annotations$GeneName)
+ko_ids <- unique(annotations$ko_id)
+
+annotation_matrix <- Matrix::sparseMatrix(
+  i = match(annotations$ko_id, ko_ids),
+  j = match(annotations$GeneName, gene_names_with_annotations),
+  x = 1,
+  dims = c(length(ko_ids),length(gene_names_with_annotations))
+)
+
+colnames(annotation_matrix) <- gene_names_with_annotations
+rownames(annotation_matrix) <- ko_ids
+
+ annotation_matrix[1:5,1:5]
+
+cat(" Genes have max ", max(colSums(annotation_matrix)), " annotations.\n")
 
 
-annotation_matrix[1:5, 1:5]
-
-cat(" Genes have max ", max(rowSums(annotation_matrix)), " annotations.\n")
 ```
+
+
+
 
 Now let's multiply the gene coverage with the annotation matrix to get the abundance per annotation.
 **If a gene has multiple annotations the abundance is counted for *each* annotation.**
 ```{r }
 
 # make shure the data aligns
-assertthat::assert_that(all(colnames(annotation_matrix) == rownames(annoated_genes_gcpm)))
+assertthat::assert_that(all(colnames(annotation_matrix) == rownames(annotated_genes_gcpm)))
 
 # multiply gene coverage with annotation matrix,
-annoation_cpm <- annotation_matrix %*% annoated_genes_gcpm
+annotation_cpm <- annotation_matrix %*% annotated_genes_gcpm
 
-annoation_cpm[1:5, 1:5]
+annotation_cpm = as.matrix(annotation_cpm)
+
+annotation_cpm[1:5, 1:5]
 ```
 
 
@@ -482,7 +496,7 @@ annoation_cpm[1:5, 1:5]
 
 ```{r }
 # Save the normalized data as tsv.gz file
-write_delim(as.data.frame(annoation_cpm),
+write_delim(as.data.frame(annotation_cpm),
   file.path(data_dir, "Genecatalog", "Kegg_cpm.tsv.gz"),
   delim = "\t"
 )
@@ -493,10 +507,10 @@ write_delim(as.data.frame(annoation_cpm),
 
 
 # take the log10 of the data
-log_annoation_cpm <- log10(annoation_cpm + 1)
+log_annotation_cpm <- log10(annotation_cpm + 1)
 
 # create a heatmap
-heatmap(log_annoation_cpm,
+heatmap(log_annotation_cpm,
   col = colorRampPalette(c("white", "blue"))(100),
   margins = c(10, 10),
   main = "Data in annotations [log10(cmp+1)]"
