@@ -14,10 +14,7 @@ knitr::opts_chunk$set(
 
 
 
-```
-BiocManager::install("tidybulk")
 
-```
 
 
 ```{r, libraries,include=FALSE}
@@ -42,7 +39,6 @@ library(tibble)
 
 library(arrow)
 library(yaml)
-library(SummarizedExperiment)
 ```
 
 Atlas output files are stored in the `DiarrheaExample` folder.
@@ -76,21 +72,6 @@ genecatalog_files <- files[["genecatalog"]]
 abundance_file <- genecatalog_files$coverage
 ```
 
-
-
-Load the metadata
-
-
-```{r metadata}
-
-
-metadata <- read.csv(file.path(data_dir, "metadata.csv")) %>%
-  column_to_rownames("sample_accession")
-
-head(metadata)
-
-group_variable <- "group"
-```
 
 
 
@@ -153,6 +134,7 @@ head(sample_stats)
 # Plot the two numeric columns side by side using facet_wrap
 df_melt <- sample_stats %>%
   select(all_of(c("Sum_coverage", "Genes_nz_coverage"))) %>%
+  print() %>%
   rename(c(
     Sum_coverage = "Total coverage",
     Genes_nz_coverage = "N detected genes"
@@ -433,21 +415,19 @@ gene_nrs_with_annotations <- annotations %>%
   unique()
 
 
-data <- load_subset_of_genes(abundance_file, gene_nrs_with_annotations)
+annotated_genes <- load_subset_of_genes(abundance_file, gene_nrs_with_annotations)
 
 
-data[1:10, 1:5]
+annotated_genes[1:10, 1:5]
 ```
 
 
 ```{r }
 # Normalize
 
-annotated_genes_gcpm <- data %*% diag(1 / total_covarage[colnames(data)]) * 1e6
-colnames(annotated_genes_gcpm) <- colnames(data)
+annotated_genes_gcpm <- annotated_genes %*% diag(1 / total_covarage[colnames(annotated_genes)]) * 1e6
+colnames(annotated_genes_gcpm) <- colnames(annotated_genes)
 
-
-rm(data)
 annotated_genes_gcpm[1:5, 1:5]
 ```
 In theory, genes can have multiple annotations we need to create a matrix with genes as columns and annotations as rows
@@ -471,7 +451,7 @@ rownames(annotation_matrix) <- ko_ids
 
 annotation_matrix[1:5, 1:5]
 
-cat(" Genes have max ", max(colSums(annotation_matrix)), " annotations.\n")
+#cat(" Genes have max ", max(colSums(annotation_matrix)), " annotations.\n")
 ```
 
 
@@ -518,6 +498,94 @@ heatmap(log_annotation_cpm,
 )
 ```
 
+# Differencial abundance with Deseq2
+
+
+Load the metadata
+
+
+```{r metadata}
+
+
+metadata <- read.csv(file.path(data_dir, "metadata.csv")) %>%
+  column_to_rownames("sample_accession")
+
+head(metadata)
+
+group_variable <- "group"
+```
+
+Deseq2 requires the unnormalized annotations counts. let's calculate them.
+```{r }
+
+
+assertthat::assert_that(all(colnames(annotation_matrix) == rownames(annotated_genes)))
+
+# multiply gene coverage with annotation matrix,
+annotation_genecounts <- annotation_matrix %*% annotated_genes
+
+annotation_genecounts <- as.matrix(annotation_genecounts)
+
+
+# Save the normalized data as tsv.gz file
+write_delim(as.data.frame(annotation_genecounts),
+  file.path(data_dir, "Genecatalog", "Kegg_counts.tsv.gz"),
+  delim = "\t"
+)
+
+
+annotation_genecounts[1:5, 1:5]
+```
+
+
+To perform a differential abundance testing in R with abundance data.
+Deseq2 required the unnormalized data.
+You will need the DESeq2 package for performing differential abundance analysis.
+If you haven't already, install and load the package:
+
+```{r}
+# BiocManager::install("DESeq2")
+library(DESeq2)
+
+```
+
+
+
+Prepare Data:
+
+```{r }
+   # Assuming annotation_cpm is your count data (CPM)
+   dds <- DESeqDataSetFromMatrix(countData = annotation_genecounts,
+                      colData = metadata[colnames(annotation_genecounts),],
+                      design = ~ group)
+```
+
+
+
+Normalize the data using the DESeq2 normalization methods, and estimate differencial abundance.
+
+```{r}
+   dds <- DESeq(dds)
+```
+
+```{r}
+   res <- results(dds) %>% as.data.frame()
+
+head(res %>% arrange(padj),n=10)
+```
+
+```{r }
+ 
+
+ ma_plot <- ggplot(res, aes(x = baseMean, y = log2FoldChange)) +
+            geom_point(aes(color = padj < 0.05)) +
+            scale_color_manual(values = c("grey", "red")) +
+            labs(title = "MA Plot", x = "Mean of normalized counts", y = "log2(Fold Change)")
+
+ # Display the MA plot
+ print(ma_plot)
+ 
+```
 
 
 ## Alternative ways to normalize
@@ -528,21 +596,17 @@ Example the one from [MuSiCC](https://github.com/borenstein-lab/MUSiCC/blob/mast
 MUSiCC: A marker genes based framework for metagenomic normalization and accurate profiling of gene abundances in the microbiome. Ohad Manor and Elhanan Borenstein. Genome Biology
 
 
-
 ## Integrate them in a SummarizedExperiment object
 
 ```{r }
 
-
-rownames(annotations) <- NULL
-
 SE <- SummarizedExperiment(
-  assays = list(gcpm = data),
-  colData = metadata[colnames(data), ],
-  rowData = annotations
+  assays = list(gcpm = annoation_cpm),
+  colData = metadata[colnames(annoation_cpm), ],
+  #rowData = annotations
 )
-```
 
+```
 
 ```{}
 library(tidybulk)
