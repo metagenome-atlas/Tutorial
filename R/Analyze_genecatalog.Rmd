@@ -610,7 +610,99 @@ MUSiCC: A marker genes based framework for metagenomic normalization and accurat
 
 
 
+# Cluster genes
+
+The file `r genecatalog_files$geneinfo ` contains the links between the genecatalog  and the assembly. *genes* refer here to the cluster of genes in the genecatalog. respecitively one representative. *orf* I refer to all predicted genes on any contig.
+
+The orfs are named as `<sample>_<contigNr>_<OrfNr>`
+
+```{r}
+orf_info= arrow::read_parquet(genecatalog_files$geneinfo) 
+
+orf_info %>%
+  unite(ContigName, Sample, ContigNr, sep = "_", remove = FALSE) -> orf_info
+
+head(orf_info)
+```
+
+```{r}
+# Then, count unique 'GeneNr' values for each 'ContigName'
+genes_per_contig <- orf_info %>%
+  group_by(ContigName) %>%
+  summarise(Unique_Gene_Count = n_distinct(GeneNr)) %>%
+  arrange(desc(Unique_Gene_Count))
 
 
 
+ggplot(genes_per_contig, aes(x = Unique_Gene_Count)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(
+    title = "Histogram of Unique Gene Counts",
+    x = "Unique Gene Counts",
+    y = "Frequency"
+  )
 
+hist(genes_per_contig)
+head(genes_per_contig)
+````
+
+
+
+```{r}
+# Load the progress package
+library(progress)
+
+# Sort contigs by the number of genes in descending order
+contig_gene_counts <- orf_info %>% group_by(ContigName) %>% summarize(NumGenes = n_distinct(GeneNr))
+contig_gene_counts <- contig_gene_counts[order(-contig_gene_counts$NumGenes), ]
+
+# Create a progress bar
+pb <- progress_bar$new(
+  format = "[:bar] :percent Elapsed: :elapsed Estimated: :eta",
+  total = nrow(contig_gene_counts)
+)
+
+# Initialize an empty list to store all clustered_gene_lists
+all_clustered_gene_lists <- list()
+
+# Loop through each contig
+for (contig in contig_gene_counts$ContigName) {
+  genes_of_contig <- orf_info %>% filter(ContigName == contig) %>% pull(GeneNr) %>% unique()
+  
+  # Check if there are genes for the current contig
+
+    contig_gene_cov <- load_subset_of_genes(abundance_file, genes_of_contig) %>% t()
+    correlation_matrix <- cor(contig_gene_cov, method = "pearson")
+    
+    correlation_matrix[is.na(correlation_matrix)]<-0
+    
+    # Perform hierarchical clustering
+    clustered_genes <- hclust(dist(correlation_matrix), method = "single")
+    
+    # Cut the dendrogram based on the threshold
+    gene_clusters <- cutree(clustered_genes, h = threshold)
+    
+    # Get the gene names in each cluster
+    gene_names <- rownames(correlation_matrix)
+    clustered_gene_list <- lapply(unique(gene_clusters), function(cluster) {
+      genes_in_cluster <- gene_names[gene_clusters == cluster]
+      if (length(genes_in_cluster) > 1) {
+        return(genes_in_cluster)
+      }
+    })
+    
+    # Remove null entries and append to the list
+    clustered_gene_list <- clustered_gene_list[!sapply(clustered_gene_list, is.null)]
+    all_clustered_gene_lists <- c(all_clustered_gene_lists, clustered_gene_list)
+  
+  
+  # Update the progress bar
+  pb$tick()
+}
+
+# Close the progress bar
+pb$terminate()
+
+
+
+````
