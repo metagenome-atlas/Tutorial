@@ -20,3 +20,7 @@ media/heatmap.jpg
 .vscode
 .connection_details.yaml
 *.code-workspace
+# files created by Genecatalog
+*/Genecatalog/Filtered_genes_cpm.tsv.gz
+*/Genecatalog/Kegg_counts.tsv.gz
+*/Genecatalog/Kegg_cpm.tsv.gz
