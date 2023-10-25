@@ -553,10 +553,19 @@ library(DESeq2)
 
 Prepare Data:
 
+```{r}
+Description <- annotations %>%
+  select(ko_id, kegg_hit) %>%
+  distinct(ko_id,.keep_all = TRUE) %>%
+  column_to_rownames("ko_id") %>%
+  as.data.frame()
+````
+
 ```{r }
    # Assuming annotation_cpm is your count data (CPM)
    dds <- DESeqDataSetFromMatrix(countData = annotation_genecounts,
                       colData = metadata[colnames(annotation_genecounts),],
+                      rowData = Description,
                       design = ~ group)
 ```
 
@@ -569,9 +578,12 @@ Normalize the data using the DESeq2 normalization methods, and estimate differen
 ```
 
 ```{r}
-   res <- results(dds) %>% as.data.frame()
+   res <- results(dds,contrast=c(group_variable,"AD","HC")) %>% as.data.frame()
 
-head(res %>% arrange(padj),n=10)
+res %>% merge( Description, by = "row.names", all = TRUE) %>% 
+column_to_rownames("Row.names") -> res
+
+res %>% arrange(padj) %>% select(all_of(c("baseMean", "log2FoldChange", "padj","kegg_hit"))) %>% head(n=10)
 ```
 
 ```{r }
@@ -588,6 +600,7 @@ head(res %>% arrange(padj),n=10)
 ```
 
 
+
 ## Alternative ways to normalize
 
 An other interesting way to normalize would be to normalize to single copy genes. 
@@ -596,21 +609,7 @@ Example the one from [MuSiCC](https://github.com/borenstein-lab/MUSiCC/blob/mast
 MUSiCC: A marker genes based framework for metagenomic normalization and accurate profiling of gene abundances in the microbiome. Ohad Manor and Elhanan Borenstein. Genome Biology
 
 
-## Integrate them in a SummarizedExperiment object
 
-```{r }
-
-SE <- SummarizedExperiment(
-  assays = list(gcpm = annoation_cpm),
-  colData = metadata[colnames(annoation_cpm), ],
-  #rowData = annotations
-)
-
-```
-
-```{}
-library(tidybulk)
-```
 
 
 
