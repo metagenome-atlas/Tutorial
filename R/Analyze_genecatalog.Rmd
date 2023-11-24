@@ -527,7 +527,7 @@ annotation_genecounts <- annotation_matrix %*% annotated_genes
 annotation_genecounts <- as.matrix(annotation_genecounts)
 
 
-# Save the normalized data as tsv.gz file
+# Save the unnormalized data as tsv.gz file
 write_delim(as.data.frame(annotation_genecounts),
   file.path(data_dir, "Genecatalog", "Kegg_counts.tsv.gz"),
   delim = "\t"
